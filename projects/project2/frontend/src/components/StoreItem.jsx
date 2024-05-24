@@ -2,7 +2,7 @@ import { Text, Card, Image, Title, Group, Badge } from "@mantine/core";
 
 
 function StoreItem({item, ...others}) {
-    const {image, title, description, value, oldValue, tag, tagColor} = item;
+    const {id, image, title, description, value, oldValue, tag, tagColor} = item;
 
     return(
         <Card 

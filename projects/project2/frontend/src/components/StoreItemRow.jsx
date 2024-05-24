@@ -1,27 +1,29 @@
 import { Center, SimpleGrid } from "@mantine/core";
 import StoreItem from "./StoreItem";
+import {v4 as uuidv4} from "uuid";
 
 function StoreItemRow({items={}, lancamento, ...others}) {
 
-    const itemsTest1 = Array(4).fill({
+    const itemsTest1 = Array.from({ length: 4 }, () => ({
+        id: uuidv4(),
         image: "https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg",
-        title: "Produto",
-        description: "Esse produto é massa.",
-        value: 'R$400,00',
-        oldValue: '',
+        title: "Product",
+        description: "New and cool.",
+        value: '$100,00',
         tagColor: 'blue',
-        tag: 'Lançamento'
-    })
+        tag: 'New',
+    }));
 
-    const itemsTest2 = Array(4).fill({
+    const itemsTest2 = Array.from({ length: 12 }, () => ({
+        id: uuidv4(),
         image: "https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg",
-        title: "Produto",
-        description: "Esse produto é massa.",
-        value: 'R$400,00',
-        oldValue: 'R$300,00',
+        title: "Product",
+        description: "Cool.",
+        value: '$80,00',
+        oldValue: '$100,00',
         tagColor: 'green',
-        tag: 'Oferta'
-    })
+        tag: 'Sale'
+    }));
 
     const itemsTest = lancamento ? itemsTest1 : itemsTest2;
 
@@ -29,11 +31,12 @@ function StoreItemRow({items={}, lancamento, ...others}) {
         <Center>
             <SimpleGrid
                 spacing='70px'
+                verticalSpacing='20px'
                 cols={{base: 1, sm: 1, md: 2, lg: 3, xl: 4}}
                 {...others}
             >
-                {itemsTest.map((item, index) =>
-                    <StoreItem key={index} item={item}/>
+                {itemsTest.map((item) =>
+                    <StoreItem key={item.id} item={item}/>
                 )}
             </SimpleGrid>
         </Center>

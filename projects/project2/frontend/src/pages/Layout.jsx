@@ -8,9 +8,7 @@ function Layout() {
         <Flex h="100vh" direction="column" justify='flex-start'>
             <Header/>
 
-            <Box p='md' style={{flex:1}}>
-                <Outlet/>
-            </Box>
+            <Outlet/>
         </Flex>
     );
 }

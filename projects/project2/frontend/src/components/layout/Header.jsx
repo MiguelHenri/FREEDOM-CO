@@ -8,22 +8,27 @@ function Header() {
 
     const links = [
         {label: "FREEDOM&CO", link: "/"},
-        {label: "CAMISETAS", link: "/camisetas"},
-        {label: "CALÇAS", link: "/calcas"},
-        {label: "ACESSÓRIOS", link: "/acessorios"}
+        {label: "TEES", link: "/tees"},
+        {label: "PANTS", link: "/pants"},
+        {label: "ACCESSORIES", link: "/accessories"}
     ];
+
+    const fsize = '18px';
+    const height = '54px'; // *3
+    const fullheight = '216px'; // *links length
 
     const linkButtons = links.map(l => (
         <Anchor
             key={uuidv4()}
             href={l.link}
             component={HashLink} to={l.link}
+            fz={fsize}
         >
             {l.label}
         </Anchor>));
 
     return (
-        <Center h={{base: (opened ? 'auto' : '5em'), sm: '5em'}}>
+        <Center h={{base: (opened ? {fullheight} : {height}), sm: {height}}} mt={fsize} mb={fsize}>
             <Stack hiddenFrom="sm">
                 {opened ?
                     <Stack justify="center" align="center" p="lg">
