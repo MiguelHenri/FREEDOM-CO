@@ -6,6 +6,8 @@ import Pants from './pages/Pants.jsx';
 import Tees from './pages/Tees.jsx';
 import Accessories from './pages/Accessories.jsx';
 import ItemPage from './pages/ItemPage.jsx';
+import Profile from './pages/Profile.jsx';
+import Cart from './pages/Cart.jsx';
 // import './App.css'
 
 function App() {
@@ -17,7 +19,9 @@ function App() {
         <Route path='tees' element={<Tees/>}/>
         <Route path='pants' element={<Pants/>}/>
         <Route path='accessories' element={<Accessories/>}/>
-        <Route path=":id" element={<ItemPage/>} />
+        <Route path='store/:id' element={<ItemPage/>}/>
+        <Route path='profile' element={<Profile/>}/>
+        <Route path='cart' element={<Cart/>}/>
       </Route>
       <Route path='*' element={<NotFound/>}/>
     </Routes>

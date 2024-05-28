@@ -2,6 +2,7 @@ import {useDisclosure} from "@mantine/hooks";
 import {Burger, Group, Anchor, Center, Stack} from "@mantine/core";
 import {HashLink} from "react-router-hash-link";
 import {v4 as uuidv4} from "uuid";
+import { IconShoppingCart, IconUser } from '@tabler/icons-react';
 
 function Header() {
     const [opened, {toggle}] = useDisclosure();
@@ -11,6 +12,11 @@ function Header() {
         {label: "TEES", link: "/tees"},
         {label: "PANTS", link: "/pants"},
         {label: "ACCESSORIES", link: "/accessories"}
+    ];
+
+    const otherLinks = [
+        {icon: <IconShoppingCart/>, link: "/cart"},
+        {icon: <IconUser/>, link: "/profile"}
     ];
 
     const fsize = '18px';
@@ -27,12 +33,23 @@ function Header() {
             {l.label}
         </Anchor>));
 
+    const otherButtons = otherLinks.map(l => (
+        <Anchor
+            key={uuidv4()}
+            href={l.link}
+            component={HashLink} to={l.link}
+        >
+            {l.icon}
+        </Anchor>
+    ));
+
     return (
         <Center h={{base: (opened ? {fullheight} : {height}), sm: {height}}} mt={fsize} mb={fsize}>
             <Stack hiddenFrom="sm">
                 {opened ?
                     <Stack justify="center" align="center" p="lg">
                         {linkButtons}
+                        {otherButtons}
                         <Burger opened={opened} onClick={toggle} size="md" />
                     </Stack>
                     :
@@ -43,6 +60,7 @@ function Header() {
             </Stack>
             <Group visibleFrom="sm" gap="60px">
                 {linkButtons}
+                {otherButtons}
             </Group>
         </Center>
     );

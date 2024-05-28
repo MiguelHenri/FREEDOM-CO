@@ -41,6 +41,7 @@ function ItemPage() {
             >
                 <Image
                     src={itemTest.image}
+                    alt={itemTest.title}
                     h='70vh'
                     w='70vh'
                     mr='5vh'

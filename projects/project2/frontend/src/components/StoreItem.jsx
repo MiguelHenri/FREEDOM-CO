@@ -12,7 +12,7 @@ function StoreItem({item, ...others}) {
             withBorder
             h='300px' w='300px'
             component='a'
-            href={`/${id}`}
+            href={`store/${id}`}
             {...others}
         >
             {image && 
