@@ -5,6 +5,7 @@ import NotFound from './pages/NotFound.jsx';
 import Pants from './pages/Pants.jsx';
 import Tees from './pages/Tees.jsx';
 import Accessories from './pages/Accessories.jsx';
+import ItemPage from './pages/ItemPage.jsx';
 // import './App.css'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path='tees' element={<Tees/>}/>
         <Route path='pants' element={<Pants/>}/>
         <Route path='accessories' element={<Accessories/>}/>
+        <Route path=":id" element={<ItemPage/>} />
       </Route>
       <Route path='*' element={<NotFound/>}/>
     </Routes>

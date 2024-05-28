@@ -11,6 +11,8 @@ function StoreItem({item, ...others}) {
             radius='md' 
             withBorder
             h='300px' w='300px'
+            component='a'
+            href={`/${id}`}
             {...others}
         >
             {image && 
