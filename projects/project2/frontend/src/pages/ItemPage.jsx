@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, SimpleGrid, Image, Text, Center, Stack,
         Group, Badge, Button } from '@mantine/core';
@@ -15,6 +16,21 @@ function ItemPage() {
         tagColor: 'blue',
         tag: 'New',
     }
+
+    const [selectedSize, setSelectedSize] = useState(null);
+
+    const handleSizeClick = (size) => {
+        setSelectedSize(size);
+    };
+
+    const handleAddToCart = () => {
+        if (selectedSize) {
+            // TODO: adicionar lógica de carrinho
+            alert(`${itemTest.title} adicionado ao carrinho. Tamanho: ${selectedSize}.`);
+        } else {
+            alert('Por favor, selecione um tamanho antes de adicionar ao carrinho.');
+        }
+    };
 
     return (
         <>
@@ -54,8 +70,56 @@ function ItemPage() {
                             {itemTest.value}
                         </Text>
                     </Group>
-                    <Button w='25vh' radius='md' mt='3vh'>
-                        BUY
+                    <Group>
+                        <Button
+                            //disabled={selectedSize === 'P'}
+                            size='compact-lg'
+                            color={selectedSize === 'P' ? 'blue' : 'gray'}
+                            radius='md'
+                            mt='3vh'
+                            onClick={() => handleSizeClick('P')}
+                        >
+                            P
+                        </Button>
+                        <Button
+                            //disabled={selectedSize === 'M'}
+                            size='compact-lg'
+                            color={selectedSize === 'M' ? 'blue' : 'gray'}
+                            radius='md'
+                            mt='3vh'
+                            onClick={() => handleSizeClick('M')}
+                        >
+                            M
+                        </Button>
+                        <Button
+                            //disabled={selectedSize === 'G'}
+                            size='compact-lg'
+                            color={selectedSize === 'G' ? 'blue' : 'gray'}
+                            radius='md'
+                            mt='3vh'
+                            onClick={() => handleSizeClick('G')}
+                        >
+                            G
+                        </Button>
+                        <Button
+                            //disabled={selectedSize === 'GG'}
+                            size='compact-lg'
+                            color={selectedSize === 'GG' ? 'blue' : 'gray'}
+                            radius='md'
+                            mt='3vh'
+                            onClick={() => handleSizeClick('GG')}
+                        >
+                            GG
+                        </Button>
+                    </Group>
+                    <Button 
+                        w='25vh' 
+                        radius='md' 
+                        mt='3vh'
+                        disabled={!selectedSize}
+                        onClick={handleAddToCart}
+                    >
+                        ADD TO CART
                     </Button>
                 </Stack>
                 
