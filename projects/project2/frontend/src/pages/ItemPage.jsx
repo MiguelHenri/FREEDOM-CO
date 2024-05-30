@@ -73,7 +73,7 @@ function ItemPage() {
                     </Group>
                     <Group>
                         <Button
-                            //disabled={selectedSize === 'P'}
+                            //disabled
                             size='compact-lg'
                             color={selectedSize === 'P' ? 'blue' : 'gray'}
                             radius='md'
