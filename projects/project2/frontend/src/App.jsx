@@ -8,6 +8,7 @@ import Accessories from './pages/Accessories.jsx';
 import ItemPage from './pages/ItemPage.jsx';
 import Profile from './pages/Profile.jsx';
 import Cart from './pages/Cart.jsx';
+import Login from './pages/Login.jsx';
 // import './App.css'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path='store/:id' element={<ItemPage/>}/>
         <Route path='profile' element={<Profile/>}/>
         <Route path='cart' element={<Cart/>}/>
+        <Route path='login' element={<Login/>}/>
       </Route>
       <Route path='*' element={<NotFound/>}/>
     </Routes>
