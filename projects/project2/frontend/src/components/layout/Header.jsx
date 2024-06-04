@@ -15,13 +15,13 @@ function Header() {
     ];
 
     const otherLinks = [
-        {icon: <IconShoppingCart/>, link: "/cart"},
-        {icon: <IconUser/>, link: "/login"}
+        {icon: <IconShoppingCart stroke={2.5}/>, link: "/cart"},
+        {icon: <IconUser stroke={2.5}/>, link: "/login"}
     ];
 
-    const fsize = '18px';
-    const height = '54px'; // *3
-    const fullheight = '216px'; // *links length
+    const fsize = '20px';
+    const height = '55px'; 
+    const fullheight = '220px'; 
 
     const linkButtons = links.map(l => (
         <Anchor
@@ -29,6 +29,7 @@ function Header() {
             href={l.link}
             component={HashLink} to={l.link}
             fz={fsize}
+            ff="'Lilita One', sans-serif"
         >
             {l.label}
         </Anchor>));

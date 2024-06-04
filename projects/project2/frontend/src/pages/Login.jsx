@@ -20,7 +20,7 @@ function Login() {
         <>
         <Stack align='center' p='20px'>
         <Paper shadow="sm" withBorder p='lg' radius='md'>
-            <Text fw={700} fz='20px'>
+            <Text fz='25px' ff="'Lilita One', sans-serif">
                 LOGIN
             </Text>
         </Paper>

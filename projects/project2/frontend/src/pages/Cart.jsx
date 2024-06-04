@@ -27,7 +27,7 @@ function Cart() {
         <>
         <Stack p='20px' align='center'>
             <Paper shadow="sm" withBorder p='lg' radius='md'>
-                <Text fw={700} fz='20px'>
+                <Text fz='25px' ff="'Lilita One', sans-serif">
                     MY CART
                 </Text>
             </Paper>

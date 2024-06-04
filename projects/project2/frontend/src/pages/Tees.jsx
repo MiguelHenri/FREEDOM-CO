@@ -5,7 +5,7 @@ function Tees() {
     return(
         <>
         <Paper shadow='sm' radius='xs' ml='20px' mr='20px' p='md' withBorder>
-            <Text ta='center' fz="20px" fw={700}>
+            <Text ta='center' fz="25px" ff="'Lilita One', sans-serif">
                 TEES & SHIRTS 
             </Text>
         </Paper>

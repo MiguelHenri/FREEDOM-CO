@@ -14,7 +14,7 @@ function MainPage() {
 
         <Box p='md' style={{flex:1}}>        
             <Paper shadow='sm' radius='xs' mb='20px' p='md' withBorder>
-                <Text ta='center' fz="20px" fw={700}>
+                <Text ta='center' fz="25px" ff="'Lilita One', sans-serif">
                     NEW STUFF 
                 </Text>
             </Paper>
@@ -22,7 +22,7 @@ function MainPage() {
             <StoreItemRow lancamento/>
 
             <Paper shadow='sm' radius='xs' mt='20px' mb='20px' p='md' withBorder>
-                <Text ta='center' fz="20px" fw={700}>
+                <Text ta='center' fz="25px" ff="'Lilita One', sans-serif">
                     BEST SELLERS 
                 </Text>
             </Paper>
