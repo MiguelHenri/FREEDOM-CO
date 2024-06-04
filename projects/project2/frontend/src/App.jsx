@@ -9,7 +9,6 @@ import ItemPage from './pages/ItemPage.jsx';
 import Profile from './pages/Profile.jsx';
 import Cart from './pages/Cart.jsx';
 import Login from './pages/Login.jsx';
-// import './App.css'
 
 function App() {
 

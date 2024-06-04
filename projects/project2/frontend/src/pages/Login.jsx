@@ -5,14 +5,11 @@ import { HashLink } from 'react-router-hash-link';
 function Login() {
 
     const form = useForm({
-        initialValues: {
-          email: '',
-          password: '',
-        },
+        mode: 'uncontrolled',
     
         validate: {
-          email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-          password: (value) => (value.length > 0 ? null : 'Senha é obrigatória'),
+          email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Email é obrigatório.'),
+          password: (value) => (value.length > 0 ? null : 'Senha é obrigatória.'),
         },
     });
 
