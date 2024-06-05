@@ -20,6 +20,7 @@ Make sure you have all the dependencies installed:
 ```
 ```bash
 $ pip install flask
+$ pip install Flask-SQLAlchemy psycopg2-binary
 ```
 
 Create an environment for backend:
