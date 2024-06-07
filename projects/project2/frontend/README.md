@@ -14,14 +14,15 @@ The focus here was to improve my frontend and backend development skills, by lea
 
 ## 🎮 How to Run
 
-Make sure you have all the dependencies installed:
+Make sure you have PostgreSQL installed and tables created:
 ```bash
-../frontend$ npm install
+$ sudo apt install postgresql postgresql-contrib
+$ sudo service postgresql start
 ```
 ```bash
-$ pip install flask
-$ pip install Flask-SQLAlchemy psycopg2-binary
+$ psql -U <username> -d <database_name> -a -f /<path>/sql/create_table.sql
 ```
+- Check this [link](https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart) for help.
 
 Create an environment for backend:
 ```bash
@@ -29,7 +30,15 @@ Create an environment for backend:
 ../backend$ source .venv/bin/activate
 ```
 
-Run using:
+Install all dependencies running the following:
+```bash
+../backend$ pip install -r requirements.txt
+```
+```bash
+../frontend$ npm install
+```
+
+Run frontend and backend using:
 ```bash
 ../frontend$ npm run dev
 ```
