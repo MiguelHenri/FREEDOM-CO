@@ -20,8 +20,15 @@ $ sudo apt install postgresql postgresql-contrib
 $ sudo service postgresql start
 ```
 ```bash
+$ sudo -i -u <username>
 $ psql -U <username> -d <database_name> -a -f /<path>/sql/create_table.sql
 ```
+
+To populate the table, run:
+```bash
+$ psql -U <username> -d <database_name> -a -f /<path>/sql/populate.sql
+```
+
 - Check this [link](https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart) for help.
 
 Create an environment for backend:
