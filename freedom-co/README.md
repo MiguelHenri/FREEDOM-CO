@@ -1,4 +1,4 @@
-# Project 2
+# FREEDOM&CO
 
 ## 🛹 Streetwear Store
 
