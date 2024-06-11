@@ -1,4 +1,4 @@
-# 💻 FREEDOM&CO Website
+## 🌎 Overview
 
 The initial idea for this repository was to create small projects to develop my web development skills. However, with the creation of the second project, FREEDOM&CO, it became the main project.
 
