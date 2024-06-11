@@ -39,7 +39,6 @@ function StoreItemRow({filter, ...others}) {
             })
             .catch(err => {
                 console.error('Error fetching items', err);
-
             });
 
     }, [filter]);

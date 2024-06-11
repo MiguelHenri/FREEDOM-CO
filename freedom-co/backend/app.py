@@ -20,8 +20,9 @@ def get_items():
 
     return jsonify([item.to_dict() for item in items])
 
-@app.route('/api/items/<int:item_id>', methods=['GET'])
+@app.route('/api/items/<uuid:item_id>', methods=['GET'])
 def get_item(item_id):
+
     # Querying item from id
     item = StoreItem.query.get_or_404(item_id)
     return jsonify(item.to_dict())

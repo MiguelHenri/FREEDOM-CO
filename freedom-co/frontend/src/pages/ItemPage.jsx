@@ -1,21 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, SimpleGrid, Image, Text, Center, Stack,
         Group, Badge, Button } from '@mantine/core';
+import axios from 'axios';
 
 function ItemPage() {
     const { id } = useParams();
+    const [item, setItem] = useState([]);
 
-    const itemTest = {
-        id: id,
-        image: 'https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg',
-        title: 'Product',
-        description: "New and cool.",
-        value: '$100,00',
-        oldValue: '$150,00',
-        tagColor: 'blue',
-        tag: 'New',
-    }
+    useEffect(() => {
+        axios.get(`api/items/${id}`)
+            .then(res => {
+                setItem(res.data)
+            })
+            .catch(err => {
+                console.error('Error fetching item', err);
+            })
+    }, [id]);
 
     const [selectedSize, setSelectedSize] = useState(null);
 
@@ -26,7 +27,7 @@ function ItemPage() {
     const handleAddToCart = () => {
         if (selectedSize) {
             // TODO: adicionar lógica de carrinho
-            alert(`${itemTest.title} adicionado ao carrinho. Tamanho: ${selectedSize}.`);
+            alert(`${item.title} adicionado ao carrinho. Tamanho: ${selectedSize}.`);
         } else {
             alert('Por favor, selecione um tamanho antes de adicionar ao carrinho.');
         }
@@ -40,8 +41,8 @@ function ItemPage() {
                 cols={{base: 1, sm: 1, md: 1, lg: 2, xl: 2}}
             >
                 <Image
-                    src={itemTest.image}
-                    alt={itemTest.title}
+                    src={item.image}
+                    alt={item.title}
                     h='70vh'
                     w='70vh'
                     mr='5vh'
@@ -50,30 +51,30 @@ function ItemPage() {
                 <Stack ml='5vh'>
                     <Group>
                         <Text fz='30px' fw={700}>
-                            {itemTest.title}
+                            {item.title}
                         </Text>
-                        {itemTest.tagColor && itemTest.tag && (
-                            <Badge color={itemTest.tagColor} size='md'>
-                                {itemTest.tag}
+                        {item.tagColor && item.tag && (
+                            <Badge color={item.tagColor} size='md'>
+                                {item.tag}
                             </Badge>
                         )}
                     </Group>
                     <Text fz='20px' align='justify'>
-                        {itemTest.description}
+                        {item.description}
                     </Text>
                     <Group align='center'>
-                        {itemTest.oldValue && (
+                        {item.oldValue && (
                             <Text fz='18px' td='line-through'>
-                                {itemTest.oldValue}
+                                {item.oldValue}
                             </Text>
                         )}
                         <Text fz='20px' fw={700}>  
-                            {itemTest.value}
+                            {item.value}
                         </Text>
                     </Group>
                     <Group>
                         <Button
-                            //disabled
+                            disabled={!item.size_quantity_pairs || item.size_quantity_pairs['P'] === 0}
                             size='compact-lg'
                             color={selectedSize === 'P' ? 'blue' : 'gray'}
                             radius='md'
@@ -83,7 +84,7 @@ function ItemPage() {
                             P
                         </Button>
                         <Button
-                            //disabled={selectedSize === 'M'}
+                            disabled={!item.size_quantity_pairs || item.size_quantity_pairs['M'] === 0}
                             size='compact-lg'
                             color={selectedSize === 'M' ? 'blue' : 'gray'}
                             radius='md'
@@ -93,7 +94,7 @@ function ItemPage() {
                             M
                         </Button>
                         <Button
-                            //disabled={selectedSize === 'G'}
+                            disabled={!item.size_quantity_pairs || item.size_quantity_pairs['G'] === 0}
                             size='compact-lg'
                             color={selectedSize === 'G' ? 'blue' : 'gray'}
                             radius='md'
@@ -103,7 +104,7 @@ function ItemPage() {
                             G
                         </Button>
                         <Button
-                            //disabled={selectedSize === 'GG'}
+                            disabled={!item.size_quantity_pairs || item.size_quantity_pairs['GG'] === 0}
                             size='compact-lg'
                             color={selectedSize === 'GG' ? 'blue' : 'gray'}
                             radius='md'
