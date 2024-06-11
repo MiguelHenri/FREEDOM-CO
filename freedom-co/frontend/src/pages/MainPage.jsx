@@ -19,15 +19,15 @@ function MainPage() {
                 </Text>
             </Paper>
 
-            <StoreItemRow lancamento/>
+            <StoreItemRow filter='new'/>
 
             <Paper shadow='sm' radius='xs' mt='20px' mb='20px' p='md' withBorder>
                 <Text ta='center' fz="25px" ff="'Lilita One', sans-serif">
-                    BEST SELLERS 
+                    ON SALE 
                 </Text>
             </Paper>
 
-            <StoreItemRow />
+            <StoreItemRow filter='sale'/>
         </Box>
 
         </>

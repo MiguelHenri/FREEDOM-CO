@@ -10,8 +10,9 @@ class StoreItem(db.Model):
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.String(500), nullable=False)
     value = db.Column(db.String(100), nullable=False)
-    oldValue = db.Column(db.String(100))
-    tagColor = db.Column(db.String(50))
+    type = db.Column(db.String(50), nullable=False)
+    oldvalue = db.Column(db.String(100))
+    tagcolor = db.Column(db.String(50))
     tag = db.Column(db.String(50))
     size_quantity_pairs = db.Column(MutableDict.as_mutable(JSONB), default=dict)
 
@@ -22,8 +23,9 @@ class StoreItem(db.Model):
             'title': self.title,
             'description': self.description,
             'value': self.value,
-            'oldValue': self.oldValue,
-            'tagColor': self.tagColor,
+            'type': self.type,
+            'oldValue': self.oldvalue,
+            'tagColor': self.tagcolor,
             'tag': self.tag,
             'size_quantity_pairs': self.size_quantity_pairs
         }

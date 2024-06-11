@@ -1,31 +1,48 @@
 import { Center, SimpleGrid } from "@mantine/core";
 import StoreItem from "./StoreItem";
-import {v4 as uuidv4} from "uuid";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-function StoreItemRow({items={}, lancamento, ...others}) {
+/**
+ * Renders a row of store items based on the specified filter.
+ * @param {string} filter - The filter to be applied to the store items.
+ *                          Possible values: 'sale', 'new', 'tees', 'pants', 'accessories'.
+ * @param {Object} others - Other props passed to the store item row.
+ */
+function StoreItemRow({filter, ...others}) {
 
-    const itemsTest1 = Array.from({ length: 4 }, () => ({
-        id: uuidv4(),
-        image: "https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg",
-        title: "Product",
-        description: "New and cool.",
-        value: '$100,00',
-        tagColor: 'blue',
-        tag: 'New',
-    }));
+    const [items, setItems] = useState([]);
 
-    const itemsTest2 = Array.from({ length: 12 }, () => ({
-        id: uuidv4(),
-        image: "https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg",
-        title: "Product",
-        description: "Cool.",
-        value: '$80,00',
-        oldValue: '$100,00',
-        tagColor: 'green',
-        tag: 'Sale'
-    }));
+    useEffect(() => {
+        axios.get('api/items')
+            .then(res => {
+                let filtered = res.data;
+                switch(filter) {
+                    case 'sale':
+                        filtered = filtered.filter(item => item.tag === 'SALE');
+                        break;
+                    case 'new':
+                        filtered = filtered.filter(item => item.tag === 'NEW');
+                        break;
+                    case 'tees':
+                        filtered = filtered.filter(item => item.type === 'tee');
+                        break;
+                    case 'pants':
+                        filtered = filtered.filter(item => item.type === 'pant');
+                        break;
+                    case 'accessories':
+                        filtered = filtered.filter(item => item.type === 'accessory');
+                        break;
+                    default:
+                }
+                setItems(filtered);
+            })
+            .catch(err => {
+                console.error('Error fetching items', err);
 
-    const itemsTest = lancamento ? itemsTest1 : itemsTest2;
+            });
+
+    }, [filter]);
 
     return(
         <Center>
@@ -35,7 +52,7 @@ function StoreItemRow({items={}, lancamento, ...others}) {
                 cols={{base: 1, sm: 1, md: 2, lg: 3, xl: 4}}
                 {...others}
             >
-                {itemsTest.map((item) =>
+                {items.map((item) =>
                     <StoreItem key={item.id} item={item}/>
                 )}
             </SimpleGrid>

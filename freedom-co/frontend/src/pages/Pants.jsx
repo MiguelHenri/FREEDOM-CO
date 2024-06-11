@@ -11,7 +11,7 @@ function Pants() {
         </Paper>
 
         <Box p='md' style={{flex:1}}>
-            <StoreItemRow/>
+            <StoreItemRow filter='pants'/>
         </Box>
         </>
     );

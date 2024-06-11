@@ -11,7 +11,7 @@ function Tees() {
         </Paper>
 
         <Box p='md' style={{flex:1}}>
-            <StoreItemRow/>
+            <StoreItemRow filter='tees'/>
         </Box>
         </>
     );

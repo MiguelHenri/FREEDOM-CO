@@ -9,6 +9,12 @@ import ItemPage from './pages/ItemPage.jsx';
 import Profile from './pages/Profile.jsx';
 import Cart from './pages/Cart.jsx';
 import Login from './pages/Login.jsx';
+import axios from 'axios';
+
+if (import.meta.env.VITE_BACKEND_URL)
+  axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
+else
+  console.error("No AXIOS Url for connection found!")
 
 function App() {
 

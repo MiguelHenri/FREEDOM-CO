@@ -2,9 +2,11 @@ from flask import Flask, request, jsonify
 from models.DataBase import db
 from models.StoreItem import StoreItem
 from config import Config
+from flask_cors import CORS
 
 # Initializing app and db with configs
 app = Flask(__name__)
+CORS(app)
 app.config.from_object(Config)
 db.init_app(app)
 
@@ -12,6 +14,10 @@ db.init_app(app)
 def get_items():
     # Querying all itens
     items = StoreItem.query.all()
+
+    if not items:
+        return jsonify({'message': 'No items found'}), 404
+
     return jsonify([item.to_dict() for item in items])
 
 @app.route('/api/items/<int:item_id>', methods=['GET'])
@@ -25,7 +31,7 @@ def create_item():
     data = request.json
     
     # Validating required fields
-    required_fields = ['image', 'title', 'description', 'value']
+    required_fields = ['image', 'title', 'description', 'value', 'type']
     for field in required_fields:
         if not data.get(field):
             return jsonify({'error': f'Field {field} is required.'}), 400
@@ -35,8 +41,9 @@ def create_item():
         title=data['title'],
         description=data['description'],
         value=data['value'],
-        oldValue=data.get('oldValue', None),
-        tagColor=data.get('tagColor', None),
+        type=data['type'],
+        oldValue=data.get('oldvalue', None),
+        tagColor=data.get('tagcolor', None),
         tag=data.get('tag', None),
         size_quantity_pairs=data.get('size_quantity_pairs', {})
     )
@@ -60,10 +67,12 @@ def update_item(item_id):
         item.description = data['description']
     if 'value' in data:
         item.value = data['value']
+    if 'type' in data:
+        item.value = data['type']
     if 'oldValue' in data:
-        item.oldValue = data['oldValue']
+        item.oldValue = data['oldvalue']
     if 'tagColor' in data:
-        item.tagColor = data['tagColor']
+        item.tagColor = data['tagcolor']
     if 'tag' in data:
         item.tag = data['tag']
     if 'size_quantity_pairs' in data:
