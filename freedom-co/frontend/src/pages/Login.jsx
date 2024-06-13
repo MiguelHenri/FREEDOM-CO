@@ -13,41 +13,50 @@ function Login() {
         },
     });
 
+    function onSubmit(values) {
+        console.log(values);
+    }
+
+    const inputProps = {
+        size: 'md',
+        w: {base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'},
+    }
+
     return (
-        <Stack align='center' p='20px'>
+        <Stack 
+            align='center'
+            justify='center' 
+            p='20px' 
+            component={'form'}
+            onSubmit={form.onSubmit(onSubmit)}
+        >
             <Paper shadow="sm" withBorder p='md' radius='md'>
                 <Text fz='25px' ff="'Lilita One', sans-serif">
                     LOGIN
                 </Text>
             </Paper>
-            <form onSubmit={form.onSubmit((values) => console.log(values))}>
-                <TextInput
-                    mb='20px'
-                    withAsterisk
-                    label="Email"
-                    placeholder="your@email.com"
-                    {...form.getInputProps('email')}
-                />
-
-                <TextInput
-                    mb='20px'
-                    withAsterisk
-                    label="Password"
-                    placeholder="your-password"
-                    {...form.getInputProps('password')}
-                />
-
-                <Button
-                    w={{base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'}} 
-                    size='md'
-                    variant='outline'
-                    component={HashLink}
-                    to='/profile'
-                >
-                    LOG IN NOW
-                </Button>
-
-            </form>
+            <TextInput
+                withAsterisk
+                label="Email"
+                placeholder="your@email.com"
+                {...inputProps}
+                {...form.getInputProps('email')}
+            />
+            <TextInput
+                withAsterisk
+                label="Password"
+                placeholder="your-password"
+                {...inputProps}
+                {...form.getInputProps('password')}
+            />
+            <Button
+                variant='outline'
+                size='md'
+                component={HashLink}
+                to='/profile'
+            >
+                LOG IN NOW
+            </Button>
         </Stack>
     );
 }

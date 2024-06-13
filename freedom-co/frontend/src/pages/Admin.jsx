@@ -131,6 +131,7 @@ function Admin() {
             />
 
             <Button
+                variant='outline'
                 size='md'
                 type='submit'
             >
