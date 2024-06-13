@@ -43,8 +43,8 @@ def create_item():
         description=data['description'],
         value=data['value'],
         type=data['type'],
-        oldValue=data.get('oldvalue', None),
-        tagColor=data.get('tagcolor', None),
+        oldvalue=data.get('oldvalue', None),
+        tagcolor=data.get('tagcolor', None),
         tag=data.get('tag', None),
         size_quantity_pairs=data.get('size_quantity_pairs', {})
     )

@@ -1,8 +1,13 @@
 import { Stack, TextInput, Button, NativeSelect, 
         NumberInput, Text, Paper } from "@mantine/core";
 import { useForm, isNotEmpty } from "@mantine/form";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
 
 function Admin() {
+
+    let navigate = useNavigate();
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -12,8 +17,8 @@ function Admin() {
             description: '',
             value: '',
             type: '',
-            oldValue: '',
-            tagColor: '',
+            oldvalue: '',
+            tagcolor: '',
             tag: '',
             size_quantity_pairs: {
                 P: 0,
@@ -37,8 +42,24 @@ function Admin() {
         },
     });
 
+    useEffect(() => {
+        if (form.values.tag === 'NEW') {
+            form.setFieldValue('tagcolor', 'blue');
+        } else if (form.values.tag === 'SALE') {
+            form.setFieldValue('tagcolor', 'green');
+        }
+    }, [form]);
+
     function onSubmit(values) {
         console.log(values);
+
+        axios.post('api/items', values)
+            .then(res => {
+                navigate(`/store/${res.data.id}`);
+            })
+            .catch(err => {
+                console.error("Unhandled error when creating item.", err);
+            });
     }
 
     const inputProps = {
@@ -97,7 +118,7 @@ function Admin() {
                 label='Old Value' 
                 placeholder='$200.00'
                 {...inputProps}
-                {...form.getInputProps('oldValue')}
+                {...form.getInputProps('oldvalue')}
             />
             <NativeSelect 
                 label='Tag' 
