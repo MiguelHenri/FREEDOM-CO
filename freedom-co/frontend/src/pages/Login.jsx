@@ -14,43 +14,41 @@ function Login() {
     });
 
     return (
-        <>
         <Stack align='center' p='20px'>
-        <Paper shadow="sm" withBorder p='lg' radius='md'>
-            <Text fz='25px' ff="'Lilita One', sans-serif">
-                LOGIN
-            </Text>
-        </Paper>
-        <form onSubmit={form.onSubmit((values) => console.log(values))}>
-            <TextInput
-                mb='20px'
-                withAsterisk
-                label="Email"
-                placeholder="your@email.com"
-                {...form.getInputProps('email')}
-            />
+            <Paper shadow="sm" withBorder p='md' radius='md'>
+                <Text fz='25px' ff="'Lilita One', sans-serif">
+                    LOGIN
+                </Text>
+            </Paper>
+            <form onSubmit={form.onSubmit((values) => console.log(values))}>
+                <TextInput
+                    mb='20px'
+                    withAsterisk
+                    label="Email"
+                    placeholder="your@email.com"
+                    {...form.getInputProps('email')}
+                />
 
-            <TextInput
-                mb='20px'
-                withAsterisk
-                label="Password"
-                placeholder="your-password"
-                {...form.getInputProps('password')}
-            />
+                <TextInput
+                    mb='20px'
+                    withAsterisk
+                    label="Password"
+                    placeholder="your-password"
+                    {...form.getInputProps('password')}
+                />
 
-            <Button
-                w={{base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'}} 
-                size='md'
-                variant='outline'
-                component={HashLink}
-                to='/profile'
-            >
-                LOG IN NOW
-            </Button>
+                <Button
+                    w={{base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'}} 
+                    size='md'
+                    variant='outline'
+                    component={HashLink}
+                    to='/profile'
+                >
+                    LOG IN NOW
+                </Button>
 
-        </form>
+            </form>
         </Stack>
-        </>
     );
 }
 

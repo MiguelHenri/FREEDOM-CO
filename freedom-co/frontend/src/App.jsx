@@ -10,6 +10,7 @@ import Profile from './pages/Profile.jsx';
 import Cart from './pages/Cart.jsx';
 import Login from './pages/Login.jsx';
 import axios from 'axios';
+import Admin from './pages/Admin.jsx';
 
 if (import.meta.env.VITE_BACKEND_URL)
   axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
@@ -29,6 +30,7 @@ function App() {
         <Route path='profile' element={<Profile/>}/>
         <Route path='cart' element={<Cart/>}/>
         <Route path='login' element={<Login/>}/>
+        <Route path='admin' element={<Admin/>}/>
       </Route>
       <Route path='*' element={<NotFound/>}/>
     </Routes>

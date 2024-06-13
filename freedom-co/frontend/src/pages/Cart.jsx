@@ -24,9 +24,8 @@ function Cart() {
     const totalVal = '$' + totalValFloat.toFixed(2).replace('.', ',');
 
     return(
-        <>
         <Stack p='20px' align='center'>
-            <Paper shadow="sm" withBorder p='lg' radius='md'>
+            <Paper shadow="sm" withBorder p='md' radius='md'>
                 <Text fz='25px' ff="'Lilita One', sans-serif">
                     MY CART
                 </Text>
@@ -55,7 +54,6 @@ function Cart() {
                 </Text>
             </Paper>
         </Stack>
-        </>
     );
 }
 
