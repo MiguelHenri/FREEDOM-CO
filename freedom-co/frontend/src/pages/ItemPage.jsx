@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Box, SimpleGrid, Image, Text, Center, Stack,
         Group, Badge, Button } from '@mantine/core';
 import axios from 'axios';
+import { useCart } from '../contexts/useCart';
 
 function ItemPage() {
     const { id } = useParams();
@@ -24,9 +25,11 @@ function ItemPage() {
         setSelectedSize(size);
     };
 
+    const { addItemToCart } = useCart();
+
     const handleAddToCart = () => {
         if (selectedSize) {
-            // TODO: adicionar lógica de carrinho
+            addItemToCart({ ...item, size: selectedSize });
             alert(`${item.title} adicionado ao carrinho. Tamanho: ${selectedSize}.`);
         } else {
             alert('Por favor, selecione um tamanho antes de adicionar ao carrinho.');
@@ -54,7 +57,7 @@ function ItemPage() {
                             {item.title}
                         </Text>
                         {item.tagColor && item.tag && (
-                            <Badge color={item.tagColor} size='md'>
+                            <Badge color={item.tagColor} size='lg'>
                                 {item.tag}
                             </Badge>
                         )}

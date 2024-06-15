@@ -4,13 +4,16 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css';
+import { CartProvider } from './contexts/CartContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <MantineProvider>
+        <CartProvider>
           <App/>
+        </CartProvider>
       </MantineProvider>
     </BrowserRouter>
-  </React.StrictMode>,
+  </React.StrictMode>
 )

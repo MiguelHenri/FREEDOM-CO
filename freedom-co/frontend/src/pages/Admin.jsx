@@ -42,16 +42,18 @@ function Admin() {
         },
     });
 
-    useEffect(() => {
-        if (form.values.tag === 'NEW') {
-            form.setFieldValue('tagcolor', 'blue');
-        } else if (form.values.tag === 'SALE') {
-            form.setFieldValue('tagcolor', 'green');
-        }
-    }, [form]);
-
     function onSubmit(values) {
         console.log(values);
+
+        console.log(values.tag);
+
+        if (values.tag === 'NEW') {
+            values.tagcolor = 'blue';
+        } else if (values.tag === 'SALE') {
+            values.tagcolor = 'green';
+        } else {
+            console.log('deu ruim');
+        }
 
         axios.post('api/items', values)
             .then(res => {
@@ -101,6 +103,7 @@ function Admin() {
             <NativeSelect 
                 label='Type' withAsterisk
                 data={[
+                    { value: '', label: 'Select type' },
                     { value: 'tee', label: 'Tee' },
                     { value: 'pant', label: 'Pant' },
                     { value: 'accessory', label: 'Accessory' },

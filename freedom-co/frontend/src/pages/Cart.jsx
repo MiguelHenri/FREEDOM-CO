@@ -1,27 +1,24 @@
-import { Stack, Card, Group, Image, Text, Paper } from "@mantine/core";
-import { v4 as uuidv4 } from "uuid";
+import { Stack, Card, Group, Image, Text, Paper, Button } from "@mantine/core";
+import { useCart } from "../contexts/useCart";
 
 function Cart() {
+    const { cartItems, clearCart } = useCart() || { cartItems: [] };
 
-    const itemsTest = Array.from({ length: 8 }, () => ({
-        id: uuidv4(),
-        image: "https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg",
-        title: "Camiseta",
-        description: "New and cool.",
-        value: '$100,01',
-        tagColor: 'blue',
-        tag: 'New',
-    }));
-
-    const totalValFloat = itemsTest.reduce((total, item) => {
+    const totalValFloat = cartItems.reduce((total, item) => {
         const numbers = item.value.match(/\d+(?:[.,]\d+)?/g).map(num => parseFloat(num.replace(',', '.')));
         
         const sum = numbers.reduce((acc, num) => acc + num, 0);
       
         return total + sum;
     }, 0);
+    const totalVal = '$' + totalValFloat.toFixed(2);
 
-    const totalVal = '$' + totalValFloat.toFixed(2).replace('.', ',');
+    const handleClearCart = () => {
+        clearCart();
+        // TO-DO: update items size quantities
+        // using axios.put ...
+        alert('O carrinho foi esvaziado.');
+    };
 
     return(
         <Stack p='20px' align='center'>
@@ -30,7 +27,7 @@ function Cart() {
                     MY CART
                 </Text>
             </Paper>
-            {itemsTest.map((item, index) => (
+            {cartItems.map((item, index) => (
                 <Card key={index} shadow="sm" padding="md" radius="md" withBorder>
                     <Group justify='center'>
                         <Image 
@@ -41,6 +38,7 @@ function Cart() {
                         />
                         <Text fw={500} fz='18px'>
                             {item.title}
+                            {' ' + item.size}
                         </Text>
                         <Text fw={500} fz='18px'>
                             {item.value}
@@ -48,10 +46,19 @@ function Cart() {
                     </Group>
                 </Card>
             ))}
-            <Paper shadow="sm" withBorder p='lg' radius='md'>
-                <Text fw={700} fz='20px'>
-                    TOTAL: {totalVal}
-                </Text>
+            <Paper shadow="sm" withBorder p='20px' radius='md'>
+                <Group>
+                    <Text fw={700} fz='20px'>
+                        TOTAL: {totalVal}
+                    </Text>
+                    <Button
+                        variant='outline'
+                        size='md'
+                        onClick={handleClearCart}
+                    >
+                        BUY
+                    </Button>
+                </Group>
             </Paper>
         </Stack>
     );
