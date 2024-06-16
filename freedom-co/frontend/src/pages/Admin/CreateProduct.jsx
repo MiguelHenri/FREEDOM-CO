@@ -1,11 +1,10 @@
 import { Stack, TextInput, Button, NativeSelect, 
-        NumberInput, Text, Paper } from "@mantine/core";
+    NumberInput, Text, Paper } from "@mantine/core";
 import { useForm, isNotEmpty } from "@mantine/form";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from "react";
 
-function Admin() {
+function CreateProduct() {
 
     let navigate = useNavigate();
 
@@ -165,4 +164,4 @@ function Admin() {
     )
 }
 
-export default Admin;
+export default CreateProduct;
