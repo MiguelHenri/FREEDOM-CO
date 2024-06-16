@@ -29,7 +29,7 @@ function AdminMenu() {
                 DELETE ITEM
             </Button>
         </Stack>
-    )
+    );
 }
 
 export default AdminMenu;

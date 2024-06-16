@@ -12,6 +12,7 @@ import Login from './pages/Login.jsx';
 import axios from 'axios';
 import AdminMenu from './pages/Admin/AdminMenu.jsx';
 import CreateProduct from './pages/Admin/CreateProduct.jsx';
+import DeleteProduct from './pages/Admin/DeleteProduct.jsx';
 
 if (import.meta.env.VITE_BACKEND_URL)
   axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
@@ -33,6 +34,7 @@ function App() {
         <Route path='login' element={<Login/>}/>
         <Route path='admin' element={<AdminMenu/>}/>
         <Route path='admin/create' element={<CreateProduct/>}/>
+        <Route path='admin/delete' element={<DeleteProduct/>}/>
       </Route>
       <Route path='*' element={<NotFound/>}/>
     </Routes>

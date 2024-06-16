@@ -158,10 +158,10 @@ function CreateProduct() {
                 size='md'
                 type='submit'
             >
-                Save
+                SAVE
             </Button>
         </Stack>
-    )
+    );
 }
 
 export default CreateProduct;
