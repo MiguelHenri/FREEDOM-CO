@@ -1,16 +1,20 @@
 import { Stack, TextInput, Button, NativeSelect, 
-    NumberInput, Text, Paper } from "@mantine/core";
+    NumberInput, Text, Paper, 
+    SegmentedControl} from "@mantine/core";
 import { useForm, isNotEmpty } from "@mantine/form";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
 
 function CreateProduct() {
 
     let navigate = useNavigate();
+    const [mode, setMode] = useState('create');
 
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {
+            id: '',
             image: '',
             title: '',
             description: '',
@@ -27,6 +31,13 @@ function CreateProduct() {
             },
         },
         validate: {
+            id: (value) => {
+                if (mode === 'edit') {
+                    if (!value) {
+                        return 'ID is required.'
+                    }
+                }
+            },
             image: (value) => (/^(https?:\/\/[^\s$.?#].[^\s]*)$/.test(value) ? 
                 null 
                 : 
@@ -41,26 +52,36 @@ function CreateProduct() {
         },
     });
 
-    function onSubmit(values) {
+    function onSubmit({id, ...values}) {
         console.log(values);
-
-        console.log(values.tag);
 
         if (values.tag === 'NEW') {
             values.tagcolor = 'blue';
         } else if (values.tag === 'SALE') {
             values.tagcolor = 'green';
-        } else {
-            console.log('deu ruim');
         }
 
-        axios.post('api/items', values)
-            .then(res => {
-                navigate(`/store/${res.data.id}`);
-            })
-            .catch(err => {
-                console.error("Unhandled error when creating item.", err);
-            });
+        if (id) {
+            axios.put(`api/items/${id}`, values)
+                .then(res => {
+                    navigate(`/store/${res.data.id}`);
+                    alert('Item edited successfully.');
+                })
+                .catch(err => {
+                    console.error("Unhandled error when editing item: ", err);
+                    alert('Error when editing item.');
+                });
+        } else {
+            axios.post('api/items', values)
+                .then(res => {
+                    navigate(`/store/${res.data.id}`);
+                    alert('Item created successfully.');
+                })
+                .catch(err => {
+                    console.error("Unhandled error when creating item: ", err);
+                    alert('Error when creating item.');
+                });
+        }
     }
 
     const inputProps = {
@@ -78,9 +99,26 @@ function CreateProduct() {
         >   
             <Paper shadow='sm' radius='md' p='md' withBorder>
                 <Text ta='center' fz="25px" ff="'Lilita One', sans-serif">
-                    REGISTER NEW ITEM
+                    CREATE or EDIT ITEM
                 </Text>
             </Paper>
+            <SegmentedControl
+                data={[
+                    { label: 'Create Item', value: 'create'},
+                    { label: 'Edit Item', value: 'edit'},
+                ]}
+                value={mode}
+                onChange={setMode}
+                {...inputProps}
+            />
+            {mode === 'edit' && (
+                <TextInput 
+                    label='ID' withAsterisk
+                    placeholder='Enter ID'
+                    {...inputProps} 
+                    {...form.getInputProps('id')}
+                />
+            )}
             <TextInput 
                 label='Title' withAsterisk
                 placeholder='Product'

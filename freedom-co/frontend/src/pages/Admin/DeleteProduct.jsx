@@ -24,8 +24,8 @@ function DeleteProduct() {
                 alert(`Item deleted successfully.`);
             })
             .catch(err => {
-                console.error('Error deleting item', err);
-                alert('Error deleting item.');
+                console.error('Error when deleting item: ', err);
+                alert('Error when deleting item.');
             });
     }
 

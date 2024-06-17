@@ -17,7 +17,7 @@ function Cart() {
         clearCart();
         // TO-DO: update items size quantities
         // using axios.put ...
-        alert('O carrinho foi esvaziado.');
+        alert('The cart is now empty.');
     };
 
     return(

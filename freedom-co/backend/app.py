@@ -69,11 +69,11 @@ def update_item(item_id):
     if 'value' in data:
         item.value = data['value']
     if 'type' in data:
-        item.value = data['type']
-    if 'oldValue' in data:
-        item.oldValue = data['oldvalue']
-    if 'tagColor' in data:
-        item.tagColor = data['tagcolor']
+        item.type = data['type']
+    if 'oldvalue' in data:
+        item.oldvalue = data['oldvalue']
+    if 'tagcolor' in data:
+        item.tagcolor = data['tagcolor']
     if 'tag' in data:
         item.tag = data['tag']
     if 'size_quantity_pairs' in data:
