@@ -1,5 +1,5 @@
 import { Stack, Card, Group, Image, Text, Paper, Button } from "@mantine/core";
-import { useCart } from "../contexts/useCart";
+import { useCart } from "../../contexts/useCart";
 
 function Cart() {
     const { cartItems, clearCart } = useCart() || { cartItems: [] };

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Box, SimpleGrid, Image, Text, Center, Stack,
         Group, Badge, Button } from '@mantine/core';
 import axios from 'axios';
-import { useCart } from '../contexts/useCart';
+import { useCart } from '../../contexts/useCart';
 
 function ItemPage() {
     const { id } = useParams();
@@ -133,6 +133,6 @@ function ItemPage() {
         </Box>
         </>
     );
-};
+}
 
 export default ItemPage;

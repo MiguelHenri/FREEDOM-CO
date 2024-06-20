@@ -1,20 +1,20 @@
 import { Paper, Text, Box } from "@mantine/core";
-import StoreItemRow from "../components/StoreItemRow";
+import StoreItemRow from "../../components/StoreItemRow";
 
-function Pants() {
+function Accessories() {
     return(
         <>
         <Paper shadow='sm' radius='xs' ml='20px' mr='20px' p='md' withBorder>
             <Text ta='center' fz="25px" ff="'Lilita One', sans-serif">
-                PANTS 
+                ACCESSORIES
             </Text>
         </Paper>
-
+        
         <Box p='md' style={{flex:1}}>
-            <StoreItemRow filter='pants'/>
+            <StoreItemRow filter='accessories'/>
         </Box>
         </>
     );
 }
 
-export default Pants;
+export default Accessories;
