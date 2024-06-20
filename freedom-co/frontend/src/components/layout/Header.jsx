@@ -9,6 +9,7 @@ function Header() {
 
     const links = [
         {label: "FREEDOM&CO", link: "/"},
+        {label: "STORE", link: "/store"},
         {label: "TEES", link: "/tees"},
         {label: "PANTS", link: "/pants"},
         {label: "ACCESSORIES", link: "/accessories"}

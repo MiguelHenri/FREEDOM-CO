@@ -13,6 +13,7 @@ import axios from 'axios';
 import AdminMenu from './pages/Admin/AdminMenu.jsx';
 import CreateProduct from './pages/Admin/CreateProduct.jsx';
 import DeleteProduct from './pages/Admin/DeleteProduct.jsx';
+import Store from './pages/Store/Store.jsx';
 
 if (import.meta.env.VITE_BACKEND_URL)
   axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
@@ -28,6 +29,7 @@ function App() {
         <Route path='tees' element={<Tees/>}/>
         <Route path='pants' element={<Pants/>}/>
         <Route path='accessories' element={<Accessories/>}/>
+        <Route path='store' element={<Store/>}/>
         <Route path='store/:id' element={<ItemPage/>}/>
         <Route path='profile' element={<Profile/>}/>
         <Route path='cart' element={<Cart/>}/>
