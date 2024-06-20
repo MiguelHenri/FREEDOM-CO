@@ -48,7 +48,7 @@ function StoreItemRow({filter, ...others}) {
             <SimpleGrid
                 spacing='70px'
                 verticalSpacing='20px'
-                cols={{base: 1, sm: 1, md: 2, lg: 3, xl: 4}}
+                cols={{base: 1, sm: 2, md: 2, lg: 3, xl: 4}}
                 {...others}
             >
                 {items.map((item) =>
