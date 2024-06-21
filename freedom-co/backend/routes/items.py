@@ -2,9 +2,9 @@ from flask import Blueprint, request, jsonify
 from models.DataBase import db
 from models.StoreItem import StoreItem
 
-item_bp = Blueprint('StoreItem', __name__)
+items_bp = Blueprint('StoreItem', __name__)
 
-@item_bp.route('/api/items', methods=['GET'])
+@items_bp.route('/api/items', methods=['GET'])
 def get_items():
     # Querying all itens
     items = StoreItem.query.all()
@@ -14,14 +14,14 @@ def get_items():
 
     return jsonify([item.to_dict() for item in items])
 
-@item_bp.route('/api/items/<uuid:item_id>', methods=['GET'])
+@items_bp.route('/api/items/<uuid:item_id>', methods=['GET'])
 def get_item(item_id):
-
+    
     # Querying item from id
     item = StoreItem.query.get_or_404(item_id)
     return jsonify(item.to_dict())
 
-@item_bp.route('/api/items', methods=['POST'])
+@items_bp.route('/api/items', methods=['POST'])
 def create_item():
     data = request.json
     
@@ -47,7 +47,7 @@ def create_item():
     return jsonify(new_item.to_dict()), 201
 
 
-@item_bp.route('/api/items/<uuid:item_id>', methods=['PUT'])
+@items_bp.route('/api/items/<uuid:item_id>', methods=['PUT'])
 def update_item(item_id):
     # Querying item from id
     item = StoreItem.query.get_or_404(item_id)
@@ -76,7 +76,7 @@ def update_item(item_id):
     db.session.commit()
     return jsonify(item.to_dict()), 200
 
-@item_bp.route('/api/items/<uuid:item_id>', methods=['DELETE'])
+@items_bp.route('/api/items/<uuid:item_id>', methods=['DELETE'])
 def delete_item(item_id):
     # Querying item from id
     item = StoreItem.query.get_or_404(item_id)
