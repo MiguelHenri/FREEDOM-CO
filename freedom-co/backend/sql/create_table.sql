@@ -14,3 +14,12 @@ CREATE TABLE items (
     tag VARCHAR(50),
     size_quantity_pairs JSONB
 );
+
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+    username VARCHAR(50) PRIMARY KEY,
+    email VARCHAR(120) UNIQUE NOT NULL,
+    password_hash VARCHAR(128) NOT NULL,
+    is_admin BOOLEAN DEFAULT FALSE
+);
