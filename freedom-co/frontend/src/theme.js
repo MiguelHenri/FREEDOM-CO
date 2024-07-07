@@ -16,11 +16,6 @@ export default createTheme({
                 c: 'secondary.0'
             }
         },
-        Title: {
-            defaultProps: {
-                c: 'secondary.0'
-            }
-        },
         Button: {
             defaultProps: {
                 color: 'secondary.0',

@@ -21,7 +21,7 @@ function StoreItem({item, ...others}) {
                 </Card.Section>
             }
             
-            <Card.Section p='sm'>
+            <Card.Section p='sm' bg='primary.0'>
                 <Group justify='space-between'>
                     <Title order={4}>
                         {title}
