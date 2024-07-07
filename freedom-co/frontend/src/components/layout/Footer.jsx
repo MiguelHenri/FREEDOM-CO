@@ -6,7 +6,12 @@ import { IconPhone } from '@tabler/icons-react';
 function Footer() {
     
     return (
-        <Flex justify="space-between" align="center" bg='lightgray' mt='20px'>
+        <Flex 
+            justify="space-between" 
+            align="center" 
+            bg='primary.0'
+            mt='20px'
+        >
             <Stack p='20px' ml='20px'>
                 <Text fw={500} fz='15px'>
                     © 2024 FREEDOM&CO. All rights reserved.

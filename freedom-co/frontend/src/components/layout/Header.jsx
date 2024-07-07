@@ -46,7 +46,7 @@ function Header() {
     ));
 
     return (
-        <Center h={{base: (opened ? {fullheight} : {height}), sm: {height}}} mt={fsize} mb={fsize}>
+        <Center h={{base: (opened ? {fullheight} : {height}), sm: {height}}} p={fsize} bg='primary.0'>
             <Stack hiddenFrom="sm">
                 {opened ?
                     <Stack justify="center" align="center" p="lg">
