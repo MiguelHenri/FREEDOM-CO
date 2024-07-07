@@ -1,8 +1,8 @@
-import { Button, Stack, TextInput, Text, Paper, Anchor } from "@mantine/core";
+import { Button, Stack, TextInput, Text, Paper } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { HashLink } from 'react-router-hash-link';
 
-function Login() {
+function Signup() {
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -10,11 +10,12 @@ function Login() {
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Email is required.'),
             password: (value) => (value.length > 0 ? null : 'Password is required.'),
+            passwordCheck: (value) => (value.length > 0 ? null : 'Password confirmation is required.'),
         },
     });
 
     function onSubmit(values) {
-        // TODO: request backend login api
+        // TODO: request backend signup api
         console.log(values);
     }
 
@@ -33,7 +34,7 @@ function Login() {
         >
             <Paper shadow="sm" withBorder p='md' radius='md'>
                 <Text fz='25px' ff="'Lilita One', sans-serif">
-                    LOGIN
+                    SIGN UP
                 </Text>
             </Paper>
             <TextInput
@@ -50,22 +51,23 @@ function Login() {
                 {...inputProps}
                 {...form.getInputProps('password')}
             />
+            <TextInput
+                withAsterisk
+                label="Password Confirmation"
+                placeholder="**********"
+                {...inputProps}
+                {...form.getInputProps('password')}
+            />
             <Button
                 variant='outline'
                 size='md'
                 component={HashLink}
                 to='/profile'
             >
-                LOG IN
+                SIGN UP
             </Button>
-            <Text>
-                You don't have an account yet?{' '}
-                <Anchor component={HashLink} to='/signup'>
-                    Sign up here
-                </Anchor>.
-            </Text>
         </Stack>
     );
 }
 
-export default Login;
+export default Signup;
