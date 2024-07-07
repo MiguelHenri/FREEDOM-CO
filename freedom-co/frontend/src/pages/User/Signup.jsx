@@ -8,6 +8,7 @@ function Signup() {
         mode: 'uncontrolled',
     
         validate: {
+            username: (value) => (value.length > 0 ? null : 'Username is required.'),
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Email is required.'),
             password: (value) => (value.length > 0 ? null : 'Password is required.'),
             passwordCheck: (value) => (value.length > 0 ? null : 'Password confirmation is required.'),
@@ -39,6 +40,13 @@ function Signup() {
             </Paper>
             <TextInput
                 withAsterisk
+                label="Username"
+                placeholder="Your Username"
+                {...inputProps}
+                {...form.getInputProps('username')}
+            />
+            <TextInput
+                withAsterisk
                 label="Email"
                 placeholder="your@email.com"
                 {...inputProps}
@@ -56,7 +64,7 @@ function Signup() {
                 label="Password Confirmation"
                 placeholder="**********"
                 {...inputProps}
-                {...form.getInputProps('password')}
+                {...form.getInputProps('passwordCheck')}
             />
             <Button
                 variant='outline'

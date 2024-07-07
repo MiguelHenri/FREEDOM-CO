@@ -8,7 +8,7 @@ function Login() {
         mode: 'uncontrolled',
     
         validate: {
-            email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Email is required.'),
+            username: (value) => (value.length > 0 ? null : 'Username is required.'),
             password: (value) => (value.length > 0 ? null : 'Password is required.'),
         },
     });
@@ -38,8 +38,8 @@ function Login() {
             </Paper>
             <TextInput
                 withAsterisk
-                label="Email"
-                placeholder="your@email.com"
+                label="Username"
+                placeholder="Your Username"
                 {...inputProps}
                 {...form.getInputProps('email')}
             />
