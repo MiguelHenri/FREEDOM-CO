@@ -9,23 +9,26 @@ users_bp = Blueprint('User', __name__)
 @users_bp.route('/api/users/signup', methods=['POST'])
 def signup():
     data = request.json
-
+    
     username = data.get('username')
+    email = data.get('email')
     password = data.get('password')
 
-    if not username or not password:
-        return jsonify({'message': 'Username and password are required.'}), 400
+    if not username or not email or not password:
+        return jsonify({'message': 'Username, email, and password are required.'}), 400
     
     new_user = User(
         username=username,
-        password=generate_password_hash(password, method='bcrypt'))
+        email=email,
+        password_hash=generate_password_hash(password)
+    )
     
     try:
         db.session.add(new_user)
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
-        return jsonify({'message': 'Username already exists.'}), 400
+        return jsonify({'message': 'Username or email already exists.'}), 400
     
     return jsonify({'message': 'User created successfully.'}), 201
 
