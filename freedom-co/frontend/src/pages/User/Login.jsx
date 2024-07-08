@@ -35,7 +35,7 @@ function Login() {
                 withAsterisk
                 label="Username"
                 placeholder="Your Username"
-                {...form.getInputProps('email')}
+                {...form.getInputProps('username')}
             />
             <TextInput
                 withAsterisk
