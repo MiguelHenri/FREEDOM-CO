@@ -1,15 +1,18 @@
-import { Button, Stack, TextInput, Text, Paper, Anchor } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { Button, Stack, TextInput, Text, Paper, Anchor, PasswordInput } from "@mantine/core";
+import { isNotEmpty, useForm } from "@mantine/form";
 import { HashLink } from 'react-router-hash-link';
 
 function Login() {
 
     const form = useForm({
         mode: 'uncontrolled',
-    
+        initialValues: {
+            username: '',
+            password: '',
+        },
         validate: {
-            username: (value) => (value.length > 0 ? null : 'Username is required.'),
-            password: (value) => (value.length > 0 ? null : 'Password is required.'),
+            username: isNotEmpty('Username is required.'),
+            password: isNotEmpty('Password is required'),
         },
     });
 
@@ -37,7 +40,7 @@ function Login() {
                 placeholder="Your Username"
                 {...form.getInputProps('username')}
             />
-            <TextInput
+            <PasswordInput
                 withAsterisk
                 label="Password"
                 placeholder="**********"
@@ -46,8 +49,7 @@ function Login() {
             <Button
                 variant='outline'
                 size='md'
-                component={HashLink}
-                to='/profile'
+                type='submit'
             >
                 LOG IN
             </Button>

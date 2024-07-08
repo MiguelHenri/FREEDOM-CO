@@ -1,4 +1,4 @@
-import { createTheme } from "@mantine/core";
+import { createTheme, PasswordInput } from "@mantine/core";
 
 export default createTheme({
     colors: {
@@ -40,5 +40,11 @@ export default createTheme({
                 w: {base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'},
             }
         },
+        PasswordInput: {
+            defaultProps: {
+                size: 'md',
+                w: {base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'},
+            }
+        }
     }
 });
