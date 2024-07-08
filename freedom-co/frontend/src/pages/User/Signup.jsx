@@ -20,11 +20,6 @@ function Signup() {
         console.log(values);
     }
 
-    const inputProps = {
-        size: 'md',
-        w: {base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'},
-    }
-
     return (
         <Stack 
             align='center'
@@ -42,28 +37,24 @@ function Signup() {
                 withAsterisk
                 label="Username"
                 placeholder="Your Username"
-                {...inputProps}
                 {...form.getInputProps('username')}
             />
             <TextInput
                 withAsterisk
                 label="Email"
                 placeholder="your@email.com"
-                {...inputProps}
                 {...form.getInputProps('email')}
             />
             <TextInput
                 withAsterisk
                 label="Password"
                 placeholder="**********"
-                {...inputProps}
                 {...form.getInputProps('password')}
             />
             <TextInput
                 withAsterisk
                 label="Password Confirmation"
                 placeholder="**********"
-                {...inputProps}
                 {...form.getInputProps('passwordCheck')}
             />
             <Button

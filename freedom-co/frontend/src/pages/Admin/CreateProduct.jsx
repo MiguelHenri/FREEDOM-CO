@@ -84,11 +84,6 @@ function CreateProduct() {
         }
     }
 
-    const inputProps = {
-        size: 'md',
-        w: { base:'300px', sm: '500px', md: '600px', lg: '700px', xl: '700px'},
-    }
-
     return (
         <Stack 
             p='20px' 
@@ -109,32 +104,27 @@ function CreateProduct() {
                 ]}
                 value={mode}
                 onChange={setMode}
-                {...inputProps}
             />
             {mode === 'edit' && (
                 <TextInput 
                     label='ID' withAsterisk
                     placeholder='Enter ID'
-                    {...inputProps} 
                     {...form.getInputProps('id')}
                 />
             )}
             <TextInput 
                 label='Title' withAsterisk
                 placeholder='Product'
-                {...inputProps} 
                 {...form.getInputProps('title')}
             />
             <TextInput 
                 label='Description' withAsterisk
                 placeholder='This is a cool product.'
-                {...inputProps} 
                 {...form.getInputProps('description')}
             />
-            <TextInput // TO-DO 
+            <TextInput
                 label='Image' withAsterisk
                 placeholder='https://link-to/my-image.jpg'
-                {...inputProps} 
                 {...form.getInputProps('image')}
             />
             <NativeSelect 
@@ -145,19 +135,16 @@ function CreateProduct() {
                     { value: 'pant', label: 'Pant' },
                     { value: 'accessory', label: 'Accessory' },
                 ]}
-                {...inputProps}
                 {...form.getInputProps('type')}
             />
             <TextInput 
                 label='Value' withAsterisk
                 placeholder='$100.00'
-                {...inputProps}
                 {...form.getInputProps('value')}
             />
             <TextInput
                 label='Old Value' 
                 placeholder='$200.00'
-                {...inputProps}
                 {...form.getInputProps('oldvalue')}
             />
             <NativeSelect 
@@ -167,27 +154,22 @@ function CreateProduct() {
                     { value: 'SALE', label: 'Sale' },
                     { value: 'NEW', label: 'New' },
                 ]}
-                {...inputProps}
                 {...form.getInputProps('tag')}
             />
             <NumberInput
                 label="Quantity for P"
-                {...inputProps}
                 {...form.getInputProps('size_quantity_pairs.P')}
             />
             <NumberInput
                 label="Quantity for M"
-                {...inputProps}
                 {...form.getInputProps('size_quantity_pairs.M')}
             />
             <NumberInput
                 label="Quantity for G"
-                {...inputProps}
                 {...form.getInputProps('size_quantity_pairs.G')}
             />
             <NumberInput
                 label="Quantity for GG"
-                {...inputProps}
                 {...form.getInputProps('size_quantity_pairs.GG')}
             />
 

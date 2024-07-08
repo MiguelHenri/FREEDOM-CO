@@ -18,11 +18,6 @@ function Login() {
         console.log(values);
     }
 
-    const inputProps = {
-        size: 'md',
-        w: {base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'},
-    }
-
     return (
         <Stack 
             align='center'
@@ -40,14 +35,12 @@ function Login() {
                 withAsterisk
                 label="Username"
                 placeholder="Your Username"
-                {...inputProps}
                 {...form.getInputProps('email')}
             />
             <TextInput
                 withAsterisk
                 label="Password"
                 placeholder="**********"
-                {...inputProps}
                 {...form.getInputProps('password')}
             />
             <Button
