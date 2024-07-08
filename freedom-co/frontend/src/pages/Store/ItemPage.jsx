@@ -79,7 +79,7 @@ function ItemPage() {
                         <Button
                             disabled={!item.size_quantity_pairs || item.size_quantity_pairs['P'] === 0}
                             size='compact-lg'
-                            color={selectedSize === 'P' ? 'blue' : 'gray'}
+                            color={selectedSize === 'P' ? 'secondary.0' : 'gray'}
                             radius='md'
                             mt='3vh'
                             onClick={() => handleSizeClick('P')}
@@ -89,7 +89,7 @@ function ItemPage() {
                         <Button
                             disabled={!item.size_quantity_pairs || item.size_quantity_pairs['M'] === 0}
                             size='compact-lg'
-                            color={selectedSize === 'M' ? 'blue' : 'gray'}
+                            color={selectedSize === 'M' ? 'secondary.0' : 'gray'}
                             radius='md'
                             mt='3vh'
                             onClick={() => handleSizeClick('M')}
@@ -99,7 +99,7 @@ function ItemPage() {
                         <Button
                             disabled={!item.size_quantity_pairs || item.size_quantity_pairs['G'] === 0}
                             size='compact-lg'
-                            color={selectedSize === 'G' ? 'blue' : 'gray'}
+                            color={selectedSize === 'G' ? 'secondary.0' : 'gray'}
                             radius='md'
                             mt='3vh'
                             onClick={() => handleSizeClick('G')}
@@ -109,7 +109,7 @@ function ItemPage() {
                         <Button
                             disabled={!item.size_quantity_pairs || item.size_quantity_pairs['GG'] === 0}
                             size='compact-lg'
-                            color={selectedSize === 'GG' ? 'blue' : 'gray'}
+                            color={selectedSize === 'GG' ? 'secondary.0' : 'gray'}
                             radius='md'
                             mt='3vh'
                             onClick={() => handleSizeClick('GG')}
