@@ -1,14 +1,11 @@
 import { createTheme } from "@mantine/core";
 
-export default createTheme({
+const theme = createTheme({
     colors: {
         primary: ['#f2f2f2'],
         secondary: ['#0b59de'],
         tertiary: ['#b38144'],
     },
-    primaryColor: 'primary',
-    secondaryColor: 'secondary',
-    tertiaryColor: 'tertiary',
 
     components: {
         Anchor: {
@@ -48,3 +45,5 @@ export default createTheme({
         }
     }
 });
+
+export default theme;
