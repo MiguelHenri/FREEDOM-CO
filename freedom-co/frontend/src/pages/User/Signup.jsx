@@ -1,5 +1,5 @@
 import { Button, Stack, TextInput, Text, Paper, PasswordInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { isNotEmpty, useForm } from "@mantine/form";
 
 function Signup() {
 
@@ -13,10 +13,12 @@ function Signup() {
             passwordCheck: '',
         },
         validate: {
-            username: (value) => (value.length > 0 ? null : 'Username is required.'),
+            username: isNotEmpty('Username is required.'),
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Email is required.'),
-            password: (value) => (value.length > 0 ? null : 'Password is required.'),
-            passwordCheck: (value) => (value.length > 0 ? null : 'Password confirmation is required.'),
+            password: isNotEmpty('Password is required.'),
+            passwordCheck: (value, values) =>
+                (value !== values.password || value == '') ? 
+                'Password confirmation differs.' : null,
         },
     });
 

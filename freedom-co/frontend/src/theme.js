@@ -1,4 +1,4 @@
-import { createTheme, PasswordInput } from "@mantine/core";
+import { createTheme } from "@mantine/core";
 
 export default createTheme({
     colors: {
