@@ -43,13 +43,13 @@ def login():
 
     user = User.query.filter_by(username=username).first()
 
-    if user is None or not check_password_hash(user.password, password):
+    if user is None or not check_password_hash(user.password_hash, password):
         return jsonify({'message': 'Invalid username or password.'}), 401
 
-    session['user_id'] = user.id
+    session['username'] = user.username
     return jsonify({'message': 'Logged in successfully.'}), 200
 
 @users_bp.route('/api/users/logout', methods=['POST'])
 def logout():
-    session.pop('user_id', None)
+    session.pop('username', None)
     return jsonify({'message': 'Logged out successfully.'}), 200

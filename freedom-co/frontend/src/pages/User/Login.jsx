@@ -1,8 +1,14 @@
 import { Button, Stack, TextInput, Text, Paper, Anchor, PasswordInput } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';
 
 function Login() {
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -17,8 +23,24 @@ function Login() {
     });
 
     function onSubmit(values) {
-        // TODO: request backend login api
         console.log(values);
+        
+        // Requesting backend login api
+        setLoading(true);
+        axios.post('api/users/login', values)
+            .then(_ => {
+                navigate('/profile');
+                alert('Login successful');
+            })
+            .catch(err => {
+                setLoading(false);
+                console.error('Unhandled error when logging in.', err);
+                if (err.response.data.message) {
+                    setError(err.response.data.message);
+                } else {
+                    setError('An unknown error occurred.');
+                }
+            });
     }
 
     return (
@@ -46,10 +68,12 @@ function Login() {
                 placeholder="**********"
                 {...form.getInputProps('password')}
             />
+            {error && <Text c='red'>{error}</Text>}
             <Button
                 variant='outline'
                 size='md'
                 type='submit'
+                loading={loading}
             >
                 LOG IN
             </Button>

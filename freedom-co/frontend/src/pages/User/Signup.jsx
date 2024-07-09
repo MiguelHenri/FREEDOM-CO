@@ -42,11 +42,11 @@ function Signup() {
                 setLoading(false);
                 console.error('Unhandled error when creating accout.', err);
                 if (err.response.data.message) {
-                    setError(err.response.data.message)
+                    setError(err.response.data.message);
                 } else {
                     setError('An unknown error occurred.');
                 }
-            })
+            });
     }
 
     return (
