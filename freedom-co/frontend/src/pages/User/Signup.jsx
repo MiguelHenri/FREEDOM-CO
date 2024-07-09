@@ -32,6 +32,7 @@ function Signup() {
         
         // Requesting backend signup api
         setLoading(true);
+        setError('');
         axios.post('api/users/signup', values)
             .then(_ => {
                 navigate('/profile');

@@ -22,25 +22,25 @@ const theme = createTheme({
         TextInput: {
             defaultProps: {
                 size: 'md',
-                w: {base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'},
+                w: {base: '80vw', xs: '65vw', sm: '50vw', md: '40vw', lg:'30vw'},
             }
         },
         NativeSelect: {
             defaultProps: {
                 size: 'md',
-                w: {base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'},
+                w: {base: '80vw', xs: '65vw', sm: '50vw', md: '40vw', lg:'30vw'},
             }
         },
         NumberInput: {
             defaultProps: {
                 size: 'md',
-                w: {base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'},
+                w: {base: '80vw', xs: '65vw', sm: '50vw', md: '40vw', lg:'30vw'},
             }
         },
         PasswordInput: {
             defaultProps: {
                 size: 'md',
-                w: {base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'},
+                w: {base: '80vw', xs: '65vw', sm: '50vw', md: '40vw', lg:'30vw'},
             }
         }
     }

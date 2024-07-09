@@ -47,7 +47,7 @@ function Header() {
 
     return (
         <Center h={{base: (opened ? {fullheight} : {height}), sm: {height}}} p={fsize} bg='primary.0'>
-            <Stack hiddenFrom="sm">
+            <Stack hiddenFrom="md">
                 {opened ?
                     <Stack justify="center" align="center" p="lg">
                         {linkButtons}
@@ -60,7 +60,7 @@ function Header() {
                     </Center>
                 }
             </Stack>
-            <Group visibleFrom="sm" gap="60px">
+            <Group visibleFrom="md" gap="60px">
                 {linkButtons}
                 {otherButtons}
             </Group>
