@@ -1,6 +1,24 @@
 import { Paper, Button, Stack, Text } from "@mantine/core";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
+    const navigate = useNavigate();
+
+    const logOut = () => {
+        console.log('logging out...')
+
+        // Requesting backend logout api
+        axios.post('api/users/logout')
+            .then(_ => {
+                navigate('/login');
+                alert('Logged out successfuly');
+            })
+            .catch(err => {
+                console.error('Unhandled error when logging out.', err);
+                alert('Failed to logout.');
+            });
+    }
     
     return (
         <>
@@ -23,6 +41,15 @@ function Profile() {
                 variant='outline'
             >
                 PURCHASES
+            </Button>
+            <Button 
+                w={{base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'}} 
+                size='md'
+                variant='outline'
+                color='red'
+                onClick={logOut}
+            >
+                LOG OUT
             </Button>
         </Stack>
         </>

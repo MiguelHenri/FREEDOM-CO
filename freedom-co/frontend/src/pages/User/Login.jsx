@@ -30,7 +30,7 @@ function Login() {
         axios.post('api/users/login', values)
             .then(_ => {
                 navigate('/profile');
-                alert('Login successful');
+                alert('Logged in successfully');
             })
             .catch(err => {
                 setLoading(false);

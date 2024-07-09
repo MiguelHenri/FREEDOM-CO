@@ -51,5 +51,8 @@ def login():
 
 @users_bp.route('/api/users/logout', methods=['POST'])
 def logout():
-    session.pop('username', None)
-    return jsonify({'message': 'Logged out successfully.'}), 200
+    try:
+        session.clear()
+        return jsonify({'message': 'Logged out successfully.'}), 200
+    except Exception as e:
+        return jsonify({'message': 'Failed to logout.', 'error': str(e)}), 500
