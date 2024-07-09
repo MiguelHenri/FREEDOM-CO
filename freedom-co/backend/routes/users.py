@@ -1,4 +1,4 @@
-from Flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import IntegrityError
 from models.DataBase import db

@@ -8,7 +8,7 @@ import { useState } from "react";
 
 function CreateProduct() {
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const [mode, setMode] = useState('create');
 
     const form = useForm({

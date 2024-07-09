@@ -20,6 +20,6 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     username VARCHAR(50) PRIMARY KEY,
     email VARCHAR(120) UNIQUE NOT NULL,
-    password_hash VARCHAR(128) NOT NULL,
+    password_hash VARCHAR(256) NOT NULL,
     is_admin BOOLEAN DEFAULT FALSE
 );

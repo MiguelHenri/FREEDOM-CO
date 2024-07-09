@@ -1,11 +1,16 @@
 import { Button, Stack, TextInput, Text, Paper, PasswordInput } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const form = useForm({
         mode: 'uncontrolled',
-
         initialValues: {
             username: '',
             email: '',
@@ -23,8 +28,24 @@ function Signup() {
     });
 
     function onSubmit(values) {
-        // TODO: request backend signup api
         console.log(values);
+        
+        // Requesting backend signup api
+        setLoading(true);
+        axios.post('api/users/signup', values)
+            .then(_ => {
+                navigate('/profile');
+                alert('Account created successfully.');
+            })
+            .catch(err => {
+                setLoading(false);
+                console.error('Unhandled error when creating accout.', err);
+                if (err.response.data.message) {
+                    setError(err.response.data.message)
+                } else {
+                    setError('An unknown error occurred.');
+                }
+            })
     }
 
     return (
@@ -64,10 +85,12 @@ function Signup() {
                 placeholder="**********"
                 {...form.getInputProps('passwordCheck')}
             />
+            {error && <Text c='red'>{error}</Text>}
             <Button
                 variant='outline'
                 size='md'
                 type='submit'
+                loading={loading}
             >
                 SIGN UP
             </Button>
