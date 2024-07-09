@@ -28,7 +28,7 @@ def signup():
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
-        return jsonify({'message': 'Username or email already exists.'}), 400
+        return jsonify({'message': 'Username or email already exists.'}), 409
     
     return jsonify({'message': 'User created successfully.'}), 201
 
