@@ -1,6 +1,8 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 DROP TABLE IF EXISTS items;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS carts;
 
 CREATE TABLE items (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -22,4 +24,14 @@ CREATE TABLE users (
     email VARCHAR(120) UNIQUE NOT NULL,
     password_hash VARCHAR(256) NOT NULL,
     is_admin BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE carts (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    item_id UUID NOT NULL,
+    quantity INT NOT NULL,
+    size CHAR(3) NOT NULL,
+    FOREIGN KEY (username) REFERENCES users(username),
+    FOREIGN KEY (item_id) REFERENCES items(id)
 );
