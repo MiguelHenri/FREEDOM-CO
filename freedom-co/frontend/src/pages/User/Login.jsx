@@ -4,11 +4,14 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';
+import { useAuth } from "../../contexts/useAuth";
 
 function Login() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    const { saveLogin } = useAuth(); 
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -29,6 +32,7 @@ function Login() {
         setLoading(true);
         axios.post('api/users/login', values)
             .then(_ => {
+                saveLogin(values.username)
                 navigate('/profile');
                 alert('Logged in successfully');
             })

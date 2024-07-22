@@ -47,12 +47,23 @@ def login():
         return jsonify({'message': 'Invalid username or password.'}), 401
 
     session['username'] = user.username
+    print(session)
     return jsonify({'message': 'Logged in successfully.'}), 200
 
 @users_bp.route('/api/users/logout', methods=['POST'])
 def logout():
+    print(session)
     try:
         session.clear()
         return jsonify({'message': 'Logged out successfully.'}), 200
     except Exception as e:
         return jsonify({'message': 'Failed to logout.', 'error': str(e)}), 500
+    
+@users_bp.route('/api/users', methods=['GET'])
+def get_current_user():
+    print(session)
+    # Checking who is the user
+    if 'username' in session:
+        return jsonify({'username': session['username']})
+    else:
+        return jsonify({'message': 'Unauthorized. Please log in.'}), 401

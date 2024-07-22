@@ -40,7 +40,7 @@ def clear_cart_from_username(username):
 
     return jsonify({"message": "Cart cleared successfully."}), 200
 
-@carts_bp.route('api/carts/<string:username>', methods=['POST'])
+@carts_bp.route('/api/carts/<string:username>', methods=['POST'])
 def add_item_to_cart(username):
     # Checking who is the user
     if 'username' not in session:
@@ -69,7 +69,7 @@ def add_item_to_cart(username):
     return jsonify({"message": "Item added to cart successfully.", 
                     "cart_item": new_cart_item.to_dict()}), 201
 
-@carts_bp.route('api/carts/<string:username>', methods=['PUT'])
+@carts_bp.route('/api/carts/<string:username>', methods=['PUT'])
 def edit_item_from_cart(username):
     # Checking who is the user
     if 'username' not in session:
@@ -97,7 +97,7 @@ def edit_item_from_cart(username):
     return jsonify({"message": "Cart item updated successfully.", 
                     "cart_item": cart_item.to_dict()}), 200
 
-@carts_bp.route('api/carts/<string:username>', methods=['DELETE'])
+@carts_bp.route('/api/carts/<string:username>', methods=['DELETE'])
 def delete_item_from_cart(username):
     # Checking who is the user
     if 'username' not in session:

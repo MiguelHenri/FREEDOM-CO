@@ -1,9 +1,12 @@
 import { Paper, Button, Stack, Text } from "@mantine/core";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/useAuth";
 
 function Profile() {
     const navigate = useNavigate();
+
+    const { userName, clearAuth } = useAuth() || { userName: '' };
 
     const logOut = () => {
         console.log('logging out...')
@@ -11,6 +14,7 @@ function Profile() {
         // Requesting backend logout api
         axios.post('api/users/logout')
             .then(_ => {
+                clearAuth();
                 navigate('/login');
                 alert('Logged out successfuly');
             })
@@ -28,6 +32,7 @@ function Profile() {
                     PROFILE
                 </Text>
             </Paper>
+            <Text>Hi {userName}!</Text>
             <Button 
                 w={{base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'}}
                 size='md'
