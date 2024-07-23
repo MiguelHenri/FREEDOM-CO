@@ -11,17 +11,9 @@ function Profile() {
     const logOut = () => {
         console.log('logging out...')
 
-        // Requesting backend logout api
-        axios.post('api/users/logout')
-            .then(_ => {
-                clearAuth();
-                navigate('/login');
-                alert('Logged out successfuly');
-            })
-            .catch(err => {
-                console.error('Unhandled error when logging out.', err);
-                alert('Failed to logout.');
-            });
+        clearAuth();
+        navigate('/login');
+        alert('Logged out successfuly');
     }
     
     return (

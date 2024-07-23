@@ -5,35 +5,49 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [userName, setUserName] = useState('');
-
-    // Recuperar o nome de usuário do localStorage ao inicializar
+    const [token, setToken] = useState('');
+    
     useEffect(() => {
         const storedUserName = localStorage.getItem('userName');
-        if (storedUserName) {
-            setUserName(storedUserName);
-        } else {
-            axios.get('/api/users')
-                .then(response => {
-                    const fetchedUserName = response.data.username;
-                    setUserName(fetchedUserName);
-                    localStorage.setItem('userName', fetchedUserName);
-                })
-                .catch(() => setUserName(''));
-        }
+        const storedToken = localStorage.getItem('token');
+        setUserName(storedUserName);
+        setToken(storedToken);
     }, []);
 
     const clearAuth = () => {
         setUserName('');
         localStorage.removeItem('userName');
+        setToken('');
+        localStorage.removeItem('token');
     };
 
-    const saveLogin = (userName) => {
+    const saveLogin = (userName, token) => {
         setUserName(userName);
         localStorage.setItem('userName', userName);
+        setToken(token);
+        localStorage.setItem('token', token);
     };
 
+    // Including token in requests
+    useEffect(() => {
+        const setupAxios = () => {
+            axios.interceptors.request.use(
+                (config) => {
+                    const token = localStorage.getItem('token');
+                    if (token) {
+                        config.headers.Authorization = `Bearer ${token}`;
+                    }
+                    return config;
+                },
+                err => err
+            );
+        };
+
+        setupAxios();
+    }, []);
+
     return (
-        <AuthContext.Provider value={{ userName, clearAuth, saveLogin }}>
+        <AuthContext.Provider value={{ userName, clearAuth, saveLogin, token, setToken }}>
             {children}
         </AuthContext.Provider>
     );

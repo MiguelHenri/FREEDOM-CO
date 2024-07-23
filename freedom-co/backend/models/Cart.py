@@ -1,4 +1,5 @@
 from .DataBase import db
+from sqlalchemy.orm import relationship
 
 class Cart(db.Model):
     __tablename__ = 'carts'  # Database (PG) table name
@@ -8,10 +9,12 @@ class Cart(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     size = db.Column(db.CHAR(3), nullable=False)
 
+    item = relationship('StoreItem', back_populates='carts')
+
     def to_dict(self):
         return {
             'username': self.username,
-            'item_id': self.item_id,
+            'item': self.item.to_dict() if self.item else None,
             'quantity': self.quantity,
             'size': self.size
         }

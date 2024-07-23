@@ -26,13 +26,12 @@ function Login() {
     });
 
     function onSubmit(values) {
-        console.log(values);
-        
         // Requesting backend login api
         setLoading(true);
         axios.post('api/users/login', values)
-            .then(_ => {
-                saveLogin(values.username)
+            .then(res => {
+                const { token } = res.data;
+                saveLogin(values.username, token);
                 navigate('/profile');
                 alert('Logged in successfully');
             })

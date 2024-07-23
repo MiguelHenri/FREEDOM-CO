@@ -1,8 +1,22 @@
 import { Stack, Card, Group, Image, Text, Paper, Button } from "@mantine/core";
 import { useCart } from "../../contexts/useCart";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Cart() {
-    const { cartItems, clearCart } = useCart() || { cartItems: [] };
+    const { clearCart } = useCart() || { cartItems: [] };
+    const [cartItems, setCartItems] = useState([]);
+
+    useEffect(() => {
+        axios.get('/api/carts')
+            .then(res => {
+                let temp = res.data;
+                setCartItems(temp);
+            })
+            .catch(err => {
+                console.error('Error fetching items', err);
+            });
+    }, []);
 
     const totalValFloat = cartItems.reduce((total, item) => {
         const numbers = item.value.match(/\d+(?:[.,]\d+)?/g).map(num => parseFloat(num.replace(',', '.')));

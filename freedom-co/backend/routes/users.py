@@ -1,11 +1,13 @@
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import IntegrityError
 from models.DataBase import db
 from models.User import User
+from flask_jwt_extended import create_access_token
 
 users_bp = Blueprint('User', __name__)
 
+# Signup Route
 @users_bp.route('/api/users/signup', methods=['POST'])
 def signup():
     data = request.json
@@ -32,6 +34,7 @@ def signup():
     
     return jsonify({'message': 'User created successfully.'}), 201
 
+# Login route
 @users_bp.route('/api/users/login', methods=['POST'])
 def login():
     data = request.json
@@ -46,24 +49,9 @@ def login():
     if user is None or not check_password_hash(user.password_hash, password):
         return jsonify({'message': 'Invalid username or password.'}), 401
 
-    session['username'] = user.username
-    print(session)
-    return jsonify({'message': 'Logged in successfully.'}), 200
+    token = create_access_token(identity={'username': username})
 
-@users_bp.route('/api/users/logout', methods=['POST'])
-def logout():
-    print(session)
-    try:
-        session.clear()
-        return jsonify({'message': 'Logged out successfully.'}), 200
-    except Exception as e:
-        return jsonify({'message': 'Failed to logout.', 'error': str(e)}), 500
-    
-@users_bp.route('/api/users', methods=['GET'])
-def get_current_user():
-    print(session)
-    # Checking who is the user
-    if 'username' in session:
-        return jsonify({'username': session['username']})
-    else:
-        return jsonify({'message': 'Unauthorized. Please log in.'}), 401
+    return jsonify({
+        'message': 'Logged in successfully.',
+        'access_token': token,
+    }), 200
