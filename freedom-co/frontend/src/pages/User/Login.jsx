@@ -30,8 +30,8 @@ function Login() {
         setLoading(true);
         axios.post('api/users/login', values)
             .then(res => {
-                const { token } = res.data;
-                saveLogin(values.username, token);
+                const { access_token } = res.data;
+                saveLogin(values.username, access_token);
                 navigate('/profile');
                 alert('Logged in successfully');
             })
