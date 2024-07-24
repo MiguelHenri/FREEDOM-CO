@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -27,26 +26,6 @@ export const AuthProvider = ({ children }) => {
         setToken(token);
         localStorage.setItem('token', token);
     };
-
-    // Including token in requests
-    useEffect(() => {
-        console.log('intercepting...')
-
-        const setupAxios = axios.interceptors.request.use(
-            (config) => {
-                const token = localStorage.getItem('token');
-                if (token) {
-                    config.headers.Authorization = `Bearer ${token}`;
-                }
-                return config;
-            },
-            err => err
-        );
-
-        return () => {
-            axios.interceptors.request.eject(setupAxios);
-        };
-    }, []);
 
     return (
         <AuthContext.Provider value={{ userName, clearAuth, saveLogin, token, setToken }}>

@@ -6,7 +6,13 @@ function Cart() {
     const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
-        axios.get('/api/carts', )
+        const token = localStorage.getItem('token');
+        console.log('token: ' + token);
+        axios.get('/api/carts', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
             .then(res => {
                 let temp = res.data;
                 setCartItems(temp);
