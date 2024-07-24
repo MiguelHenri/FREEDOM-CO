@@ -31,8 +31,14 @@ function ItemPage() {
                 size: selectedSize,
                 quantity: 1 // todo, select quantity
             };
+            const token = localStorage.getItem('token');
+            console.log('token: ' + token);
             // Calling backend cart api
-            axios.post('/api/carts', data)
+            axios.post('/api/carts', data, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
                 .then(_ => {
                     alert(`${item.title} added to cart. Size: ${selectedSize}.`);
                 })
