@@ -13,8 +13,9 @@ class Cart(db.Model):
 
     def to_dict(self):
         return {
-            'username': self.username,
-            'item': self.item.to_dict() if self.item else None,
+            'image': self.item.image,
+            'title': self.item.title,
+            'value': self.item.value,
             'quantity': self.quantity,
             'size': self.size
         }

@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { Box, SimpleGrid, Image, Text, Center, Stack,
         Group, Badge, Button } from '@mantine/core';
 import axios from 'axios';
-import { useCart } from '../../contexts/useCart';
 
 function ItemPage() {
     const { id } = useParams();
@@ -25,14 +24,23 @@ function ItemPage() {
         setSelectedSize(size);
     };
 
-    const { addItemToCart } = useCart();
-
     const handleAddToCart = () => {
         if (selectedSize) {
-            addItemToCart({ ...item, size: selectedSize });
-            alert(`${item.title} adicionado ao carrinho. Tamanho: ${selectedSize}.`);
+            const data = {
+                id: id,
+                size: selectedSize,
+                quantity: 1 // todo, select quantity
+            };
+            // Calling backend cart api
+            axios.post('/api/carts', data)
+                .then(_ => {
+                    alert(`${item.title} added to cart. Size: ${selectedSize}.`);
+                })
+                .catch(err => {
+                    console.error('Unhandled error when adding item to cart.', err);
+                })
         } else {
-            alert('Por favor, selecione um tamanho antes de adicionar ao carrinho.');
+            alert('Please, select a size before adding item to cart.');
         }
     };
 

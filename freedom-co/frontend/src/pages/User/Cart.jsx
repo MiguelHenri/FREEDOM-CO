@@ -1,20 +1,18 @@
 import { Stack, Card, Group, Image, Text, Paper, Button } from "@mantine/core";
-import { useCart } from "../../contexts/useCart";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Cart() {
-    const { clearCart } = useCart() || { cartItems: [] };
     const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
-        axios.get('/api/carts')
+        axios.get('/api/carts', )
             .then(res => {
                 let temp = res.data;
                 setCartItems(temp);
             })
             .catch(err => {
-                console.error('Error fetching items', err);
+                console.error('Error fetching items.', err);
             });
     }, []);
 
@@ -28,9 +26,7 @@ function Cart() {
     const totalVal = '$' + totalValFloat.toFixed(2);
 
     const handleClearCart = () => {
-        clearCart();
-        // TO-DO: update items size quantities
-        // using axios.put ...
+        // TO-DO: update items using axios
         alert('The cart is now empty.');
     };
 

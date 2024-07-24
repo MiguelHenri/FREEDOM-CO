@@ -30,20 +30,22 @@ export const AuthProvider = ({ children }) => {
 
     // Including token in requests
     useEffect(() => {
-        const setupAxios = () => {
-            axios.interceptors.request.use(
-                (config) => {
-                    const token = localStorage.getItem('token');
-                    if (token) {
-                        config.headers.Authorization = `Bearer ${token}`;
-                    }
-                    return config;
-                },
-                err => err
-            );
-        };
+        console.log('intercepting...')
 
-        setupAxios();
+        const setupAxios = axios.interceptors.request.use(
+            (config) => {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    config.headers.Authorization = `Bearer ${token}`;
+                }
+                return config;
+            },
+            err => err
+        );
+
+        return () => {
+            axios.interceptors.request.eject(setupAxios);
+        };
     }, []);
 
     return (

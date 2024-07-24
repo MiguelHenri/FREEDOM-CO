@@ -10,17 +10,20 @@ carts_bp = Blueprint('Cart', __name__)
 @jwt_required()
 def get_cart_from_user():
     username = get_jwt_identity().get('username')
+    print(f'Token valid, username: {username}')
 
     # Getting cart given an username
     cart = Cart.query.filter_by(username=username).all()
     if not cart:
-        return jsonify({"message": "No cart found."}), 404
+        return jsonify([]), 200
 
     cart = [c.to_dict() for c in cart]
-    return jsonify(cart)
+    return jsonify(cart), 200
 
-@carts_bp.route('/api/carts/clear/<string:username>', methods=['DELETE'])
-def clear_cart_from_username(username):
+@carts_bp.route('/api/carts/clear', methods=['DELETE'])
+@jwt_required()
+def clear_cart_from_username():
+    username = get_jwt_identity().get('username')
 
     # Getting cart given an username and deleting
     cart = Cart.query.filter_by(username=username).all()
@@ -30,11 +33,13 @@ def clear_cart_from_username(username):
 
     return jsonify({"message": "Cart cleared successfully."}), 200
 
-@carts_bp.route('/api/carts/<string:username>', methods=['POST'])
-def add_item_to_cart(username):
+@carts_bp.route('/api/carts', methods=['POST'])
+@jwt_required()
+def add_item_to_cart():
+    username = get_jwt_identity().get('username')
     
     data = request.json
-    item_id = data.get('item_id')
+    item_id = data.get('id')
     quantity = data.get('quantity')
     size = data.get('size')
 
@@ -55,8 +60,10 @@ def add_item_to_cart(username):
         "cart_item": new_cart_item.to_dict()
     }), 201
 
-@carts_bp.route('/api/carts/<string:username>', methods=['PUT'])
-def edit_item_from_cart(username):
+@carts_bp.route('/api/carts', methods=['PUT'])
+@jwt_required()
+def edit_item_from_cart():
+    username = get_jwt_identity().get('username')
     
     data = request.json
     cart_id = data.get('id')
@@ -78,8 +85,10 @@ def edit_item_from_cart(username):
         "cart_item": cart_item.to_dict()
     }), 200
 
-@carts_bp.route('/api/carts/<string:username>', methods=['DELETE'])
-def delete_item_from_cart(username):
+@carts_bp.route('/api/carts', methods=['DELETE'])
+@jwt_required()
+def delete_item_from_cart():
+    username = get_jwt_identity().get('username')
 
     data = request.json
     cart_id = data.get('id')
