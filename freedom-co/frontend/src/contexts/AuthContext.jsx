@@ -5,13 +5,14 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [userName, setUserName] = useState('');
     const [token, setToken] = useState('');
+    const [loading, setLoading] = useState(true);
     
-    // todo: this useEffect is causing race condition when refreshing
     useEffect(() => {
         const storedUserName = localStorage.getItem('userName');
         const storedToken = localStorage.getItem('token');
         setUserName(storedUserName);
         setToken(storedToken);
+        setLoading(false);
     }, []);
 
     const clearAuth = () => {
@@ -27,6 +28,8 @@ export const AuthProvider = ({ children }) => {
         setToken(token);
         localStorage.setItem('token', token);
     };
+
+    if (loading) return null; // Waiting for data
 
     return (
         <AuthContext.Provider value={{ userName, clearAuth, saveLogin, token, setToken }}>
