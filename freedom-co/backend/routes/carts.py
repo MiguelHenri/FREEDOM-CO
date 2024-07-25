@@ -38,6 +38,7 @@ def clear_cart_from_username():
 @jwt_required()
 def add_item_to_cart():
     username = get_jwt_identity().get('username')
+    print(f'Token valid, username: {username}')
     
     data = request.json
     item_id = data.get('id')
@@ -86,13 +87,11 @@ def edit_item_from_cart():
         "cart_item": cart_item.to_dict()
     }), 200
 
-@carts_bp.route('/api/carts', methods=['DELETE'])
+@carts_bp.route('/api/carts/<int:cart_id>', methods=['DELETE'])
 @jwt_required()
-def delete_item_from_cart():
+def delete_item_from_cart(cart_id):
     username = get_jwt_identity().get('username')
-
-    data = request.json
-    cart_id = data.get('id')
+    print(f'Token valid, username: {username}')
 
     cart_item = Cart.query.filter_by(id=cart_id, username=username).first()
     

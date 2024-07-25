@@ -47,13 +47,23 @@ function Cart() {
             })
             .catch(err => {
                 console.error('Error clearing cart.', err);
-            })
+            });
     };
 
-    const handleItemDelete = () => {
-        console.log('deleting...');
-        // Requesting Cart backend api
-        
+    const handleItemDelete = (item_id) => {
+        // Requesting Cart API to delete item
+        axios.delete(`/api/carts/${item_id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+            .then(_ => {
+                alert('Item removed successfully.');
+                setChanged(true);
+            })
+            .catch(err => {
+                console.error('Error deleting item.', err);
+            });
     }
 
     return(
@@ -81,7 +91,7 @@ function Cart() {
                         </Text>
                         <CloseButton 
                             variant="transparent"
-                            onClick={handleItemDelete}
+                            onClick={() => handleItemDelete(item.id)}
                         />
                     </Group>
                 </Card>

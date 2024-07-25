@@ -13,6 +13,7 @@ class Cart(db.Model):
 
     def to_dict(self):
         return {
+            'id': self.id,
             'image': self.item.image,
             'title': self.item.title,
             'value': self.item.value,
