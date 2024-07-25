@@ -3,10 +3,12 @@ import { useParams } from 'react-router-dom';
 import { Box, SimpleGrid, Image, Text, Center, Stack,
         Group, Badge, Button } from '@mantine/core';
 import axios from 'axios';
+import { useAuth } from "../../contexts/useAuth";
 
 function ItemPage() {
     const { id } = useParams();
     const [item, setItem] = useState([]);
+    const { token } = useAuth();
 
     useEffect(() => {
         axios.get(`api/items/${id}`)
@@ -31,8 +33,6 @@ function ItemPage() {
                 size: selectedSize,
                 quantity: 1 // todo, select quantity
             };
-            const token = localStorage.getItem('token');
-            console.log('token: ' + token);
             // Calling backend cart api
             axios.post('/api/carts', data, {
                 headers: {

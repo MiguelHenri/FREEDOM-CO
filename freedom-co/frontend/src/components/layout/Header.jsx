@@ -17,7 +17,7 @@ function Header() {
 
     const otherLinks = [
         {icon: <IconShoppingCart stroke={2.5}/>, link: "/cart"},
-        {icon: <IconUser stroke={2.5}/>, link: "/login"}
+        {icon: <IconUser stroke={2.5}/>, link: "/profile"}
     ];
 
     const fsize = '20px';

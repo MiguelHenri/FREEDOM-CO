@@ -1,13 +1,14 @@
 import { Stack, Card, Group, Image, Text, Paper, Button } from "@mantine/core";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useAuth } from "../../contexts/useAuth";
 
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
+    const { token } = useAuth();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        console.log('token: ' + token);
+        // Requesting Cart backend API
         axios.get('/api/carts', {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -20,7 +21,7 @@ function Cart() {
             .catch(err => {
                 console.error('Error fetching items.', err);
             });
-    }, []);
+    }, [token]);
 
     const totalValFloat = cartItems.reduce((total, item) => {
         const numbers = item.value.match(/\d+(?:[.,]\d+)?/g).map(num => parseFloat(num.replace(',', '.')));

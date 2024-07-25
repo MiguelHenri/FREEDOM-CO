@@ -11,6 +11,7 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
+    // todo: prohibit user from logging again
     const { saveLogin } = useAuth(); 
 
     const form = useForm({

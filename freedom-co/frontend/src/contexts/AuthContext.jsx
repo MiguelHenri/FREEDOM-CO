@@ -6,6 +6,7 @@ export const AuthProvider = ({ children }) => {
     const [userName, setUserName] = useState('');
     const [token, setToken] = useState('');
     
+    // todo: this useEffect is causing race condition when refreshing
     useEffect(() => {
         const storedUserName = localStorage.getItem('userName');
         const storedToken = localStorage.getItem('token');
