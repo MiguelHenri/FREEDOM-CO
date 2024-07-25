@@ -1,4 +1,4 @@
-import { Stack, Card, Group, Image, Text, Paper, Button } from "@mantine/core";
+import { Stack, Card, Group, Image, Text, Paper, Button, CloseButton } from "@mantine/core";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/useAuth";
@@ -6,6 +6,7 @@ import { useAuth } from "../../contexts/useAuth";
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
     const { token } = useAuth();
+    const [changed, setChanged] = useState(false);
 
     useEffect(() => {
         // Requesting Cart backend API
@@ -21,7 +22,8 @@ function Cart() {
             .catch(err => {
                 console.error('Error fetching items.', err);
             });
-    }, [token]);
+        setChanged(false);
+    }, [token, changed]);
 
     const totalValFloat = cartItems.reduce((total, item) => {
         const numbers = item.value.match(/\d+(?:[.,]\d+)?/g).map(num => parseFloat(num.replace(',', '.')));
@@ -33,9 +35,26 @@ function Cart() {
     const totalVal = '$' + totalValFloat.toFixed(2);
 
     const handleClearCart = () => {
-        // TO-DO: update items using axios
-        alert('The cart is now empty.');
+        // Requesting Cart API to clear
+        axios.delete('/api/carts/clear', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+            .then(_ => {
+                alert('The cart is now empty.');
+                setChanged(true);
+            })
+            .catch(err => {
+                console.error('Error clearing cart.', err);
+            })
     };
+
+    const handleItemDelete = () => {
+        console.log('deleting...');
+        // Requesting Cart backend api
+        
+    }
 
     return(
         <Stack p='20px' align='center'>
@@ -60,6 +79,10 @@ function Cart() {
                         <Text fw={500} fz='18px'>
                             {item.value}
                         </Text>
+                        <CloseButton 
+                            variant="transparent"
+                            onClick={handleItemDelete}
+                        />
                     </Group>
                 </Card>
             ))}

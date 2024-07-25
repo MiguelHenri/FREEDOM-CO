@@ -24,6 +24,7 @@ def get_cart_from_user():
 @jwt_required()
 def clear_cart_from_username():
     username = get_jwt_identity().get('username')
+    print(f'Token valid, username: {username}')
 
     # Getting cart given an username and deleting
     cart = Cart.query.filter_by(username=username).all()

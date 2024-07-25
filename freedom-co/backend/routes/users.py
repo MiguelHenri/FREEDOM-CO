@@ -37,6 +37,7 @@ def signup():
 # Login route
 @users_bp.route('/api/users/login', methods=['POST'])
 def login():
+    # todo - prohibit user already logged from loggin again
     data = request.json
     username = data.get('username')
     password = data.get('password')
