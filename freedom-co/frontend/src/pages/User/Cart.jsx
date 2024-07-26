@@ -2,6 +2,7 @@ import { Stack, Card, Group, Image, Text, Paper, Button, CloseButton } from "@ma
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/useAuth";
+import { IconMinus, IconPlus, IconX } from '@tabler/icons-react';
 
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
@@ -25,6 +26,7 @@ function Cart() {
         setChanged(false);
     }, [token, changed]);
 
+    // todo fix value
     const totalValFloat = cartItems.reduce((total, item) => {
         const numbers = item.value.match(/\d+(?:[.,]\d+)?/g).map(num => parseFloat(num.replace(',', '.')));
         
@@ -66,7 +68,42 @@ function Cart() {
             });
     }
 
+    const handleItemAdd = (item_id, quantity) => {
+        // Requesting Cart API to update item
+        const data = { quantity: quantity + 1 }
+        axios.put(`/api/carts/${item_id}`, data, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+            .then(_ => {
+                console.log('Item quantity updated successfully.');
+                setChanged(true);
+            })
+            .catch(err => {
+                console.error('Error updating item quantity.', err);
+            });
+    }
+
+    const handleItemSubtract = (item_id, quantity) => {
+        // Requesting Cart API to update item
+        const data = { quantity: quantity - 1 }
+        axios.put(`/api/carts/${item_id}`, data, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+            .then(_ => {
+                console.log('Item quantity updated successfully.');
+                setChanged(true);
+            })
+            .catch(err => {
+                console.error('Error updating item quantity.', err);
+            });
+    }
+
     return(
+        // todo fix responsive design
         <Stack p='20px' align='center'>
             <Paper shadow="sm" withBorder p='md' radius='md'>
                 <Text fz='25px' ff="'Lilita One', sans-serif">
@@ -74,8 +111,8 @@ function Cart() {
                 </Text>
             </Paper>
             {cartItems.map((item, index) => (
-                <Card key={index} shadow="sm" padding="md" radius="md" withBorder>
-                    <Group justify='center'>
+                <Card key={index} shadow="sm" radius="md" withBorder>
+                    <Group justify='center' align="center">
                         <Image 
                             src={item.image} 
                             alt={item.title}
@@ -86,11 +123,25 @@ function Cart() {
                             {item.title}
                             {' ' + item.size}
                         </Text>
+                        <Button radius='xl' variant='transparent' mr='-20px'
+                            onClick={() => handleItemSubtract(item.id, item.quantity)}
+                        >
+                            <IconMinus size={20}/>
+                        </Button>
+                        <Text fw={500} fz='18px'>
+                            {item.quantity}
+                        </Text>
+                        <Button radius='xl' variant='transparent' ml='-20px'
+                            onClick={() => handleItemAdd(item.id, item.quantity)}
+                        >
+                            <IconPlus/>
+                        </Button>
                         <Text fw={500} fz='18px'>
                             {item.value}
                         </Text>
                         <CloseButton 
                             variant="transparent"
+                            icon={<IconX/>}
                             onClick={() => handleItemDelete(item.id)}
                         />
                     </Group>

@@ -22,13 +22,14 @@ def get_cart_from_user():
 
 @carts_bp.route('/api/carts/clear', methods=['DELETE'])
 @jwt_required()
-def clear_cart_from_username():
+def clear_cart_from_user():
     username = get_jwt_identity().get('username')
     print(f'Token valid, username: {username}')
 
     # Getting cart given an username and deleting
     cart = Cart.query.filter_by(username=username).all()
     for item in cart:
+        # todo update item quantities
         db.session.delete(item)
     db.session.commit()
 
@@ -62,13 +63,12 @@ def add_item_to_cart():
         "cart_item": new_cart_item.to_dict()
     }), 201
 
-@carts_bp.route('/api/carts', methods=['PUT'])
+@carts_bp.route('/api/carts/<int:cart_id>', methods=['PUT'])
 @jwt_required()
-def edit_item_from_cart():
+def edit_item_from_cart(cart_id):
     username = get_jwt_identity().get('username')
     
     data = request.json
-    cart_id = data.get('id')
     quantity = data.get('quantity')
     size = data.get('size')
 
@@ -80,6 +80,11 @@ def edit_item_from_cart():
         cart_item.quantity = quantity
     if size:
         cart_item.size = size
+
+    if quantity <= 0: # Item quantity below or equal 0, we remove from Cart
+        db.session.delete(cart_item)
+        db.session.commit()
+        return jsonify({"message": "Item deleted from cart successfully."}), 200
 
     db.session.commit()
     return jsonify({
