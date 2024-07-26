@@ -51,3 +51,8 @@ Run frontend and backend using:
 ```
 
 - Make sure you have your .env files configured correctly. Check .env.example files.
+
+After creating an account, you can make it an Admin running:
+```
+$ psql -U <username> -d <database_name> -a -f /<path>/sql/make_admin.sql
+```
