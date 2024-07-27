@@ -3,11 +3,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import IntegrityError
 from models.DataBase import db
 from models.User import User
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 
 users_bp = Blueprint('User', __name__)
 
-# Signup Route
+# Signup route
 @users_bp.route('/api/users/signup', methods=['POST'])
 def signup():
     data = request.json
@@ -56,3 +56,9 @@ def login():
         'message': 'Logged in successfully.',
         'access_token': token,
     }), 200
+
+# Getting Auth Status route
+@users_bp.route('/api/users/auth', methods=['GET'])
+@jwt_required()
+def auth():
+    return '', 204

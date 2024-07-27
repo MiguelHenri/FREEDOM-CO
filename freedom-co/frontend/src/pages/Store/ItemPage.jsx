@@ -38,6 +38,7 @@ function ItemPage() {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
+                
             })
                 .then(_ => {
                     alert(`${item.title} added to cart. Size: ${selectedSize}.`);

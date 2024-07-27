@@ -38,6 +38,7 @@ def clear_cart_from_user():
 @carts_bp.route('/api/carts', methods=['POST'])
 @jwt_required()
 def add_item_to_cart():
+    # todo - guarantee item has the quantity necessary
     username = get_jwt_identity().get('username')
     print(f'Token valid, username: {username}')
     
