@@ -43,7 +43,8 @@ function Cart() {
                 Authorization: `Bearer ${token}`,
             }
         })
-            .then(_ => {
+            .then(res => {
+                console.log(res.data.message);
                 alert('The cart is now empty.');
                 setChanged(true);
             })
@@ -59,7 +60,8 @@ function Cart() {
                 Authorization: `Bearer ${token}`,
             }
         })
-            .then(_ => {
+            .then(res => {
+                console.log(res.data.message);
                 alert('Item removed successfully.');
                 setChanged(true);
             })
@@ -76,8 +78,8 @@ function Cart() {
                 Authorization: `Bearer ${token}`,
             }
         })
-            .then(_ => {
-                console.log('Item quantity updated successfully.');
+            .then(res => {
+                console.log(res.data.message);
                 setChanged(true);
             })
             .catch(err => {
@@ -93,8 +95,11 @@ function Cart() {
                 Authorization: `Bearer ${token}`,
             }
         })
-            .then(_ => {
-                console.log('Item quantity updated successfully.');
+            .then(res => {
+                if (!res.data.cart_item) {
+                    alert('Item deleted from cart.');
+                }
+                console.log(res.data.message);
                 setChanged(true);
             })
             .catch(err => {
