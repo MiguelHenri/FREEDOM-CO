@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, SimpleGrid, Image, Text, Center, Stack,
-        Group, Badge, Button } from '@mantine/core';
+        Group, Badge, Button, NumberInput } from '@mantine/core';
 import axios from 'axios';
 import { useAuth } from "../../contexts/useAuth";
 
 function ItemPage() {
     const { id } = useParams();
     const [item, setItem] = useState([]);
+    const [quantity, setQuantity] = useState(1);
     const { token } = useAuth();
 
     useEffect(() => {
@@ -31,16 +32,16 @@ function ItemPage() {
             const data = {
                 id: id,
                 size: selectedSize,
-                quantity: 1 // todo, select quantity
+                quantity: quantity
             };
             // Calling backend cart api
             axios.post('/api/carts', data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
-                
             })
-                .then(_ => {
+                .then(res => {
+                    console.log(res.data.message);
                     alert(`${item.title} added to cart. Size: ${selectedSize}.`);
                 })
                 .catch(err => {
@@ -132,10 +133,15 @@ function ItemPage() {
                             GG
                         </Button>
                     </Group>
+                    <NumberInput
+                        value={quantity}
+                        onChange={(value) => setQuantity(value)}
+                        min={1}
+                        w='25vh' size='sm' mt='3vh'
+                    />
                     <Button 
-                        w='25vh' 
+                        w='200px' mt='3vh'
                         radius='md' 
-                        mt='3vh'
                         disabled={!selectedSize}
                         onClick={handleAddToCart}
                     >
