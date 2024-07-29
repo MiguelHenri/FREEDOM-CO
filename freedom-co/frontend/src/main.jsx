@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom'
 import { MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css';
 import theme from './theme.js';
-import { CartProvider } from './contexts/CartContext';
 import { AuthProvider } from './contexts/AuthContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -13,9 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <MantineProvider theme={theme}>
         <AuthProvider>
-          <CartProvider>
             <App/>
-          </CartProvider>
         </AuthProvider>
       </MantineProvider>
     </BrowserRouter>
