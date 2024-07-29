@@ -26,13 +26,12 @@ function Cart() {
         setChanged(false);
     }, [token, changed]);
 
-    // todo fix value
     const totalValFloat = cartItems.reduce((total, item) => {
         const numbers = item.value.match(/\d+(?:[.,]\d+)?/g).map(num => parseFloat(num.replace(',', '.')));
         
         const sum = numbers.reduce((acc, num) => acc + num, 0);
       
-        return total + sum;
+        return total + (sum * item.quantity);
     }, 0);
     const totalVal = '$' + totalValFloat.toFixed(2);
 
@@ -142,7 +141,7 @@ function Cart() {
                             <IconPlus/>
                         </Button>
                         <Text fw={500} fz='18px'>
-                            {item.value}
+                            {`$${item.quantity*(parseFloat(item.value.replace(/[^\d.,]/g, '').replace(',', '.')))}`}
                         </Text>
                         <CloseButton 
                             variant="transparent"
