@@ -70,8 +70,8 @@ function App() {
           <Layout/>
       }>
         <Route index element={<AdminMenu/>}/>
-        <Route path='admin/create' element={<CreateProduct/>}/>
-        <Route path='admin/delete' element={<DeleteProduct/>}/>
+        <Route path='create' element={<CreateProduct/>}/>
+        <Route path='delete' element={<DeleteProduct/>}/>
       </Route>
     </Routes>
   );

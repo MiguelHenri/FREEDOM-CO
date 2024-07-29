@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';
 import { useAuth } from "../../contexts/useAuth";
+import { notifications } from "@mantine/notifications";
 
 function Login() {
     const navigate = useNavigate();
@@ -34,7 +35,7 @@ function Login() {
                 const { access_token } = res.data;
                 saveLogin(values.username, access_token);
                 navigate('/profile');
-                alert('Logged in successfully');
+                notifications.show({message: 'Logged in successfully'});
             })
             .catch(err => {
                 setLoading(false);

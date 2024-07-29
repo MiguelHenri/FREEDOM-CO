@@ -1,6 +1,7 @@
 import { Stack, Text, Paper, TextInput, Button } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import axios from "axios";
+import { notifications } from "@mantine/notifications";
 
 function DeleteProduct() {
 
@@ -14,18 +15,17 @@ function DeleteProduct() {
         }
     })
 
-    // TO-DO: are you sure you want to delete ?
     function onSubmit(values) {
         console.log(values);
 
         axios.delete(`api/items/${values.id}`)
             .then(res => {
+                notifications.show({message: `Item deleted successfully.`});
                 console.log(res);
-                alert(`Item deleted successfully.`);
             })
             .catch(err => {
+                notifications.show({message: 'Error when deleting item.', color: 'red'});
                 console.error('Error when deleting item: ', err);
-                alert('Error when deleting item.');
             });
     }
 

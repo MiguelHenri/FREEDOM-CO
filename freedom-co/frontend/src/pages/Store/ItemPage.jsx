@@ -4,6 +4,7 @@ import { Box, SimpleGrid, Image, Text, Center, Stack,
         Group, Badge, Button, NumberInput } from '@mantine/core';
 import axios from 'axios';
 import { useAuth } from "../../contexts/useAuth";
+import { notifications } from '@mantine/notifications';
 
 function ItemPage() {
     const { id } = useParams();
@@ -41,17 +42,17 @@ function ItemPage() {
                 }
             })
                 .then(res => {
+                    notifications.show({message: `${item.title} added to cart. Size: ${selectedSize}.`});
                     console.log(res.data.message);
-                    alert(`${item.title} added to cart. Size: ${selectedSize}.`);
                 })
                 .catch(err => {
                     if (err.response.status === 422 || err.response.status === 401) {
-                        alert('Please, log in or register a new account.');
+                        notifications.show({message: 'Please, log in or register a new account.', color: 'yellow'});
                     }
                     console.error('Unhandled error when adding item to cart.', err);
                 })
         } else {
-            alert('Please, select a size before adding item to cart.');
+            notifications.show({message: 'Please, select a size before adding item to cart.', color: 'red'});
         }
     };
 

@@ -3,6 +3,7 @@ import { isNotEmpty, useForm } from "@mantine/form";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { notifications } from "@mantine/notifications";
 
 function Signup() {
     const [loading, setLoading] = useState(false);
@@ -35,8 +36,8 @@ function Signup() {
         setError('');
         axios.post('api/users/signup', values)
             .then(_ => {
+                notifications.show({message: 'Account created successfully.'});
                 navigate('/profile');
-                alert('Account created successfully.');
             })
             .catch(err => {
                 setLoading(false);

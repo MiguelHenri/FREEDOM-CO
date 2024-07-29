@@ -1,5 +1,5 @@
 import { Paper, Button, Stack, Text } from "@mantine/core";
-import axios from "axios";
+import { notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/useAuth";
 
@@ -12,8 +12,8 @@ function Profile() {
         console.log('logging out...')
 
         clearAuth();
+        notifications.show({message: 'Logged out successfuly'});
         navigate('/login');
-        alert('Logged out successfuly');
     }
     
     return (

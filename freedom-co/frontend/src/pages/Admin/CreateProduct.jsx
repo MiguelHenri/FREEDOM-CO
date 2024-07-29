@@ -5,6 +5,7 @@ import { useForm, isNotEmpty } from "@mantine/form";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
+import { notifications } from "@mantine/notifications";
 
 function CreateProduct() {
 
@@ -64,22 +65,22 @@ function CreateProduct() {
         if (id) {
             axios.put(`api/items/${id}`, values)
                 .then(res => {
+                    notifications.show({message: 'Item edited successfully.'});
                     navigate(`/store/${res.data.id}`);
-                    alert('Item edited successfully.');
                 })
                 .catch(err => {
+                    notifications.show({message: 'Error when editing item.', color: 'red'});
                     console.error("Unhandled error when editing item: ", err);
-                    alert('Error when editing item.');
                 });
         } else {
             axios.post('api/items', values)
                 .then(res => {
+                    notifications.show({message: 'Item created successfully.'});
                     navigate(`/store/${res.data.id}`);
-                    alert('Item created successfully.');
                 })
                 .catch(err => {
+                    notifications.show({message: 'Error when creating item.', color: 'red'});
                     console.error("Unhandled error when creating item: ", err);
-                    alert('Error when creating item.');
                 });
         }
     }

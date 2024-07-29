@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/useAuth";
 import { IconMinus, IconPlus, IconX } from '@tabler/icons-react';
+import { notifications } from "@mantine/notifications";
 
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
@@ -45,11 +46,12 @@ function Cart() {
             .then(res => {
                 console.log(res.data.message);
                 // todo change alerts to use mantine notifications
-                alert('The cart is now empty.');
+                notifications.show({message: 'The cart is now empty.'});
                 setChanged(true);
             })
             .catch(err => {
-                console.error('Error clearing cart.', err);
+                notifications.show({message: 'Error when clearing cart.', color: 'red'});
+                console.error('Error when clearing cart.', err);
             });
     };
 
@@ -62,11 +64,12 @@ function Cart() {
         })
             .then(res => {
                 console.log(res.data.message);
-                alert('Item removed successfully.');
+                notifications.show({message: 'Item removed successfully.'});
                 setChanged(true);
             })
             .catch(err => {
-                console.error('Error deleting item.', err);
+                notifications.show({message: 'Error when deleting item.', color: 'red'});
+                console.error('Error when deleting item.', err);
             });
     }
 
@@ -83,7 +86,8 @@ function Cart() {
                 setChanged(true);
             })
             .catch(err => {
-                console.error('Error updating item quantity.', err);
+                notifications.show({message: 'Error when updating item quantity.', color: 'red'});
+                console.error('Error when updating item quantity.', err);
             });
     }
 
@@ -97,13 +101,14 @@ function Cart() {
         })
             .then(res => {
                 if (!res.data.cart_item) {
-                    alert('Item deleted from cart.');
+                    notifications.show({message: 'Item deleted from cart.'});
                 }
                 console.log(res.data.message);
                 setChanged(true);
             })
             .catch(err => {
-                console.error('Error updating item quantity.', err);
+                notifications.show({message: 'Error when updating item quantity.', color: 'red'});
+                console.error('Error when updating item quantity.', err);
             });
     }
 
