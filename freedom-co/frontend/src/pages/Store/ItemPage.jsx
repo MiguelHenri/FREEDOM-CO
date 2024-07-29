@@ -45,6 +45,9 @@ function ItemPage() {
                     alert(`${item.title} added to cart. Size: ${selectedSize}.`);
                 })
                 .catch(err => {
+                    if (err.response.status === 422 || err.response.status === 401) {
+                        alert('Please, log in or register a new account.');
+                    }
                     console.error('Unhandled error when adding item to cart.', err);
                 })
         } else {
