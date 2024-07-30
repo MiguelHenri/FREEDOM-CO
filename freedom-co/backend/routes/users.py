@@ -3,7 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import IntegrityError
 from models.DataBase import db
 from models.User import User
-from flask_jwt_extended import create_access_token, jwt_required
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from functools import wraps
 
 users_bp = Blueprint('User', __name__)
 
@@ -61,4 +62,28 @@ def login():
 @users_bp.route('/api/users/auth', methods=['GET'])
 @jwt_required()
 def auth():
+    return '', 204
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+    
+        username = get_jwt_identity().get('username')
+        
+        user = User.query.filter_by(username=username).first()
+        
+        if user is None or not user.is_admin:
+            return jsonify({
+                'message': 'You do not have permission to access this resource.'
+            }), 403
+        
+        return f(*args, **kwargs)
+    
+    return decorated_function
+
+# Getting Adm Status route
+@users_bp.route('/api/users/admin', methods=['GET'])
+@jwt_required()
+@admin_required
+def admin():
     return '', 204

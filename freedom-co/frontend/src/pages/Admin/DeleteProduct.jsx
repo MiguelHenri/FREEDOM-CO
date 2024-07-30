@@ -2,8 +2,11 @@ import { Stack, Text, Paper, TextInput, Button } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
+import { useAuth } from "../../contexts/useAuth";
 
 function DeleteProduct() {
+    
+    const { token } = useAuth();
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -18,7 +21,11 @@ function DeleteProduct() {
     function onSubmit(values) {
         console.log(values);
 
-        axios.delete(`api/items/${values.id}`)
+        axios.delete(`api/items/${values.id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
             .then(res => {
                 notifications.show({message: `Item deleted successfully.`});
                 console.log(res);

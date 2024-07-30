@@ -6,11 +6,14 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { notifications } from "@mantine/notifications";
+import { useAuth } from "../../contexts/useAuth";
 
 function CreateProduct() {
 
     const navigate = useNavigate();
     const [mode, setMode] = useState('create');
+
+    const { token } = useAuth();
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -63,7 +66,11 @@ function CreateProduct() {
         }
 
         if (id) {
-            axios.put(`api/items/${id}`, values)
+            axios.put(`api/items/${id}`, values, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
                 .then(res => {
                     notifications.show({message: 'Item edited successfully.'});
                     navigate(`/store/${res.data.id}`);
@@ -73,7 +80,11 @@ function CreateProduct() {
                     console.error("Unhandled error when editing item: ", err);
                 });
         } else {
-            axios.post('api/items', values)
+            axios.post('api/items', values, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
                 .then(res => {
                     notifications.show({message: 'Item created successfully.'});
                     navigate(`/store/${res.data.id}`);
