@@ -17,6 +17,7 @@ import Store from './pages/Store/Store.jsx';
 import Signup from './pages/User/Signup.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import NotLogged from './components/NotLogged.jsx';
+import AdminRoute from './components/AdminRoute.jsx';
 
 if (import.meta.env.VITE_BACKEND_URL)
   axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
@@ -58,16 +59,12 @@ function App() {
         }/>
       </Route>
 
-      <Route path='/' element={
-          <ProtectedRoute>
-            <Layout/>
-          </ProtectedRoute>
-      }/>
-
       <Route path='*' element={<NotFound/>}/>
 
       <Route path='/admin' element={
+        <AdminRoute>
           <Layout/>
+        </AdminRoute>
       }>
         <Route index element={<AdminMenu/>}/>
         <Route path='create' element={<CreateProduct/>}/>

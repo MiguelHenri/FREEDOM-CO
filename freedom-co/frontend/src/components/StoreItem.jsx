@@ -1,7 +1,6 @@
 import { Text, Card, Image, Title, Group, Badge } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 
-
 function StoreItem({item, ...others}) {
     const {id, image, title, description, value, oldValue, tag, tagColor} = item;
     const { hovered, ref } = useHover();
