@@ -4,7 +4,7 @@ function NotFound() {
     return (
         <>
         <Title>
-            Página não existente!
+            Page not found!
         </Title>
         </>
     );

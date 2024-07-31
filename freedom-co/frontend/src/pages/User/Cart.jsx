@@ -45,7 +45,6 @@ function Cart() {
         })
             .then(res => {
                 console.log(res.data.message);
-                // todo change alerts to use mantine notifications
                 notifications.show({message: 'The cart is now empty.'});
                 setChanged(true);
             })
