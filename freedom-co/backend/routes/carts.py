@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify
 from models.DataBase import db
 from models.Cart import Cart
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from pixqrcodegen import Payload
+from config import PixConfig
 
 carts_bp = Blueprint('Cart', __name__)
 
@@ -34,6 +36,26 @@ def clear_cart_from_user():
     db.session.commit()
 
     return jsonify({"message": "Cart cleared successfully."}), 200
+
+@carts_bp.route('/api/carts/checkout', methods=['GET'])
+@jwt_required()
+def checkout_from_user():
+    username = get_jwt_identity().get('username')
+    print(f'Token valid, username: {username}')
+
+    # todo - calculate value
+
+    # Generating Pix QR Code
+    payload = Payload(
+        PixConfig.NAME,
+        PixConfig.KEY,
+        '1.00', #value
+        PixConfig.CITY,
+        PixConfig.TXT_ID
+    )
+    response = { 'payload': payload.gerarPayload() }
+    
+    return jsonify(response)
 
 @carts_bp.route('/api/carts', methods=['POST'])
 @jwt_required()
