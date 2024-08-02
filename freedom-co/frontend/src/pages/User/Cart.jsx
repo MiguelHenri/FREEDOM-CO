@@ -4,11 +4,13 @@ import axios from "axios";
 import { useAuth } from "../../contexts/useAuth";
 import { IconMinus, IconPlus, IconX } from '@tabler/icons-react';
 import { notifications } from "@mantine/notifications";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
     const { token } = useAuth();
     const [changed, setChanged] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Requesting Cart backend API
@@ -36,23 +38,23 @@ function Cart() {
     }, 0);
     const totalVal = '$' + totalValFloat.toFixed(2);
 
-    const handleClearCart = () => {
-        // Requesting Cart API to clear
-        axios.delete('/api/carts/clear', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        })
-            .then(res => {
-                console.log(res.data.message);
-                notifications.show({message: 'The cart is now empty.'});
-                setChanged(true);
-            })
-            .catch(err => {
-                notifications.show({message: 'Error when clearing cart.', color: 'red'});
-                console.error('Error when clearing cart.', err);
-            });
-    };
+    // const handleClearCart = () => {
+    //     // Requesting Cart API to clear
+    //     axios.delete('/api/carts/clear', {
+    //         headers: {
+    //             Authorization: `Bearer ${token}`,
+    //         }
+    //     })
+    //         .then(res => {
+    //             console.log(res.data.message);
+    //             notifications.show({message: 'The cart is now empty.'});
+    //             setChanged(true);
+    //         })
+    //         .catch(err => {
+    //             notifications.show({message: 'Error when clearing cart.', color: 'red'});
+    //             console.error('Error when clearing cart.', err);
+    //         });
+    // };
 
     const handleItemDelete = (item_id) => {
         // Requesting Cart API to delete item
@@ -111,6 +113,11 @@ function Cart() {
             });
     }
 
+    const tryCheckout = () => {
+        if (cartItems.length === 0) return; // cart is empty
+        navigate('/checkout');
+    }
+
     return(
         // todo fix responsive design
         <Stack p='20px' align='center'>
@@ -143,7 +150,7 @@ function Cart() {
                         <Button radius='xl' variant='transparent' ml='-20px'
                             onClick={() => handleItemAdd(item.id, item.quantity)}
                         >
-                            <IconPlus/>
+                            <IconPlus size={20}/>
                         </Button>
                         <Text fw={500} fz='18px'>
                             {`$${item.quantity*(parseFloat(item.value.replace(/[^\d.,]/g, '').replace(',', '.')))}`}
@@ -164,7 +171,8 @@ function Cart() {
                     <Button
                         variant='outline'
                         size='md'
-                        onClick={handleClearCart}
+                        disabled={cartItems.length === 0}
+                        onClick={tryCheckout}
                     >
                         BUY
                     </Button>

@@ -18,6 +18,7 @@ import Signup from './pages/User/Signup.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import NotLogged from './components/NotLogged.jsx';
 import AdminRoute from './components/AdminRoute.jsx';
+import Checkout from './pages/User/Checkout.jsx';
 
 if (import.meta.env.VITE_BACKEND_URL)
   axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
@@ -46,20 +47,17 @@ function App() {
             <Signup/>
           </NotLogged>
         }/>
-
-        <Route path='profile' element={
-          <ProtectedRoute>
-            <Profile/>
-          </ProtectedRoute>
-        }/>
-        <Route path='cart' element={
-          <ProtectedRoute>
-            <Cart/>
-          </ProtectedRoute>
-        }/>
       </Route>
 
-      <Route path='*' element={<NotFound/>}/>
+      <Route path='/' element={
+        <ProtectedRoute>
+          <Layout/>
+        </ProtectedRoute>
+      }>
+        <Route path='profile' element={<Profile/>}/>
+        <Route path='cart' element={<Cart/>}/>
+        <Route path='checkout' element={<Checkout/>}/>
+      </Route>
 
       <Route path='/admin' element={
         <AdminRoute>
@@ -70,6 +68,8 @@ function App() {
         <Route path='create' element={<CreateProduct/>}/>
         <Route path='delete' element={<DeleteProduct/>}/>
       </Route>
+      
+      <Route path='*' element={<NotFound/>}/>
     </Routes>
   );
 }

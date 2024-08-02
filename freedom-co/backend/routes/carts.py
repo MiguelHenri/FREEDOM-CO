@@ -2,8 +2,8 @@ from flask import Blueprint, request, jsonify
 from models.DataBase import db
 from models.Cart import Cart
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from pixqrcodegen import Payload
 from config import PixConfig
+from utils import Pix
 
 carts_bp = Blueprint('Cart', __name__)
 
@@ -12,7 +12,6 @@ carts_bp = Blueprint('Cart', __name__)
 @jwt_required()
 def get_cart_from_user():
     username = get_jwt_identity().get('username')
-    print(f'Token valid, username: {username}')
 
     # Getting cart given an username
     cart = Cart.query.filter_by(username=username).all()
@@ -26,7 +25,6 @@ def get_cart_from_user():
 @jwt_required()
 def clear_cart_from_user():
     username = get_jwt_identity().get('username')
-    print(f'Token valid, username: {username}')
 
     # Getting cart given an username and deleting
     cart = Cart.query.filter_by(username=username).all()
@@ -41,28 +39,30 @@ def clear_cart_from_user():
 @jwt_required()
 def checkout_from_user():
     username = get_jwt_identity().get('username')
-    print(f'Token valid, username: {username}')
 
     # todo - calculate value
 
-    # Generating Pix QR Code
-    payload = Payload(
+    # Generating Pix Code
+    pix = Pix(
         PixConfig.NAME,
         PixConfig.KEY,
         '1.00', #value
         PixConfig.CITY,
         PixConfig.TXT_ID
     )
-    response = { 'payload': payload.gerarPayload() }
+    payload = pix.generatePayload()
+    if not payload:
+        return jsonify({"message": "Error generating pix payload."}), 500
+
+    response = { 'payload': payload }
     
-    return jsonify(response)
+    return jsonify(response), 200
 
 @carts_bp.route('/api/carts', methods=['POST'])
 @jwt_required()
 def add_item_to_cart():
     # todo - guarantee item has the quantity necessary
     username = get_jwt_identity().get('username')
-    print(f'Token valid, username: {username}')
     
     data = request.json
     item_id = data.get('id')
@@ -119,7 +119,6 @@ def edit_item_from_cart(cart_id):
 @jwt_required()
 def delete_item_from_cart(cart_id):
     username = get_jwt_identity().get('username')
-    print(f'Token valid, username: {username}')
 
     cart_item = Cart.query.filter_by(id=cart_id, username=username).first()
     
