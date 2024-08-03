@@ -5,6 +5,7 @@ import { IconCopy, IconCheck } from '@tabler/icons-react';
 import axios from "axios";
 import { useState } from "react";
 import { useAuth } from "../../contexts/useAuth";
+import { QRCodeCanvas } from 'qrcode.react';
 
 function Checkout() {
     const [mode, setMode] = useState('pix');
@@ -57,6 +58,8 @@ function Checkout() {
                 </Button>
 
                 {pixPayload && (
+                <>
+                <QRCodeCanvas value={pixPayload} size={256} />
                 <Group align="center" justify="center">
                     <Text>
                         {pixPayload}
@@ -75,6 +78,7 @@ function Checkout() {
                     )}
                     </CopyButton>
                 </Group>
+                </>
                 )}
                 
                 </>
