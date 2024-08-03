@@ -6,17 +6,16 @@ import axios from "axios";
 import { useState } from "react";
 import { useAuth } from "../../contexts/useAuth";
 import { QRCodeCanvas } from 'qrcode.react';
+import { notifications } from "@mantine/notifications";
 
 function Checkout() {
     const [mode, setMode] = useState('pix');
-    const [pixPayload, setPixPayload] = useState('');
+    const [pixPayload, setPixPayload] = useState(localStorage.getItem('PixPayload') || '');
     const { token } = useAuth();
 
     // todo show all itens and total value
     // todo confirm/store shipping address (major)
-    // todo style pix copy paste
 
-    // todo store payload to avoid generating another
     const generatePixCode = () => {
         if (pixPayload) return; // will not generate more than once
 
@@ -29,8 +28,10 @@ function Checkout() {
             .then(res => {
                 let temp = res.data.payload;
                 setPixPayload(temp);
+                localStorage.setItem('PixPayload', temp);
             })
             .catch(err => {
+                notifications.show({message: 'Error fetching pix payload.', color: 'red'});
                 console.error('Error fetching pix payload.', err);
             })
     }
@@ -53,15 +54,20 @@ function Checkout() {
             />
             {mode === 'pix' && (
                 <>
+                {!pixPayload && (
                 <Button onClick={generatePixCode}>
                     Generate Pix Code
                 </Button>
+                )}
 
                 {pixPayload && (
                 <>
+                <Text>
+                    Scan the QR code or copy the Pix code below:
+                </Text>
                 <QRCodeCanvas value={pixPayload} size={256} />
                 <Group align="center" justify="center">
-                    <Text>
+                    <Text truncate='end' w={256}>
                         {pixPayload}
                     </Text>
                     <CopyButton value={pixPayload} timeout={3000}>
@@ -78,6 +84,9 @@ function Checkout() {
                     )}
                     </CopyButton>
                 </Group>
+                <Button onClick={() => localStorage.removeItem('PixPayload')}>
+                    CONFIRM
+                </Button>
                 </>
                 )}
                 
