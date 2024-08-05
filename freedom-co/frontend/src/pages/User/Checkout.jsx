@@ -13,8 +13,10 @@ function Checkout() {
     const [pixPayload, setPixPayload] = useState(localStorage.getItem('PixPayload') || '');
     const { token } = useAuth();
     const [cartItems, setCartItems] = useState([]);
+    const [totalVal, setTotalVal] = useState('');
 
-    // todo show all itens and total value
+    // todo confirm/store shipping address (major)
+
     useEffect(() => {
         // Requesting Cart backend API
         axios.get('/api/carts', {
@@ -23,9 +25,19 @@ function Checkout() {
             }
         })
             .then(res => {
-                let temp = res.data;
-                console.log(res.data);
-                temp = temp.map((item) => (
+                let items = res.data;
+                // Calculating total value
+                let total = items.reduce((total, item) => {
+                    let numbers = item.value.match(/\d+(?:[.,]\d+)?/g)
+                                        .map(num => parseFloat(num.replace(',', '.')));
+                    
+                    let sum = numbers.reduce((acc, num) => acc + num, 0);
+                  
+                    return total + (sum * item.quantity);
+                }, 0);
+                setTotalVal('$' + total.toFixed(2));
+                // Creating items rows
+                items = items.map((item) => (
                     <TableTr key={item.id}>
                         <Table.Td>{item.title}</Table.Td>
                         <Table.Td>{item.size}</Table.Td>
@@ -33,14 +45,12 @@ function Checkout() {
                         <Table.Td>{item.value}</Table.Td>
                     </TableTr>
                 ));
-                setCartItems(temp);
+                setCartItems(items);
             })
             .catch(err => {
                 console.error('Error fetching items.', err);
             });
     }, [token]);
-
-    // todo confirm/store shipping address (major)
 
     const generatePixCode = () => {
         if (pixPayload) return; // will not generate more than once
@@ -93,7 +103,7 @@ function Checkout() {
                         <Table.Th></Table.Th>
                         <Table.Th></Table.Th>
                         <Table.Th>Total: </Table.Th>
-                        <Table.Th></Table.Th>
+                        <Table.Th>{totalVal}</Table.Th>
                     </Table.Tr>
                 </Table.Tfoot>
             </Table>

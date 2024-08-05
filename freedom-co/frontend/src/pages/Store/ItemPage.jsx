@@ -12,6 +12,8 @@ function ItemPage() {
     const [quantity, setQuantity] = useState(1);
     const { token } = useAuth();
 
+    // todo add item rank / eval (major)
+
     useEffect(() => {
         axios.get(`api/items/${id}`)
             .then(res => {
