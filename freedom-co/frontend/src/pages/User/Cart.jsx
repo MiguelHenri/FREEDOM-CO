@@ -11,6 +11,7 @@ function Cart() {
     const { token } = useAuth();
     const [changed, setChanged] = useState(false);
     const navigate = useNavigate();
+    const [totalVal, setTotalVal] = useState('');
 
     useEffect(() => {
         // Requesting Cart backend API
@@ -20,23 +21,25 @@ function Cart() {
             }
         })
             .then(res => {
-                let temp = res.data;
-                setCartItems(temp);
+                // Setting items
+                let items = res.data;
+                setCartItems(items);
+                // Calculating total value
+                let total = items.reduce((total, item) => {
+                    let numbers = item.value.match(/\d+(?:[.,]\d+)?/g)
+                                        .map(num => parseFloat(num.replace(',', '.')));
+                    
+                    let sum = numbers.reduce((acc, num) => acc + num, 0);
+                  
+                    return total + (sum * item.quantity);
+                }, 0);
+                setTotalVal('$' + total.toFixed(2));
             })
             .catch(err => {
                 console.error('Error fetching items.', err);
             });
         setChanged(false);
     }, [token, changed]);
-
-    const totalValFloat = cartItems.reduce((total, item) => {
-        const numbers = item.value.match(/\d+(?:[.,]\d+)?/g).map(num => parseFloat(num.replace(',', '.')));
-        
-        const sum = numbers.reduce((acc, num) => acc + num, 0);
-      
-        return total + (sum * item.quantity);
-    }, 0);
-    const totalVal = '$' + totalValFloat.toFixed(2);
 
     // const handleClearCart = () => {
     //     // Requesting Cart API to clear
