@@ -119,7 +119,6 @@ function Cart() {
     }
 
     return(
-        // todo fix responsive design
         <Stack p='20px' align='center'>
             <Paper shadow="sm" withBorder p='md' radius='md'>
                 <Text fz='25px' ff="'Lilita One', sans-serif">
@@ -127,18 +126,22 @@ function Cart() {
                 </Text>
             </Paper>
             {cartItems.map((item, index) => (
-                <Card key={index} shadow="sm" radius="md" withBorder>
-                    <Group justify='center' align="center">
-                        <Image 
-                            src={item.image} 
-                            alt={item.title}
-                            h='100px'
-                            w='100px'
-                        />
-                        <Text fw={500} fz='18px'>
-                            {item.title}
-                            {' ' + item.size}
-                        </Text>
+            <Card key={index} shadow="sm" radius="md" withBorder 
+                w={{base:'90vw', sm:'70vw', md:'60vw', lg:'50vw', xl:'40vw'}}
+            >
+                <Group justify='space-evenly' align="center">
+                    <Image 
+                        src={item.image} 
+                        alt={item.title}
+                        h='100px'
+                        w='100px'
+                    />
+                    <Text fw={500} fz='18px'>
+                        {item.title}
+                        <br/>
+                        {'Size: ' + item.size}
+                    </Text>
+                    <Group wrap="nowrap">
                         <Button radius='xl' variant='transparent' mr='-20px'
                             onClick={() => handleItemSubtract(item.id, item.quantity)}
                         >
@@ -152,6 +155,8 @@ function Cart() {
                         >
                             <IconPlus size={20}/>
                         </Button>
+                    </Group>
+                    <Group wrap="nowrap">
                         <Text fw={500} fz='18px'>
                             {`$${item.quantity*(parseFloat(item.value.replace(/[^\d.,]/g, '').replace(',', '.')))}`}
                         </Text>
@@ -161,10 +166,11 @@ function Cart() {
                             onClick={() => handleItemDelete(item.id)}
                         />
                     </Group>
-                </Card>
+                </Group>
+            </Card>
             ))}
             <Paper shadow="sm" withBorder p='20px' radius='md'>
-                <Group>
+                <Group justify="center">
                     <Text fw={700} fz='20px'>
                         TOTAL: {totalVal}
                     </Text>

@@ -4,8 +4,7 @@ import { IconMail } from '@tabler/icons-react';
 import { IconPhone } from '@tabler/icons-react';
 
 function Footer() {
-    // todo fix responsivity in mobile screen
-
+    
     return (
         <Flex 
             justify="space-between" 
