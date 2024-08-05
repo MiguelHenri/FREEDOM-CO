@@ -1,9 +1,9 @@
 import { Stack, Paper, Text, SegmentedControl, Button, 
-        CopyButton, Tooltip, ActionIcon, 
-        Group} from "@mantine/core";
+        CopyButton, Tooltip, ActionIcon, Group, Table,
+        TableTr} from "@mantine/core";
 import { IconCopy, IconCheck } from '@tabler/icons-react';
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/useAuth";
 import { QRCodeCanvas } from 'qrcode.react';
 import { notifications } from "@mantine/notifications";
@@ -12,8 +12,34 @@ function Checkout() {
     const [mode, setMode] = useState('pix');
     const [pixPayload, setPixPayload] = useState(localStorage.getItem('PixPayload') || '');
     const { token } = useAuth();
+    const [cartItems, setCartItems] = useState([]);
 
     // todo show all itens and total value
+    useEffect(() => {
+        // Requesting Cart backend API
+        axios.get('/api/carts', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+            .then(res => {
+                let temp = res.data;
+                console.log(res.data);
+                temp = temp.map((item) => (
+                    <TableTr key={item.id}>
+                        <Table.Td>{item.title}</Table.Td>
+                        <Table.Td>{item.size}</Table.Td>
+                        <Table.Td>{item.quantity}</Table.Td>
+                        <Table.Td>{item.value}</Table.Td>
+                    </TableTr>
+                ));
+                setCartItems(temp);
+            })
+            .catch(err => {
+                console.error('Error fetching items.', err);
+            });
+    }, [token]);
+
     // todo confirm/store shipping address (major)
 
     const generatePixCode = () => {
@@ -52,6 +78,25 @@ function Checkout() {
                 value={mode}
                 onChange={setMode}
             />
+            <Table striped w={{base: '95vw', sm: '90vw', md:'80vw', lg:'75vw', xl:'70vw'}}>
+                <Table.Thead>
+                    <Table.Tr>
+                        <Table.Th>Name</Table.Th>
+                        <Table.Th>Size</Table.Th>
+                        <Table.Th>Quantity</Table.Th>
+                        <Table.Th>Value</Table.Th>
+                    </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>{cartItems}</Table.Tbody>
+                <Table.Tfoot>
+                    <Table.Tr>
+                        <Table.Th></Table.Th>
+                        <Table.Th></Table.Th>
+                        <Table.Th>Total: </Table.Th>
+                        <Table.Th></Table.Th>
+                    </Table.Tr>
+                </Table.Tfoot>
+            </Table>
             {mode === 'pix' && (
                 <>
                 {!pixPayload && (
