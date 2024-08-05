@@ -18,5 +18,6 @@ class Cart(db.Model):
             'title': self.item.title,
             'value': self.item.value,
             'quantity': self.quantity,
-            'size': self.size
+            'size': self.size,
+            'item_id': self.item_id
         }

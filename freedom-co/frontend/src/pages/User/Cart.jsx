@@ -1,4 +1,4 @@
-import { Stack, Card, Group, Image, Text, Paper, Button, CloseButton } from "@mantine/core";
+import { Stack, Card, Group, Image, Text, Paper, Button, CloseButton, Anchor } from "@mantine/core";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/useAuth";
@@ -24,7 +24,7 @@ function Cart() {
                 // Setting items
                 let items = res.data;
                 setCartItems(items);
-                // Calculating total value
+                // Calculating and setting total value
                 let total = items.reduce((total, item) => {
                     let numbers = item.value.match(/\d+(?:[.,]\d+)?/g)
                                         .map(num => parseFloat(num.replace(',', '.')));
@@ -133,12 +133,14 @@ function Cart() {
                 w={{base:'90vw', sm:'70vw', md:'60vw', lg:'50vw', xl:'40vw'}}
             >
                 <Group justify='space-evenly' align="center">
-                    <Image 
-                        src={item.image} 
-                        alt={item.title}
-                        h='100px'
-                        w='100px'
-                    />
+                    <Anchor href={`store/${item.item_id}`}>
+                        <Image 
+                            src={item.image} 
+                            alt={item.title}
+                            h='100px'
+                            w='100px'
+                        />
+                    </Anchor>
                     <Text fw={500} fz='18px'>
                         {item.title}
                         <br/>
