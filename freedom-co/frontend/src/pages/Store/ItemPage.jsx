@@ -50,6 +50,8 @@ function ItemPage() {
                 .catch(err => {
                     if (err.response.status === 422 || err.response.status === 401) {
                         notifications.show({message: 'Please, log in or register a new account.', color: 'yellow'});
+                    } else {
+                        notifications.show({message: err.response.data.message, color: 'red'});
                     }
                     console.error('Unhandled error when adding item to cart.', err);
                 })
@@ -57,6 +59,8 @@ function ItemPage() {
             notifications.show({message: 'Please, select a size before adding item to cart.', color: 'red'});
         }
     };
+
+    // todo fix image responsive design
 
     return (
         <>

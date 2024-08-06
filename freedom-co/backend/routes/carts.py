@@ -74,7 +74,6 @@ def checkout_from_user():
 @carts_bp.route('/api/carts', methods=['POST'])
 @jwt_required()
 def add_item_to_cart():
-    # todo - guarantee item has the quantity necessary
     username = get_jwt_identity().get('username')
     
     data = request.json
@@ -84,6 +83,12 @@ def add_item_to_cart():
 
     if not item_id or not quantity or not size:
         return jsonify({"message": "Missing required fields."}), 400
+    
+    size = size.strip()
+    # Ensuring the item has the quantity necessary
+    store_item = StoreItem.query.filter_by(id=item_id).first()
+    if quantity > store_item.size_quantity_pairs[size]:
+        return jsonify({"message": f"Not enough stock for item '{store_item.title}' of size '{size}'."}), 400
     
     new_cart_item = Cart(
         username = username,
@@ -108,20 +113,28 @@ def edit_item_from_cart(cart_id):
     quantity = data.get('quantity')
     size = data.get('size')
 
+    # Ensuring the cart exists
     cart_item = Cart.query.filter_by(id=cart_id, username=username).first()
     if not cart_item:
         return jsonify({"message": "Cart item not found."}), 404
     
-    if quantity:
-        cart_item.quantity = quantity
-    if size:
-        cart_item.size = size
+    # Ensuring quantity and size are valid
+    if not quantity or not size:
+        return jsonify({"message": "Missing required fields."}), 400
+    
+    size = size.strip()
+    # Ensuring the item has the quantity necessary
+    store_item = StoreItem.query.filter_by(id=cart_item.item_id).first()
+    if quantity > store_item.size_quantity_pairs[size]:
+        return jsonify({"message": f"Not enough stock for item '{store_item.title}' of size '{size}'."}), 400
 
     if quantity <= 0: # Item quantity below or equal 0, we remove from Cart
         db.session.delete(cart_item)
         db.session.commit()
         return jsonify({"message": "Item deleted from cart successfully."}), 200
 
+    cart_item.quantity = quantity
+    cart_item.size = size
     db.session.commit()
     return jsonify({
         "message": "Cart item updated successfully.", 

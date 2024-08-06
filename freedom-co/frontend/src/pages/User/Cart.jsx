@@ -59,9 +59,9 @@ function Cart() {
             });
     }
 
-    const handleItemAdd = (item_id, quantity) => {
+    const handleItemAdd = (item_id, quantity, size) => {
         // Requesting Cart API to update item
-        const data = { quantity: quantity + 1 }
+        const data = { quantity: quantity + 1, size: size}
         axios.put(`/api/carts/${item_id}`, data, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -72,14 +72,14 @@ function Cart() {
                 setChanged(true);
             })
             .catch(err => {
-                notifications.show({message: 'Error when updating item quantity.', color: 'red'});
+                notifications.show({message: err.response.data.message, color: 'red'});
                 console.error('Error when updating item quantity.', err);
             });
     }
 
-    const handleItemSubtract = (item_id, quantity) => {
+    const handleItemSubtract = (item_id, quantity, size) => {
         // Requesting Cart API to update item
-        const data = { quantity: quantity - 1 }
+        const data = { quantity: quantity - 1, size: size }
         axios.put(`/api/carts/${item_id}`, data, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -130,7 +130,7 @@ function Cart() {
                     </Text>
                     <Group wrap="nowrap">
                         <Button radius='xl' variant='transparent' mr='-20px'
-                            onClick={() => handleItemSubtract(item.id, item.quantity)}
+                            onClick={() => handleItemSubtract(item.id, item.quantity, item.size)}
                         >
                             <IconMinus size={20}/>
                         </Button>
@@ -138,7 +138,7 @@ function Cart() {
                             {item.quantity}
                         </Text>
                         <Button radius='xl' variant='transparent' ml='-20px'
-                            onClick={() => handleItemAdd(item.id, item.quantity)}
+                            onClick={() => handleItemAdd(item.id, item.quantity, item.size)}
                         >
                             <IconPlus size={20}/>
                         </Button>
