@@ -41,24 +41,6 @@ function Cart() {
         setChanged(false);
     }, [token, changed]);
 
-    // const handleClearCart = () => {
-    //     // Requesting Cart API to clear
-    //     axios.delete('/api/carts/clear', {
-    //         headers: {
-    //             Authorization: `Bearer ${token}`,
-    //         }
-    //     })
-    //         .then(res => {
-    //             console.log(res.data.message);
-    //             notifications.show({message: 'The cart is now empty.'});
-    //             setChanged(true);
-    //         })
-    //         .catch(err => {
-    //             notifications.show({message: 'Error when clearing cart.', color: 'red'});
-    //             console.error('Error when clearing cart.', err);
-    //         });
-    // };
-
     const handleItemDelete = (item_id) => {
         // Requesting Cart API to delete item
         axios.delete(`/api/carts/${item_id}`, {

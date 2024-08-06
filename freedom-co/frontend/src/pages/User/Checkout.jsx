@@ -17,6 +17,8 @@ function Checkout() {
 
     // todo confirm/store shipping address (major)
 
+    // todo refresh on change
+
     useEffect(() => {
         // Requesting Cart backend API
         axios.get('/api/carts', {
@@ -71,6 +73,25 @@ function Checkout() {
                 console.error('Error fetching pix payload.', err);
             })
     }
+
+    const handleClearCart = () => {
+        // Removing pix payload from local storage
+        localStorage.removeItem('PixPayload');
+        // Requesting Cart API to clear
+        axios.delete('/api/carts/clear', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+            .then(res => {
+                console.log(res.data.message);
+                notifications.show({message: 'The cart is now empty.'});
+            })
+            .catch(err => {
+                notifications.show({message: 'Error when clearing cart.', color: 'red'});
+                console.error('Error when clearing cart.', err);
+            });
+    };
 
     return (
         <Stack p='20px' align='center'>
@@ -139,7 +160,7 @@ function Checkout() {
                     )}
                     </CopyButton>
                 </Group>
-                <Button onClick={() => localStorage.removeItem('PixPayload')}>
+                <Button onClick={handleClearCart}>
                     CONFIRM TRANSACTION
                 </Button>
                 </>
