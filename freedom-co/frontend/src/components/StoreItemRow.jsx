@@ -51,9 +51,21 @@ function StoreItemRow({filter, ...others}) {
                 cols={{base: 1, sm: 2, md: 2, lg: 3, xl: 4}}
                 {...others}
             >
-                {items.map((item) =>
-                    <StoreItem key={item.id} item={item}/>
-                )}
+                {items.
+                slice()
+                .sort((a, b) => { // Sorting out of stock items to the end
+                    const aHasStock = Object.values(a.size_quantity_pairs).every(value => value === 0);
+                    const bHasStock = Object.values(b.size_quantity_pairs).every(value => value === 0);
+                    if (aHasStock && !bHasStock) return 1;
+                    if (!aHasStock && bHasStock) return -1;
+                    return 0;
+                })
+                .map((item) => {
+                    const isOutOfStock = Object.values(item.size_quantity_pairs).every(value => value === 0);
+                    return (
+                        <StoreItem key={item.id} item={item} outOfStock={isOutOfStock}/>
+                    )
+                })}
             </SimpleGrid>
         </Center>
     );

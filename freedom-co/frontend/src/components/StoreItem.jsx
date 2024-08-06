@@ -1,17 +1,9 @@
 import { Text, Card, Image, Group, Badge } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
-import { useEffect, useState } from "react";
 
-function StoreItem({item, ...others}) {
-    const {id, image, title, description, value, oldValue, tag, tagColor, size_quantity_pairs} = item;
+function StoreItem({item, outOfStock, ...others}) {
+    const {id, image, title, description, value, oldValue, tag, tagColor} = item;
     const { hovered, ref } = useHover();
-
-    const [outOfStock, setOutOfStock] = useState(false);
-
-    useEffect(() => {
-        const isOutOfStock = Object.values(size_quantity_pairs).every(value => value === 0);
-        setOutOfStock(isOutOfStock);
-    }, [size_quantity_pairs]);
 
     return(
         <Card 
