@@ -140,7 +140,7 @@ function Checkout() {
                     </CopyButton>
                 </Group>
                 <Button onClick={() => localStorage.removeItem('PixPayload')}>
-                    CONFIRM
+                    CONFIRM TRANSACTION
                 </Button>
                 </>
                 )}

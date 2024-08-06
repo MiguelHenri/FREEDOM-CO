@@ -40,13 +40,17 @@ def clear_cart_from_user():
 def checkout_from_user():
     username = get_jwt_identity().get('username')
 
-    # todo - calculate value
+    # Getting cart items given the username and calculating value
+    cart = Cart.query.filter_by(username=username).all()
+    totalValue = 0
+    for c in cart:
+        totalValue += float(c.item.value.replace('$', '')) * c.quantity
 
     # Generating Pix Code
     pix = Pix(
         PixConfig.NAME,
         PixConfig.KEY,
-        '1.00', #value
+        f"{totalValue:.2f}",
         PixConfig.CITY,
         PixConfig.TXT_ID
     )
