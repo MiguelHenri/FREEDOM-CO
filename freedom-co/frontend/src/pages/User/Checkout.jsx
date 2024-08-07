@@ -8,6 +8,7 @@ import { useAuth } from "../../contexts/useAuth";
 import { QRCodeCanvas } from 'qrcode.react';
 import { notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
+import Timer from "../../components/Timer";
 
 function Checkout() {
     const [mode, setMode] = useState('pix');
@@ -84,6 +85,7 @@ function Checkout() {
             .then(res => {
                 // Removing pix payload from local storage
                 localStorage.removeItem('PixPayload');
+                localStorage.removeItem('timer');
                 setPixPayload('');
                 console.log(res.data.message);
                 notifications.show({message: 'Done! The cart is now empty.'});
@@ -94,6 +96,12 @@ function Checkout() {
                 console.error('Error when clearing cart.', err);
             });
     };
+
+    const onTimeUpPix = () => {
+        notifications.show({message: 'Time is up! The payment can no longer be completed.'});
+
+        // todo remove the reservation
+    }
 
     return (
         <Stack p='20px' align='center'>
@@ -162,6 +170,7 @@ function Checkout() {
                     )}
                     </CopyButton>
                 </Group>
+                <Timer initialTime={120} onTimeUp={onTimeUpPix} />
                 <Button onClick={handleClearCart}>
                     CONFIRM TRANSACTION
                 </Button>
