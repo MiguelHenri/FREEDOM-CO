@@ -25,6 +25,7 @@ def get_cart_from_user():
 @carts_bp.route('/api/carts/clear', methods=['DELETE'])
 @jwt_required()
 def clear_and_proccess():
+    # todo - fix possible race condition
     username = get_jwt_identity().get('username')
 
     # Getting cart given an username and deleting
@@ -47,6 +48,7 @@ def clear_and_proccess():
 @carts_bp.route('/api/carts/checkout', methods=['GET'])
 @jwt_required()
 def checkout_from_user():
+    # todo improve this function as it have vulnerability
     username = get_jwt_identity().get('username')
 
     # Getting cart items given the username and calculating value

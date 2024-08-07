@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/useAuth";
 import { QRCodeCanvas } from 'qrcode.react';
 import { notifications } from "@mantine/notifications";
+import { useNavigate } from "react-router-dom";
 
 function Checkout() {
     const [mode, setMode] = useState('pix');
@@ -14,10 +15,9 @@ function Checkout() {
     const { token } = useAuth();
     const [cartItems, setCartItems] = useState([]);
     const [totalVal, setTotalVal] = useState('');
+    const navigate = useNavigate()
 
     // todo confirm/store shipping address (major)
-
-    // todo refresh on change
 
     useEffect(() => {
         // Requesting Cart backend API
@@ -75,8 +75,6 @@ function Checkout() {
     }
 
     const handleClearCart = () => {
-        // Removing pix payload from local storage
-        localStorage.removeItem('PixPayload');
         // Requesting Cart API to clear
         axios.delete('/api/carts/clear', {
             headers: {
@@ -84,8 +82,12 @@ function Checkout() {
             }
         })
             .then(res => {
+                // Removing pix payload from local storage
+                localStorage.removeItem('PixPayload');
+                setPixPayload('');
                 console.log(res.data.message);
-                notifications.show({message: 'The cart is now empty.'});
+                notifications.show({message: 'Done! The cart is now empty.'});
+                navigate('/profile');
             })
             .catch(err => {
                 notifications.show({message: 'Error when clearing cart.', color: 'red'});

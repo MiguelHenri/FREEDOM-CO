@@ -60,24 +60,22 @@ function ItemPage() {
         }
     };
 
-    // todo fix image responsive design
-
     return (
         <>
         <Box p='md' style={{flex:1}}> 
             <Center mt='3vh'>
             <SimpleGrid
-                cols={{base: 1, sm: 1, md: 1, lg: 2, xl: 2}}
+                cols={{base: 1, sm: 2, md: 2, lg: 2, xl: 2}}
             >
                 <Image
                     src={item.image}
                     alt={item.title}
-                    h='70vh'
-                    w='70vh'
-                    mr='5vh'
+                    h={{base: '85vw', sm: '30vw', md:'30vw', lg:'30vw', xl:'30vw'}}
+                    w={{base: '85vw', sm: '30vw', md:'30vw', lg:'30vw', xl:'30vw'}}
+                    mr={{sm: '10px'}}
                 />
 
-                <Stack ml='5vh'>
+                <Stack ml='10px'>
                     <Group>
                         <Text fz='30px' fw={700}>
                             {item.title}
@@ -154,6 +152,7 @@ function ItemPage() {
                         radius='md' 
                         disabled={!selectedSize}
                         onClick={handleAddToCart}
+                        
                     >
                         ADD TO CART
                     </Button>

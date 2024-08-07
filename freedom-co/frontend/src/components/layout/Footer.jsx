@@ -21,9 +21,9 @@ function Footer() {
                 </Text>
             </Stack>
             <Group wrap='nowrap' mr='20px'>
-                <IconBrandInstagram stroke={1.5} width={40} height={40}/>
-                <IconMail stroke={1.5} width={40} height={40}/>
-                <IconPhone stroke={1.5} width={40} height={40}/>
+                <IconBrandInstagram stroke={1.5} width={35} height={35}/>
+                <IconMail stroke={1.5} width={35} height={35}/>
+                <IconPhone stroke={1.5} width={35} height={35}/>
             </Group>
         </Flex>
     );
