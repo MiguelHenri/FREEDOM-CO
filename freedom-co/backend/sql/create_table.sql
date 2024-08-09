@@ -3,6 +3,8 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS carts;
+DROP TABLE IF EXISTS purchases;
+DROP TYPE IF EXISTS purchase_status;
 
 CREATE TABLE items (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -17,8 +19,6 @@ CREATE TABLE items (
     size_quantity_pairs JSONB
 );
 
-DROP TABLE IF EXISTS users;
-
 CREATE TABLE users (
     username VARCHAR(50) PRIMARY KEY,
     email VARCHAR(120) UNIQUE NOT NULL,
@@ -26,12 +26,23 @@ CREATE TABLE users (
     is_admin BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE carts (
-    id SERIAL PRIMARY KEY,
+CREATE TYPE purchase_status AS ENUM ('Pending', 'Confirmed', 'Done');
+
+CREATE TABLE purchases (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status purchase_status NOT NULL,
     username VARCHAR(50) NOT NULL,
-    item_id UUID NOT NULL,
-    quantity INT NOT NULL,
+    FOREIGN KEY (username) REFERENCES users(username)
+);
+
+CREATE TABLE carts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    username VARCHAR(50) NOT NULL,
+    item_id VARCHAR NOT NULL,
+    quantity INTEGER NOT NULL,
     size CHAR(3) NOT NULL,
-    FOREIGN KEY (username) REFERENCES users(username),
-    FOREIGN KEY (item_id) REFERENCES items(id)
+    purchase_id UUID,
+    FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES items (id) ON DELETE CASCADE,
+    FOREIGN KEY (purchase_id) REFERENCES purchases (id) ON DELETE SET NULL
 );

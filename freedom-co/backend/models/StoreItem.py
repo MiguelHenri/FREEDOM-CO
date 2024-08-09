@@ -2,7 +2,6 @@ from .DataBase import db
 from uuid import uuid4
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.ext.mutable import MutableDict
-from sqlalchemy.orm import relationship
 
 class StoreItem(db.Model):
     __tablename__ = 'items'  # Database (PG) table name
@@ -16,8 +15,6 @@ class StoreItem(db.Model):
     tagcolor = db.Column(db.String(50))
     tag = db.Column(db.String(50))
     size_quantity_pairs = db.Column(MutableDict.as_mutable(JSONB), default=dict)
-
-    carts = relationship('Cart', back_populates='item')
 
     def to_dict(self):
         return {
