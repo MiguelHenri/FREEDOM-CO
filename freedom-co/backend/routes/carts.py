@@ -25,15 +25,18 @@ def get_cart_from_user():
 @carts_bp.route('/api/carts/clear', methods=['DELETE'])
 @jwt_required()
 def clear_and_proccess():
-    # todo - fix possible race condition
     username = get_jwt_identity().get('username')
 
     # Getting cart given an username and deleting
     cart = Cart.query.filter_by(username=username).all()
     for item in cart:
-        # Updating item quantities in stock
-        store_item = StoreItem.query.filter_by(id=item.item_id).first()
+        # Searching item and blocking (avoiding race condition)
+        store_item = StoreItem.query.filter_by(id=item.item_id).with_for_update().first()
         clean_size = item.size.strip()
+
+        # todo check reservation
+
+        # Updating item quantities
         if store_item and (clean_size in store_item.size_quantity_pairs):
             store_item.size_quantity_pairs[clean_size] -= item.quantity
         else:
@@ -41,20 +44,33 @@ def clear_and_proccess():
 
         # Deleting item from cart
         db.session.delete(item)
-    db.session.commit()
 
+    # Confirming
+    db.session.commit()
     return jsonify({"message": "Cart cleared successfully."}), 200
 
 @carts_bp.route('/api/carts/checkout', methods=['GET'])
 @jwt_required()
 def checkout_from_user():
-    # todo improve this function as it have vulnerability
+    # todo add reservation
     username = get_jwt_identity().get('username')
 
-    # Getting cart items given the username and calculating value
+    # Getting cart items given the username
     cart = Cart.query.filter_by(username=username).all()
     totalValue = 0
     for c in cart:
+        # # Search item and blocking (avoid race condition)
+        # store_item = StoreItem.query.filter_by(id=item.item_id).with_for_update().first()
+        # clean_size = item.size.strip()
+        # # Checking item
+        # if not (store_item and clean_size in store_item.size_quantity_pairs):
+        #     return jsonify({"message": "Item not found."}), 404
+        # # Tries to make reservation
+        # if store_item.reserve_item(clean_size, item.quantity):
+        #     totalValue += float(store_item.value.replace('$', '')) * item.quantity
+        # else:
+        #     return jsonify({"message": "Not enough stock available."}), 400
+            
         totalValue += float(c.item.value.replace('$', '')) * c.quantity
 
     # Generating Pix Code
