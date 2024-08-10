@@ -1,9 +1,10 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-DROP TABLE IF EXISTS items;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS carts;
-DROP TABLE IF EXISTS purchases;
+DROP TABLE IF EXISTS carts CASCADE;
+DROP TABLE IF EXISTS purchases CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS items CASCADE;
+
 DROP TYPE IF EXISTS purchase_status;
 
 CREATE TABLE items (
@@ -26,7 +27,7 @@ CREATE TABLE users (
     is_admin BOOLEAN DEFAULT FALSE
 );
 
-CREATE TYPE purchase_status AS ENUM ('Pending', 'Confirmed', 'Done');
+CREATE TYPE purchase_status AS ENUM ('PENDING', 'CONFIRMED', 'DONE');
 
 CREATE TABLE purchases (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

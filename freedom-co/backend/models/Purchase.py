@@ -13,7 +13,7 @@ class Purchase(db.Model):
     __tablename__ = 'purchases' # Database (PG) table name
     id = db.Column(db.String, primary_key=True, default=lambda: str(uuid4()))
     status = db.Column(db.Enum(PurchaseStatus), nullable=False)
-    username = db.Column(db.Integer, db.ForeignKey('users.username'), nullable=False)
+    username = db.Column(db.String, db.ForeignKey('users.username'), nullable=False)
 
     carts = relationship("Cart", back_populates="purchase")
 

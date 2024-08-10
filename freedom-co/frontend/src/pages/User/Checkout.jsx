@@ -88,7 +88,7 @@ function Checkout() {
                 localStorage.removeItem('endTimestamp');
                 setPixPayload('');
                 console.log(res.data.message);
-                notifications.show({message: 'Done! The cart is now empty.'});
+                notifications.show({message: 'Done! Your purchase is now confirmed.'});
                 navigate('/profile');
             })
             .catch(err => {
