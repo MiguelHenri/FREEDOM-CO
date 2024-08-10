@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify
 from models.DataBase import db
 from models.Cart import Cart
 from models.StoreItem import StoreItem
+from models.Purchase import Purchase
+from models.Purchase import PurchaseStatus
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from config import PixConfig
 from utils import Pix
@@ -52,42 +54,64 @@ def clear_and_proccess():
 @carts_bp.route('/api/carts/checkout', methods=['GET'])
 @jwt_required()
 def checkout_from_user():
-    # todo add reservation
     username = get_jwt_identity().get('username')
 
-    # Getting cart items given the username
-    cart = Cart.query.filter_by(username=username).all()
-    totalValue = 0
-    for c in cart:
-        # # Search item and blocking (avoid race condition)
-        # store_item = StoreItem.query.filter_by(id=item.item_id).with_for_update().first()
-        # clean_size = item.size.strip()
-        # # Checking item
-        # if not (store_item and clean_size in store_item.size_quantity_pairs):
-        #     return jsonify({"message": "Item not found."}), 404
-        # # Tries to make reservation
-        # if store_item.reserve_item(clean_size, item.quantity):
-        #     totalValue += float(store_item.value.replace('$', '')) * item.quantity
-        # else:
-        #     return jsonify({"message": "Not enough stock available."}), 400
-            
-        totalValue += float(c.item.value.replace('$', '')) * c.quantity
+    try:
+        # Getting cart items given the username
+        cart_items = Cart.query.filter_by(username=username).all()
+        total_value = 0
 
-    # Generating Pix Code
-    pix = Pix(
-        PixConfig.NAME,
-        PixConfig.KEY,
-        f"{totalValue:.2f}",
-        PixConfig.CITY,
-        PixConfig.TXT_ID
-    )
-    payload = pix.generatePayload()
-    if not payload:
-        return jsonify({"message": "Error generating pix payload."}), 500
+        # Creating a new purchase record
+        purchase = Purchase(username=username, status=PurchaseStatus.PENDING)
+        db.session.add(purchase)
 
-    response = { 'payload': payload }
-    
-    return jsonify(response), 200
+        for item in cart_items:
+            # Search item and blocking (avoid race condition)
+            store_item = StoreItem.query.filter_by(id=item.item_id).with_for_update().first()
+            clean_size = item.size.strip()
+
+            # Checking if item exists and size is valid
+            if not (store_item and clean_size in store_item.size_quantity_pairs):
+                db.session.rollback()
+                return jsonify({"message": "Item not found."}), 404
+
+            # Checking stock availability
+            if item.quantity > store_item.size_quantity_pairs.get(clean_size, 0):
+                db.session.rollback()
+                return jsonify({"message": "Not enough stock available."}), 400
+
+            # Reserving item by updating stock
+            store_item.size_quantity_pairs[clean_size] -= item.quantity
+            total_value += float(store_item.value.replace('$', '')) * item.quantity
+
+            # Updating cart item with purchase_id
+            item.purchase_id = purchase.id
+            db.session.add(item)
+
+        # Generate Pix code
+        pix = Pix(
+            PixConfig.NAME,
+            PixConfig.KEY,
+            f"{total_value:.2f}",
+            PixConfig.CITY,
+            PixConfig.TXT_ID
+        )
+        payload = pix.generatePayload()
+        if not payload:
+            db.session.rollback()
+            return jsonify({"message": "Error generating Pix payload."}), 500
+
+        # All fine
+        db.session.commit()
+        return jsonify({
+            'purchase_id': purchase.id,
+            'payload': payload
+        }), 200
+
+    except Exception as e:
+        # Rollback and handle any exception
+        db.session.rollback()
+        return jsonify({"message": str(e)}), 500
 
 @carts_bp.route('/api/carts', methods=['POST'])
 @jwt_required()
