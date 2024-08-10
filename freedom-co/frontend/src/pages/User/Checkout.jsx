@@ -85,7 +85,7 @@ function Checkout() {
             .then(res => {
                 // Removing pix payload from local storage
                 localStorage.removeItem('PixPayload');
-                localStorage.removeItem('timer');
+                localStorage.removeItem('endTimestamp');
                 setPixPayload('');
                 console.log(res.data.message);
                 notifications.show({message: 'Done! The cart is now empty.'});
@@ -98,7 +98,10 @@ function Checkout() {
     };
 
     const onTimeUpPix = () => {
-        notifications.show({message: 'Time is up! The payment can no longer be completed.'});
+        // Removing pix payload from local storage
+        localStorage.removeItem('PixPayload');
+        setPixPayload('');
+        notifications.show({message: 'Time is up! The payment can no longer be completed.', color: 'red'});
 
         // todo remove the reservation
     }
@@ -145,7 +148,6 @@ function Checkout() {
                     Generate Pix Code
                 </Button>
                 )}
-
                 {pixPayload && (
                 <>
                 <Text>
@@ -170,7 +172,7 @@ function Checkout() {
                     )}
                     </CopyButton>
                 </Group>
-                <Timer initialTime={120} onTimeUp={onTimeUpPix} />
+                <Timer initialTime={60} onTimeUp={onTimeUpPix}/>
                 <Button onClick={handleClearCart}>
                     CONFIRM TRANSACTION
                 </Button>

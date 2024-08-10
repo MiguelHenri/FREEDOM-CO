@@ -8,24 +8,31 @@ import { Text, Card } from "@mantine/core";
  */
 function Timer({ initialTime, onTimeUp }) {
     const [time, setTime] = useState(() => {
-        const savedTime = localStorage.getItem("timer");
-        return savedTime ? savedTime : initialTime;
+        const savedEndTime = localStorage.getItem("endTimestamp");
+        const now = Date.now();
+        if (savedEndTime) {
+            return Math.max(0, Math.ceil((parseInt(savedEndTime, 10) - now) / 1000));
+        } else {
+            const endTimestamp = now + initialTime * 1000;
+            localStorage.setItem("endTimestamp", endTimestamp);
+            return initialTime;
+        }
     });
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setTime(prevTime => {
-                if (prevTime <= 0) {
-                    clearInterval(interval);
-                    localStorage.removeItem("timer");
-                    if (onTimeUp) onTimeUp();
-                    return 0;
-                }
-                const newTime = prevTime - 1;
-                localStorage.setItem("timer", newTime);
-                return newTime;
-            });
-        }, 1000); // For a second
+            const now = Date.now();
+            const savedEndTime = parseInt(localStorage.getItem("endTimestamp"), 10);
+            const remainingTime = Math.max(0, Math.ceil((savedEndTime - now) / 1000));
+
+            if (remainingTime <= 0) {
+                clearInterval(interval);
+                localStorage.removeItem("endTimestamp");
+                if (onTimeUp) onTimeUp();
+            } else {
+                setTime(remainingTime);
+            }
+        }, 1000);
 
         return () => clearInterval(interval);
     }, [onTimeUp]);

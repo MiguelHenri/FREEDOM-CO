@@ -122,7 +122,7 @@ def add_item_to_cart():
         "cart_item": new_cart_item.to_dict()
     }), 201
 
-@carts_bp.route('/api/carts/<int:cart_id>', methods=['PUT'])
+@carts_bp.route('/api/carts/<uuid:cart_id>', methods=['PUT'])
 @jwt_required()
 def edit_item_from_cart(cart_id):
     username = get_jwt_identity().get('username')
@@ -159,7 +159,7 @@ def edit_item_from_cart(cart_id):
         "cart_item": cart_item.to_dict()
     }), 200
 
-@carts_bp.route('/api/carts/<int:cart_id>', methods=['DELETE'])
+@carts_bp.route('/api/carts/<uuid:cart_id>', methods=['DELETE'])
 @jwt_required()
 def delete_item_from_cart(cart_id):
     username = get_jwt_identity().get('username')
