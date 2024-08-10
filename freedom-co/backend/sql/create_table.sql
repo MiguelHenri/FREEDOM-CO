@@ -29,16 +29,16 @@ CREATE TABLE users (
 CREATE TYPE purchase_status AS ENUM ('Pending', 'Confirmed', 'Done');
 
 CREATE TABLE purchases (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     status purchase_status NOT NULL,
     username VARCHAR(50) NOT NULL,
     FOREIGN KEY (username) REFERENCES users(username)
 );
 
 CREATE TABLE carts (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     username VARCHAR(50) NOT NULL,
-    item_id VARCHAR NOT NULL,
+    item_id UUID NOT NULL,
     quantity INTEGER NOT NULL,
     size CHAR(3) NOT NULL,
     purchase_id UUID,

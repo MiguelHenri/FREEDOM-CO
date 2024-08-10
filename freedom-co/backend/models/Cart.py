@@ -1,6 +1,7 @@
 from .DataBase import db
 from uuid import uuid4
 from sqlalchemy.orm import relationship
+from .Purchase import Purchase
 
 class Cart(db.Model):
     __tablename__ = 'carts'  # Database (PG) table name

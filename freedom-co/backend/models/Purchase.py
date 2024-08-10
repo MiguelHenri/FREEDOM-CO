@@ -14,13 +14,13 @@ class Purchase(db.Model):
     status = db.Column(db.Enum(PurchaseStatus), nullable=False)
     username = db.Column(db.Integer, db.ForeignKey('users.username'), nullable=False)
 
-    cart_items = relationship("Cart", back_populates="purchase")
+    carts = relationship("Cart", back_populates="purchase")
 
     def to_dict(self):
         return {
             'id': self.id,
             'status': self.status.value,
             'username': self.username,
-            'items': [item.to_dict() for item in self.cart_items]
+            'items': [item.to_dict() for item in self.carts]
         }
 
