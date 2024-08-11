@@ -6,8 +6,8 @@ from routes.items import items_bp
 from routes.users import users_bp
 from routes.carts import carts_bp
 from flask_jwt_extended import JWTManager
+from services.jobs import cleanup_expired_reservations
 from flask_apscheduler import APScheduler
-from services.purchases import cleanup_expired_reservations
 
 # Initializing app and db with configs
 app = Flask(__name__)
@@ -19,10 +19,15 @@ db.init_app(app)
 jwt = JWTManager(app)
 
 # Scheduler
-# scheduler = APScheduler()
-# scheduler.init_app(app)
-# scheduler.start()
-# scheduler.add_job(func=cleanup_expired_reservations, trigger='interval', minutes=10)
+scheduler = APScheduler()
+
+@scheduler.task("interval", id="cleanup_job", minutes=1)
+def cleanup_job():
+    with app.app_context():
+        cleanup_expired_reservations()
+
+scheduler.init_app(app)
+scheduler.start()
 
 # Initializing blueprints (routes)
 app.register_blueprint(items_bp)

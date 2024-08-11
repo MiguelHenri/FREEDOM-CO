@@ -33,6 +33,7 @@ CREATE TABLE purchases (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     status purchase_status NOT NULL,
     username VARCHAR(50) NOT NULL,
+    expires_at TIMESTAMP NOT NULL DEFAULT (NOW() + INTERVAL '10 minutes'),
     FOREIGN KEY (username) REFERENCES users(username)
 );
 

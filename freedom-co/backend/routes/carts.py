@@ -76,6 +76,7 @@ def checkout_from_user():
         # Creating a new purchase record
         purchase = Purchase(username=username, status=PurchaseStatus.PENDING)
         db.session.add(purchase)
+        db.session.flush()
 
         for item in cart_items:
             # Search item and blocking (avoid race condition)
