@@ -2,8 +2,7 @@ from flask import Blueprint, request, jsonify
 from models.DataBase import db
 from models.Cart import Cart
 from models.StoreItem import StoreItem
-from models.Purchase import Purchase
-from models.Purchase import PurchaseStatus
+from models.Purchase import Purchase, PurchaseStatus
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from config import PixConfig
 from utils import Pix

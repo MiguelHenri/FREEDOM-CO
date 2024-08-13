@@ -5,6 +5,7 @@ from flask_cors import CORS
 from routes.items import items_bp
 from routes.users import users_bp
 from routes.carts import carts_bp
+from routes.purchases import purchases_bp
 from flask_jwt_extended import JWTManager
 from services.jobs import cleanup_expired_reservations
 from flask_apscheduler import APScheduler
@@ -33,6 +34,7 @@ scheduler.start()
 app.register_blueprint(items_bp)
 app.register_blueprint(users_bp)
 app.register_blueprint(carts_bp)
+app.register_blueprint(purchases_bp)
 
 if __name__ == '__main__':
     app.run(debug=True)
