@@ -119,3 +119,15 @@ def update_address():
     except Exception as e:
         db.session.rollback()
         return jsonify({'message': str(e)}), 500
+    
+@users_bp.route('/api/users', methods=['GET'])
+@jwt_required()
+def get_logged_user():
+    username = get_jwt_identity().get('username')
+    user = User.query.filter_by(username=username).first()
+
+    # Ensuring user exists
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+    
+    return jsonify(user.to_dict()), 200

@@ -1,11 +1,14 @@
-import { Stack, Text, Paper, TextInput, Button } from "@mantine/core"
+import { Stack, Text, Paper, TextInput, Button, LoadingOverlay } from "@mantine/core"
 import { useAuth } from "../../contexts/useAuth";
 import { useForm, isNotEmpty } from "@mantine/form";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
+import { useEffect, useState } from "react";
 
 function Informations() {
     const { token } = useAuth();
+    const [loading, setLoading] = useState(false);
+    const [buttonLoading, setButtonLoading] = useState(false);
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -27,8 +30,7 @@ function Informations() {
     });
 
     const onSubmit = (values) => {
-        console.log('submiting...');
-
+        setButtonLoading(true);
         axios.put('/api/users', values, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -41,9 +43,25 @@ function Informations() {
                 notifications.show({message: err.response.data.message, color: 'red'});
                 console.error('Unhandled error when editing information.', err);
             })
+            .finally(() => setButtonLoading(false));
     }
 
-    // pre-fill the form with current data
+    useEffect(() => {
+        setLoading(true);
+        axios.get('/api/users', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+            .then(res => {
+                form.initialize(res.data);
+            })
+            .catch(err => {
+                notifications.show({message: err.response.data.message, color: 'red'});
+                console.error('Unhandled error when editing information.', err);
+            })
+            .finally(() => setLoading(false));
+    }, [])
 
     return (
         <Stack 
@@ -57,6 +75,9 @@ function Informations() {
                     INFORMATIONS
                 </Text>
             </Paper>
+
+            <LoadingOverlay visible={loading}/>
+
             <TextInput
                 withAsterisk
                 label="Address line 1"
@@ -90,6 +111,7 @@ function Informations() {
                 variant='outline'
                 size='md'
                 type='submit'
+                loading={buttonLoading}
             >
                 SAVE
             </Button>
