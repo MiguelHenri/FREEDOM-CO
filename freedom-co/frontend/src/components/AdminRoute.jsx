@@ -3,6 +3,7 @@ import { useAuth } from "../contexts/useAuth";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
+import { LoadingOverlay } from "@mantine/core";
 
 function AdminRoute({ children }) {
     const { token, clearAuth } = useAuth();
@@ -33,7 +34,13 @@ function AdminRoute({ children }) {
             })
     }, [token, clearAuth]);
 
-    if (isValid === null && token) return null; // Loading...
+    // Loading...
+    if (isValid === null && token) return (
+        <>
+        <LoadingOverlay visible/>
+        {children}
+        </>
+    );
 
     if (isValid) return children; // Valid!
 

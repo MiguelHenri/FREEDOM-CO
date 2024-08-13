@@ -2,6 +2,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/useAuth";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { LoadingOverlay } from "@mantine/core";
 
 function NotLogged({ children }) {
     const { token, clearAuth } = useAuth();
@@ -32,8 +33,14 @@ function NotLogged({ children }) {
                 clearAuth();
             })
     }, [token, clearAuth])
-
-    if (isValid === null && token) return null; // Loading...
+    
+    // Loading ...
+    if (isValid === null && token) return (
+        <>
+        <LoadingOverlay visible/>
+        {children}
+        </>
+    );
 
     // If token is not valid, we render children, user is not logged
     if (!isValid) return children;
