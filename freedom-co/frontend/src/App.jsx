@@ -19,6 +19,8 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 import NotLogged from './components/NotLogged.jsx';
 import AdminRoute from './components/AdminRoute.jsx';
 import Checkout from './pages/User/Checkout.jsx';
+import Purchases from './pages/User/Purchases.jsx';
+import Informations from './pages/User/Informations.jsx';
 
 if (import.meta.env.VITE_BACKEND_URL)
   axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
@@ -57,6 +59,8 @@ function App() {
         <Route path='profile' element={<Profile/>}/>
         <Route path='cart' element={<Cart/>}/>
         <Route path='checkout' element={<Checkout/>}/>
+        <Route path='purchases' element={<Purchases/>}/>
+        <Route path='informations' element={<Informations/>}/>
       </Route>
 
       <Route path='/admin' element={

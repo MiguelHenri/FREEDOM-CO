@@ -55,7 +55,7 @@ function Checkout() {
             .catch(err => {
                 console.error('Error fetching items.', err);
             });
-    }, [token]);
+    }, [token, pixPayload]);
 
     const generatePixCode = () => {
         if (pixPayload) return; // will not generate more than once
@@ -72,7 +72,11 @@ function Checkout() {
                 localStorage.setItem('PixPayload', temp);
             })
             .catch(err => {
-                notifications.show({message: 'Error fetching pix payload.', color: 'red'});
+                if (err.response.data.message) {
+                    notifications.show({message: err.response.data.message, color: 'red'});
+                } else {
+                    notifications.show({message: 'Error fetching pix payload.', color: 'red'});
+                }
                 console.error('Error fetching pix payload.', err);
             })
     }

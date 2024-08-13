@@ -16,6 +16,7 @@ class Purchase(db.Model):
     username = db.Column(db.String, db.ForeignKey('users.username'), nullable=False)
     expires_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc) + timedelta(minutes=10))
 
+    # todo create get route, add total value
     carts = relationship("Cart", back_populates="purchase")
 
     def to_dict(self):

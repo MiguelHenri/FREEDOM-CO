@@ -27,6 +27,8 @@ def cleanup_expired_reservations():
                 if clean_size in store_item.size_quantity_pairs:
                     store_item.size_quantity_pairs[clean_size] += cart.quantity
                     db.session.add(store_item)
+            cart.purchase_id = None
+            db.session.add(cart)
 
         # Delete the purchase
         db.session.delete(purchase)

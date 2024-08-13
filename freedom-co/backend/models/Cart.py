@@ -12,6 +12,8 @@ class Cart(db.Model):
     size = db.Column(db.CHAR(3), nullable=False)
     purchase_id = db.Column(db.String, db.ForeignKey('purchases.id'), nullable=True)
 
+    # todo add bool wasPurchased, and not actually delete
+
     item = relationship('StoreItem', back_populates='carts')
     purchase = relationship('Purchase', back_populates='carts')
 
