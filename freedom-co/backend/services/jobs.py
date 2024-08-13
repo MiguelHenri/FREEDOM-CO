@@ -9,7 +9,6 @@ def cleanup_expired_reservations():
     Cleans up expired reservations by updating stock quantities and removing
     expired purchases.
     """
-    print('cleaning...')
     time_now = datetime.now(timezone.utc)
 
     # Fetch expired purchases

@@ -6,6 +6,9 @@ import { useAuth } from "../../contexts/useAuth";
 function Profile() {
     const navigate = useNavigate();
 
+    // todo add purchases page (major)
+    // todo add informations such as address etc page (major)
+
     const { userName, clearAuth } = useAuth() || { userName: '' };
 
     const logOut = () => {

@@ -21,7 +21,7 @@ jwt = JWTManager(app)
 # Scheduler
 scheduler = APScheduler()
 
-@scheduler.task("interval", id="cleanup_job", minutes=1)
+@scheduler.task("interval", id="cleanup_job", minutes=5)
 def cleanup_job():
     with app.app_context():
         cleanup_expired_reservations()

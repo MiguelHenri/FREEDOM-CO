@@ -10,7 +10,6 @@ class PurchaseStatus(PyEnum):
     DONE = "DONE"
 
 class Purchase(db.Model):
-    # todo add expiration logic
     __tablename__ = 'purchases' # Database (PG) table name
     id = db.Column(db.String, primary_key=True, default=lambda: str(uuid4()))
     status = db.Column(db.Enum(PurchaseStatus), nullable=False)

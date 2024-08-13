@@ -173,6 +173,10 @@ def edit_item_from_cart(cart_id):
     if not cart_item:
         return jsonify({"message": "Cart item not found."}), 404
     
+    # Ensuring the cart is NOT reserved
+    if cart_item.purchase_id:
+        return jsonify({"message": "This item is already reserved and cannot be changed."}), 400
+    
     # Ensuring quantity and size are valid
     if not quantity or not size:
         return jsonify({"message": "Missing required fields."}), 400
@@ -203,8 +207,13 @@ def delete_item_from_cart(cart_id):
 
     cart_item = Cart.query.filter_by(id=cart_id, username=username).first()
     
+    # Ensuring the cart exists
     if not cart_item:
         return jsonify({"message": "Cart item not found."}), 404
+    
+    # Ensuring the cart is NOT reserved
+    if cart_item.purchase_id:
+        return jsonify({"message": "This item is already reserved and cannot be removed."}), 400
     
     db.session.delete(cart_item)
     db.session.commit()

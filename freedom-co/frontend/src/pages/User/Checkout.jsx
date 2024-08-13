@@ -29,6 +29,8 @@ function Checkout() {
         })
             .then(res => {
                 let items = res.data;
+                // Removing non reserved items
+                if (pixPayload) items = items.filter(item => item.purchase_id !== null);
                 // Calculating total value
                 let total = items.reduce((total, item) => {
                     let numbers = item.value.match(/\d+(?:[.,]\d+)?/g)
@@ -102,8 +104,6 @@ function Checkout() {
         localStorage.removeItem('PixPayload');
         setPixPayload('');
         notifications.show({message: 'Time is up! The payment can no longer be completed.', color: 'red'});
-
-        // todo remove the reservation
     }
 
     return (
@@ -172,7 +172,7 @@ function Checkout() {
                     )}
                     </CopyButton>
                 </Group>
-                <Timer initialTime={60} onTimeUp={onTimeUpPix}/>
+                <Timer initialTime={600} onTimeUp={onTimeUpPix}/>
                 <Button onClick={handleClearCart}>
                     CONFIRM TRANSACTION
                 </Button>
