@@ -22,9 +22,15 @@ CREATE TABLE items (
 
 CREATE TABLE users (
     username VARCHAR(50) PRIMARY KEY,
-    email VARCHAR(120) UNIQUE NOT NULL,
+    email VARCHAR(120) NOT NULL UNIQUE,
     password_hash VARCHAR(256) NOT NULL,
-    is_admin BOOLEAN DEFAULT FALSE
+    is_admin BOOLEAN DEFAULT FALSE,
+    address_line_1 VARCHAR(150),
+    address_line_2 VARCHAR(150),
+    city VARCHAR(100),
+    state VARCHAR(100),
+    country VARCHAR(100),
+    zip_code VARCHAR(20)
 );
 
 CREATE TYPE purchase_status AS ENUM ('PENDING', 'CONFIRMED', 'DONE');

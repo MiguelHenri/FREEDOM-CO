@@ -87,3 +87,35 @@ def admin_required(f):
 @admin_required
 def admin():
     return '', 204
+
+@users_bp.route('/api/users', methods=['PUT'])
+@jwt_required()
+def update_address():
+    username = get_jwt_identity().get('username')
+    user = User.query.filter_by(username=username).first()
+
+    # Ensuring user exists
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+    
+    data = request.json
+    # Ensuring all fields were sent
+    required_fields = ['address_line_1', 'city', 'state', 'country', 'zip_code']
+    for field in required_fields:
+        if not data.get(field):
+            return jsonify({'message': f'Missing required field: {field}'}), 400
+        
+    # Updating the address fields
+    user.address_line_1 = data['address_line_1']
+    user.address_line_2 = data.get('address_line_2', None),
+    user.city = data['city']
+    user.state = data['state']
+    user.country = data['country']
+    user.zip_code = data['zip_code']
+
+    try:
+        db.session.commit()
+        return jsonify({'message': 'Address updated successfully'}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'message': str(e)}), 500
