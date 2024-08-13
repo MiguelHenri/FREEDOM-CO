@@ -16,7 +16,7 @@ def get_cart_from_user():
     username = get_jwt_identity().get('username')
 
     # Getting cart given an username
-    cart = Cart.query.filter_by(username=username).all()
+    cart = Cart.query.filter_by(username=username, was_purchased=False).all()
     if not cart:
         return jsonify([]), 200
 
@@ -39,13 +39,14 @@ def clear_and_confirm():
         purchase.status = PurchaseStatus.CONFIRMED
 
         # Retrieving items from the cart associated with the purchase
-        cart_items = Cart.query.filter_by(purchase_id=purchase.id).all()
+        cart_items = Cart.query.filter_by(purchase_id=purchase.id, was_purchased=False).all()
         if not cart_items:
             return jsonify({"message": "No items found in the cart for this reservation."}), 404
 
-        # Clearing cart
+        # Markin cart as purchased
         for item in cart_items:
-            db.session.delete(item)
+            item.was_purchased = True
+            db.session.add(item)
 
         # All fine
         db.session.commit()
@@ -69,7 +70,7 @@ def checkout_from_user():
 
     try:
         # Getting cart items given the username
-        cart_items = Cart.query.filter_by(username=username).all()
+        cart_items = Cart.query.filter_by(username=username, was_purchased=False).all()
         total_value = 0
 
         # Creating a new purchase record
@@ -99,6 +100,10 @@ def checkout_from_user():
             # Updating cart item with purchase_id
             item.purchase_id = purchase.id
             db.session.add(item)
+
+        # Adding total value to purchase
+        purchase.value = f"{total_value:.2f}"
+        db.session.add(purchase)
 
         # Generate Pix code
         pix = Pix(

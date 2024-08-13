@@ -5,7 +5,7 @@ import axios from "axios";
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
 
-function Informations() {
+function ShippingInfo() {
     const { token } = useAuth();
     const [loading, setLoading] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
@@ -61,7 +61,7 @@ function Informations() {
                 console.error('Unhandled error when editing information.', err);
             })
             .finally(() => setLoading(false));
-    }, [])
+    }, []);
 
     return (
         <Stack 
@@ -72,7 +72,7 @@ function Informations() {
         >
             <Paper shadow="sm" withBorder p='md' radius='md'>
                 <Text fz='25px' ff="'Lilita One', sans-serif">
-                    INFORMATIONS
+                    SHIPPING INFORMATIONS
                 </Text>
             </Paper>
 
@@ -119,4 +119,4 @@ function Informations() {
     )
 }
 
-export default Informations;
+export default ShippingInfo;

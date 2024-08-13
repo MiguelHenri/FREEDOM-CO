@@ -19,7 +19,6 @@ def get_items():
 
 @items_bp.route('/api/items/<uuid:item_id>', methods=['GET'])
 def get_item(item_id):
-    
     # Querying item from id
     item = StoreItem.query.get_or_404(item_id)
     return jsonify(item.to_dict())

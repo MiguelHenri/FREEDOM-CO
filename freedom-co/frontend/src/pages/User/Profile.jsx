@@ -31,7 +31,7 @@ function Profile() {
                 variant='outline'
                 onClick={() => navigate('/informations')}
             >
-                INFORMATIONS
+                SHIPPING INFORMATIONS
             </Button>
             <Button 
                 w={{base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'}} 
@@ -39,7 +39,7 @@ function Profile() {
                 variant='outline'
                 onClick={() => navigate('/purchases')}
             >
-                PURCHASES
+                PURCHASE HISTORY
             </Button>
             <Button 
                 w={{base: '70vw', sm: '50vw', md: '40vw', lg:'30vw'}} 

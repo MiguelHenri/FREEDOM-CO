@@ -20,7 +20,8 @@ import NotLogged from './components/NotLogged.jsx';
 import AdminRoute from './components/AdminRoute.jsx';
 import Checkout from './pages/User/Checkout.jsx';
 import Purchases from './pages/User/Purchases.jsx';
-import Informations from './pages/User/Informations.jsx';
+import ShippingInfo from './pages/User/ShippingInfo.jsx';
+import PurchasePage from './pages/User/PurchasePage.jsx';
 
 if (import.meta.env.VITE_BACKEND_URL)
   axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
@@ -60,7 +61,8 @@ function App() {
         <Route path='cart' element={<Cart/>}/>
         <Route path='checkout' element={<Checkout/>}/>
         <Route path='purchases' element={<Purchases/>}/>
-        <Route path='informations' element={<Informations/>}/>
+        <Route path='purchases/:id' element={<PurchasePage/>}/>
+        <Route path='informations' element={<ShippingInfo/>}/>
       </Route>
 
       <Route path='/admin' element={

@@ -40,6 +40,7 @@ CREATE TABLE purchases (
     status purchase_status NOT NULL,
     username VARCHAR(50) NOT NULL,
     expires_at TIMESTAMP NOT NULL DEFAULT (NOW() + INTERVAL '10 minutes'),
+    value VARCHAR(10),
     FOREIGN KEY (username) REFERENCES users(username)
 );
 
@@ -49,6 +50,7 @@ CREATE TABLE carts (
     item_id UUID NOT NULL,
     quantity INTEGER NOT NULL,
     size CHAR(3) NOT NULL,
+    was_purchased BOOLEAN NOT NULL DEFAULT FALSE,
     purchase_id UUID,
     FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE,
     FOREIGN KEY (item_id) REFERENCES items (id) ON DELETE CASCADE,

@@ -17,3 +17,10 @@ def get_old_purchases():
         return jsonify([]), 200
     
     return jsonify([p.to_dict() for p in purchases]), 200
+
+@purchases_bp.route('/api/purchases/<uuid:id>', methods=['GET'])
+@jwt_required()
+def get_purchase(id):
+    # Querying purchase from id
+    purchase = Purchase.query.get_or_404(id)
+    return jsonify(purchase.to_dict())
