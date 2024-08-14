@@ -9,6 +9,7 @@ function MainPage() {
             <Image
                 src='https://www.jeffreyscafe.ca/wp-content/uploads/2016/01/banner-placeholder.png'
                 alt='FREEDOM&CO'
+                h={{base: '200px', sm: '400px'}}
             />
         </Center>
 

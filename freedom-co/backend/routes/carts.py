@@ -30,8 +30,10 @@ def clear_and_confirm():
 
     try:
         # Retrieving the purchase record for the user
-        purchase = Purchase.query.filter_by(username=username, 
-                                            status=PurchaseStatus.PENDING).first()
+        purchase = Purchase.query.filter_by(
+            username=username, 
+            status=PurchaseStatus.PENDING).order_by(Purchase.expires_at.desc()).first()
+        
         if not purchase:
             return jsonify({"message": "No pending reservation found for the user."}), 404
 

@@ -11,7 +11,7 @@ function StoreItem({item, outOfStock, ...others}) {
             padding='md' 
             radius='md' 
             withBorder
-            h='300px' w='300px'
+            h='300px' w={{base: '270px', sm: '300px'}}
             component='a'
             href={`store/${id}`}
             ref={ref}

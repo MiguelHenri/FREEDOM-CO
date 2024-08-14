@@ -16,7 +16,8 @@ function Checkout() {
     const { token } = useAuth();
     const [cartItems, setCartItems] = useState([]);
     const [totalVal, setTotalVal] = useState('');
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         // Requesting Cart backend API
@@ -59,6 +60,7 @@ function Checkout() {
         if (pixPayload) return; // will not generate more than once
 
         // Requesting checkout backend API
+        setLoading(true);
         axios.get('/api/carts/checkout', {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -77,10 +79,12 @@ function Checkout() {
                 }
                 console.error('Error fetching pix payload.', err);
             })
+            .finally(() => setLoading(false));
     }
 
     const handleClearCart = () => {
         // Requesting Cart API to clear
+        setLoading(true);
         axios.delete('/api/carts/clear', {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -96,9 +100,10 @@ function Checkout() {
                 navigate('/profile');
             })
             .catch(err => {
-                notifications.show({message: 'Error when clearing cart.', color: 'red'});
-                console.error('Error when clearing cart.', err);
-            });
+                notifications.show({message: 'Error when confirming purchase.', color: 'red'});
+                console.error('Unhandled error when confirming purchase.', err);
+            })
+            .finally(() => setLoading(false));
     };
 
     const onTimeUpPix = () => {
@@ -146,7 +151,7 @@ function Checkout() {
             {mode === 'pix' && (
                 <>
                 {!pixPayload && (
-                <Button onClick={generatePixCode}>
+                <Button onClick={generatePixCode} loading={loading}>
                     Generate Pix Code
                 </Button>
                 )}
@@ -175,7 +180,7 @@ function Checkout() {
                     </CopyButton>
                 </Group>
                 <Timer initialTime={600} onTimeUp={onTimeUpPix}/>
-                <Button onClick={handleClearCart}>
+                <Button onClick={handleClearCart} loading={loading}>
                     CONFIRM TRANSACTION
                 </Button>
                 </>
