@@ -18,8 +18,6 @@ function Checkout() {
     const [totalVal, setTotalVal] = useState('');
     const navigate = useNavigate()
 
-    // todo confirm/store shipping address (major)
-
     useEffect(() => {
         // Requesting Cart backend API
         axios.get('/api/carts', {

@@ -12,6 +12,7 @@ function Cart() {
     const [changed, setChanged] = useState(false);
     const navigate = useNavigate();
     const [totalVal, setTotalVal] = useState('');
+    const [loadingButton, setLoadingButton] = useState(false);
 
     useEffect(() => {
         // Requesting Cart backend API
@@ -99,8 +100,33 @@ function Cart() {
     }
 
     const tryCheckout = () => {
-        if (cartItems.length === 0) return; // cart is empty
-        navigate('/checkout');
+        if (cartItems.length === 0) return;
+
+        setLoadingButton(true);
+        // Checking if user has shipping address
+        axios.get('/api/users', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+            .then(res => {
+                if (res.data.address_line_1) {
+                    // Ok, user has shipping address
+                    navigate('/checkout');
+                }
+                else {
+                    // User do not have shipping address
+                    notifications.show({message: 'Please, submit shipping information.', color: 'yellow'});
+                    navigate('/informations');
+                }
+            })
+            .catch(err => {
+                if (err.response.data.message) {
+                    notifications.show({message: err.response.data.message, color: 'red'});
+                }
+                console.error('Unhandled error when trying checkout', err);
+            })
+            .finally(() => setLoadingButton(false));
     }
 
     return(
@@ -166,6 +192,7 @@ function Cart() {
                         size='md'
                         disabled={cartItems.length === 0}
                         onClick={tryCheckout}
+
                     >
                         BUY
                     </Button>

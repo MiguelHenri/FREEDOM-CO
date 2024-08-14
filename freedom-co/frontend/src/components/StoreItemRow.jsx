@@ -35,7 +35,15 @@ function StoreItemRow({filter, ...others}) {
                         break;
                     default:
                 }
-                setItems(filtered);
+                // Filtering items using TAG to define priority
+                setItems(filtered.sort((a, b) => {
+                    const getPriority = (tag) => {
+                        if (tag === 'NEW') return 1; // NEW high priority
+                        if (tag === 'SALE') return 3;
+                        return 2; // No tag
+                    };
+                    return getPriority(a.tag) - getPriority(b.tag); 
+                }));
             })
             .catch(err => {
                 console.error('Error fetching items', err);
