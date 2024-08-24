@@ -1,17 +1,17 @@
 -- Populating items table
 INSERT INTO items (image, title, description, value, type, oldValue, tagColor, tag, size_quantity_pairs) VALUES
-('https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg', 
+('/images/whitetee.png', 
     'Basic Tee', 
     'Basic cotton t-shirt.', 
     '$19.99', 
     'tee',
-    '$29.99', 
+    '$24.99', 
     'green', 
     'SALE', 
     '{"P": 10, "M": 15, "G": 10, "GG": 5}');
 
 INSERT INTO items (image, title, description, value, type, size_quantity_pairs) VALUES
-('https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg', 
+('/images/blacktee.png', 
     'Over Tee', 
     'Basic cotton oversized t-shirt.', 
     '$24.99', 
@@ -19,19 +19,19 @@ INSERT INTO items (image, title, description, value, type, size_quantity_pairs) 
     '{"P": 5, "M": 10, "G": 10, "GG": 5}');
 
 INSERT INTO items (image, title, description, value, type, tagColor, tag, size_quantity_pairs) VALUES
-('https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg', 
+('/images/bluetee.png', 
     'New Over Tee', 
     'New cotton oversized t-shirt.', 
     '$29.99', 
     'tee',
     'blue', 
     'NEW', 
-    '{"P": 10, "M": 20, "G": 15, "GG": 10}');
+    '{"P": 0, "M": 0, "G": 5, "GG": 5}');
 
 INSERT INTO items (image, title, description, value, type, oldValue, tagColor, tag, size_quantity_pairs) VALUES
-('https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg', 
+('/images/greenpant.png', 
     'Basic Pant', 
-    'Basic jeans pant.', 
+    'Basic cargo pant.', 
     '$39.99', 
     'pant',
     '$49.99', 
@@ -40,27 +40,27 @@ INSERT INTO items (image, title, description, value, type, oldValue, tagColor, t
     '{"P": 10, "M": 15, "G": 10, "GG": 5}');
 
 INSERT INTO items (image, title, description, value, type, size_quantity_pairs) VALUES
-('https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg', 
-    'Baggy Pant', 
-    'Basic baggy jeans.', 
-    '$54.99', 
+('/images/whitepant.png', 
+    'Basic Pant', 
+    'Basic cargo pant.', 
+    '$44.99', 
     'pant',
     '{"P": 5, "M": 10, "G": 10, "GG": 5}');
 
 INSERT INTO items (image, title, description, value, type, tagColor, tag, size_quantity_pairs) VALUES
-('https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg', 
+('/images/jeanspant.png', 
     'New Pant', 
     'New baggy jeans!', 
-    '$69.99', 
+    '$59.99', 
     'pant',
     'blue', 
     'NEW', 
     '{"P": 10, "M": 20, "G": 15, "GG": 10}');
 
 INSERT INTO items (image, title, description, value, type, oldValue, tagColor, tag, size_quantity_pairs) VALUES
-('https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg', 
-    'Hat', 
-    'Basic hat.', 
+('/images/whitecap.png', 
+    'Cap', 
+    'Basic cap.', 
     '$19.99', 
     'accessory',
     '$24.99', 
@@ -69,17 +69,17 @@ INSERT INTO items (image, title, description, value, type, oldValue, tagColor, t
     '{"P": 10, "M": 15, "G": 10, "GG": 5}');
 
 INSERT INTO items (image, title, description, value, type, size_quantity_pairs) VALUES
-('https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg', 
-    'Sunglasses', 
-    'Cool sunglasses.', 
+('/images/buckethat.png', 
+    'Bucket hat', 
+    'Cool bucket hat.', 
     '$29.99', 
     'accessory',
     '{"P": 5, "M": 10, "G": 10, "GG": 5}');
 
 INSERT INTO items (image, title, description, value, type, tagColor, tag, size_quantity_pairs) VALUES
-('https://civilrights.msu.edu/_assets/images/placeholder/placeholder-200x200.jpg', 
-    'New Gloves', 
-    'New wool gloves.', 
+('images/shoulderbag.png', 
+    'New bag', 
+    'New shoulder bag.', 
     '$39.99', 
     'accessory',
     'blue', 

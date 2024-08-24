@@ -81,6 +81,7 @@ function Cart() {
     const handleItemSubtract = (item_id, quantity, size) => {
         // Requesting Cart API to update item
         const data = { quantity: quantity - 1, size: size }
+        console.log(data);
         axios.put(`/api/carts/${item_id}`, data, {
             headers: {
                 Authorization: `Bearer ${token}`,

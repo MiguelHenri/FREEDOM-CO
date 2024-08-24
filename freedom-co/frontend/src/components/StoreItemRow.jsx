@@ -13,6 +13,8 @@ function StoreItemRow({filter, ...others}) {
 
     const [items, setItems] = useState([]);
 
+    // todo improve filters
+
     useEffect(() => {
         axios.get('api/items')
             .then(res => {

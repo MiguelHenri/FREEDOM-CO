@@ -183,6 +183,11 @@ def edit_item_from_cart(cart_id):
     if cart_item.purchase_id:
         return jsonify({"message": "This item is already reserved and cannot be changed."}), 400
     
+    if quantity <= 0: # Item quantity below or equal 0, we remove from Cart
+        db.session.delete(cart_item)
+        db.session.commit()
+        return jsonify({"message": "Item deleted from cart successfully."}), 200
+    
     # Ensuring quantity and size are valid
     if not quantity or not size:
         return jsonify({"message": "Missing required fields."}), 400
@@ -192,11 +197,6 @@ def edit_item_from_cart(cart_id):
     store_item = StoreItem.query.filter_by(id=cart_item.item_id).first()
     if quantity > store_item.size_quantity_pairs[size]:
         return jsonify({"message": f"Not enough stock for item '{store_item.title}' of size '{size}'."}), 400
-
-    if quantity <= 0: # Item quantity below or equal 0, we remove from Cart
-        db.session.delete(cart_item)
-        db.session.commit()
-        return jsonify({"message": "Item deleted from cart successfully."}), 200
 
     cart_item.quantity = quantity
     cart_item.size = size
